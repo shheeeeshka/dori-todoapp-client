@@ -1,0 +1,40 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.themeButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.themePreview {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 8px;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.themeButton.active .themePreview {
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.themeAccent {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}

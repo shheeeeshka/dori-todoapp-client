@@ -1,0 +1,24 @@
+import { Route, Routes } from "react-router-dom";
+import { TaskProvider } from "../../context/TaskContext";
+import { HomePage } from "../../pages/Home/HomePage";
+import { TasksPage } from "../../pages/Tasks/TasksPage";
+import { ProfilePage } from "../../pages/Profile/ProfilePage";
+import { SettingsPage } from "../../pages/Settings/SettingsPage";
+import { AddTaskPage } from "../../pages/AddTask/AddTaskPage";
+import { Layout } from "../Layout/Layout";
+
+export const AppRouter = () => {
+  return (
+    <TaskProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="tasks" element={<TasksPage />} />
+          <Route path="add-task" element={<AddTaskPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
+      </Routes>
+    </TaskProvider>
+  );
+};

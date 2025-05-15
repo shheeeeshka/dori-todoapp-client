@@ -1,0 +1,167 @@
+.container {
+    padding: 16px;
+    color: var(--text-color);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.taskStatus {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox.completed {
+    background-color: var(--primary-color);
+}
+
+.statusText {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.taskPriority {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+}
+
+.taskTitle {
+    font-size: 22px;
+    margin: 0 0 16px 0;
+}
+
+.taskDescription {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    white-space: pre-wrap;
+}
+
+.taskMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.editButton,
+.deleteButton {
+    flex: 1;
+    padding: 12px;
+    border-radius: var(--border-radius-small);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.editButton {
+    background-color: var(--card-bg);
+    border: 1px solid var(--divider-color);
+    color: var(--text-color);
+}
+
+.deleteButton {
+    background-color: #fff1f0;
+    border: 1px solid #ffccc7;
+    color: #ff4d4f;
+}
+
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.editTitle {
+    font-size: 22px;
+    font-weight: 600;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid var(--divider-color);
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.editDescription {
+    min-height: 100px;
+    padding: 12px;
+    border-radius: var(--border-radius-small);
+    background-color: var(--card-bg);
+    border: 1px solid var(--divider-color);
+    color: var(--text-color);
+    font-size: 16px;
+    resize: none;
+}
+
+.editMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.editMeta select,
+.editMeta input {
+    padding: 12px;
+    border-radius: var(--border-radius-small);
+    background-color: var(--card-bg);
+    border: 1px solid var(--divider-color);
+    color: var(--text-color);
+}
+
+.editActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.cancelButton,
+.saveButton {
+    flex: 1;
+    padding: 12px;
+    border-radius: var(--border-radius-small);
+    font-weight: 500;
+}
+
+.cancelButton {
+    background-color: var(--card-bg);
+    border: 1px solid var(--divider-color);
+}
+
+.saveButton {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}

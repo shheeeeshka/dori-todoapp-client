@@ -1,0 +1,39 @@
+.container {
+    padding: 16px;
+}
+
+.header {
+    margin-bottom: 16px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--divider-color);
+    margin-bottom: 16px;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    position: relative;
+}
+
+.tab.active {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+}

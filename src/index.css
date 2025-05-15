@@ -1,0 +1,116 @@
+:root {
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 6px 8px rgba(0, 0, 0, 0.15);
+  --border-radius: 16px;
+  --border-radius-small: 8px;
+}
+
+/* Светлая тема (по умолчанию) */
+:root[data-theme="light"] {
+  --background-color: #f9f9f9;
+  --primary-color: #ff7eb9;
+  --secondary-color: #d4a5ff;
+  --text-color: #333333;
+  --text-secondary: #666666;
+  --card-bg: #ffffff;
+  --card-hover: #f5f5f5;
+  --divider-color: #e0e0e0;
+}
+
+/* Темная тема */
+:root[data-theme="dark"] {
+  --background-color: #1a1a1a;
+  --primary-color: #ff7eb9;
+  --secondary-color: #d4a5ff;
+  --text-color: #f0f0f0;
+  --text-secondary: #b0b0b0;
+  --card-bg: #2a2a2a;
+  --card-hover: #333333;
+  --divider-color: #444444;
+}
+
+/* Розовая тема */
+:root[data-theme="pink"] {
+  --background-color: #fff5f7;
+  --primary-color: #ff7eb9;
+  --secondary-color: #ff65a3;
+  --text-color: #4a2545;
+  --text-secondary: #7d5a78;
+  --card-bg: #ffffff;
+  --card-hover: #ffecef;
+  --divider-color: #ffd6e0;
+}
+
+/* Сиреневая тема */
+:root[data-theme="lilac"] {
+  --background-color: #f8f5ff;
+  --primary-color: #b399ff;
+  --secondary-color: #d4a5ff;
+  --text-color: #3e2a5e;
+  --text-secondary: #6a5a7d;
+  --card-bg: #ffffff;
+  --card-hover: #f0ebff;
+  --divider-color: #e2d6ff;
+}
+
+/* Градиентная тема */
+:root[data-theme="gradient"] {
+  --background-color: linear-gradient(135deg, #fff5f7 0%, #f8f5ff 100%);
+  --primary-color: #ff7eb9;
+  --secondary-color: #d4a5ff;
+  --text-color: #4a2545;
+  --text-secondary: #7d5a78;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-hover: rgba(255, 255, 255, 0.95);
+  --divider-color: rgba(255, 214, 224, 0.7);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+main {
+  padding: 16px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius-small);
+  padding: 8px 12px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(255, 126, 185, 0.2);
+}
+
+.app {
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--background-color);
+}

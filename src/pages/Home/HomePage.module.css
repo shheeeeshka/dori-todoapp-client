@@ -1,0 +1,10 @@
+.container {
+    padding: 16px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 16px 0 12px 0;
+    color: var(--text-color);
+}
