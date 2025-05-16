@@ -17,14 +17,28 @@ interface TelegramWebAppInitData {
 interface TelegramWebApp {
   WebApp?: {
     close: () => void;
+    expand: () => void;
+    ready: () => void;
+    showPopup: (params: { title: string; message: string }) => void;
+    sendData: (data: string) => void;
+
     MainButton: {
       isVisible: boolean;
       show: () => void;
       hide: () => void;
+      setText: (text: string) => void;
+      onClick: (callback: () => void) => void;
     };
+
     initDataUnsafe?: TelegramWebAppInitData;
     version?: string;
     colorScheme?: string;
+
+    backgroundColor?: string;
+    themeParams?: Record<string, string>;
+    isExpanded?: boolean;
+    viewportHeight?: number;
+    viewportStableHeight?: number;
   };
 }
 
@@ -49,9 +63,14 @@ export function useTelegram() {
     }
   };
 
+  const expandApp = () => {
+    tg?.expand();
+  };
+
   return {
     onClose,
     onToggleButton,
+    expandApp,
     tg,
     tgUser: tg?.initDataUnsafe?.user,
     queryId: tg?.initDataUnsafe?.query_id,
