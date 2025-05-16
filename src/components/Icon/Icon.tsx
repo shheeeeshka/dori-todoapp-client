@@ -47,8 +47,7 @@ type IconProps = {
   onClick?: () => void;
 };
 
-// Используем SVGProps<SVGElement> как тип для иконок
-const iconMap: Record<IconVariant, ComponentType<SVGProps<SVGElement>>> = {
+const iconMap: Record<IconVariant, ComponentType<SVGProps<SVGSVGElement>>> = {
   check: FiCheck,
   plus: FiPlus,
   "plus-circle": FiPlusCircle,
@@ -79,8 +78,9 @@ export const Icon = ({
 
   return (
     <IconComponent
-      size={size}
-      color={color}
+      width={size}
+      height={size}
+      fill={color}
       className={`${styles.icon} ${className}`}
       onClick={onClick}
     />
