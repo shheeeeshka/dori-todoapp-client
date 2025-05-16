@@ -1,10 +1,40 @@
 .container {
     padding: 16px;
+    padding-bottom: 80px;
 }
 
 .title {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 16px 0 12px 0;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 16px 0 20px 0;
     color: var(--text-color);
+    position: relative;
+    padding-left: 12px;
+}
+
+.title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    bottom: 5px;
+    width: 4px;
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.title2::before {
+    background-color: var(--secondary-color);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.emptyStateIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--divider-color);
 }

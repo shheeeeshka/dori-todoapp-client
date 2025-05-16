@@ -1,6 +1,7 @@
 import {
   FiCheck,
   FiPlus,
+  FiPlusCircle,
   FiSettings,
   FiHome,
   FiList,
@@ -22,6 +23,7 @@ import styles from "./Icon.module.css";
 type IconVariant =
   | "check"
   | "plus"
+  | "plus-circle"
   | "settings"
   | "home"
   | "list"
@@ -49,6 +51,7 @@ type IconProps = {
 const iconMap: Record<IconVariant, ComponentType<SVGProps<SVGElement>>> = {
   check: FiCheck,
   plus: FiPlus,
+  "plus-circle": FiPlusCircle,
   settings: FiSettings,
   home: FiHome,
   list: FiList,

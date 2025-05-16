@@ -44,10 +44,10 @@ export const AddTaskPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
-          <Icon variant="close" size={24} />
-        </button>
         <h1>New Task</h1>
+        <button className={styles.backButton} onClick={() => navigate(-1)}>
+          <Icon variant="close" size={28} color="var(--primary-color)" />
+        </button>
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>

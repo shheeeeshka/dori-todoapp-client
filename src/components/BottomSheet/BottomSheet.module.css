@@ -19,7 +19,7 @@
   background-color: var(--card-bg);
   border-radius: 24px 24px 0 0;
   padding: 16px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   transform: translateY(100%);
   animation: slideUp 0.3s ease-out forwards;
 }

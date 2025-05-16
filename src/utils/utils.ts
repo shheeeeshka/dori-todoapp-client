@@ -21,15 +21,19 @@ export const canUseShare = (): boolean => !!navigator.share;
 
 export const handleShare = async (): Promise<void> => {
   try {
-    if (canUseShare()) {
+    const profileUrl = window.location.href.includes("profile")
+      ? window.location.href
+      : `${window.location.href}profile`;
+
+    if (navigator.share) {
       await navigator.share({
-        title: "My ToDo List",
-        text: "Check out my ToDo list!",
-        url: window.location.href,
+        title: "My ToDo Profile",
+        text: "Check out my ToDo profile!",
+        url: profileUrl,
       });
     } else {
-      await navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      await navigator.clipboard.writeText(profileUrl);
+      alert("Profile link copied to clipboard!");
     }
   } catch (err) {
     console.error("Error sharing:", err);

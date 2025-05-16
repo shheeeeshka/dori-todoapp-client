@@ -11,10 +11,18 @@ export const HomePage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
-  const todayTasks = tasks.filter((task) => task.dueDate === today);
-  const upcomingTasks = tasks.filter(
-    (task) => task.dueDate > today && !task.completed
-  );
+
+  const todayTasks = tasks.filter((task) => {
+    if (!task.dueDate) return false;
+    const taskDate = task.dueDate.split("T")[0];
+    return taskDate === today && !task.completed;
+  });
+
+  const upcomingTasks = tasks.filter((task) => {
+    if (!task.dueDate) return false;
+    const taskDate = task.dueDate.split("T")[0];
+    return taskDate > today && !task.completed;
+  });
 
   const handleTaskClick = (taskId: string) => {
     setSelectedTask(taskId);
@@ -30,7 +38,7 @@ export const HomePage = () => {
         onToggleCompletion={toggleTaskCompletion}
       />
 
-      <h1 className={styles.title}>Upcoming</h1>
+      <h1 className={`${styles.title} ${styles.title2}`}>Upcoming</h1>
       <TaskList
         tasks={upcomingTasks}
         onTaskClick={handleTaskClick}

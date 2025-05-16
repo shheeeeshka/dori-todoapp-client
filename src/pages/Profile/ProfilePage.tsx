@@ -1,12 +1,27 @@
 import { useTelegram } from "../../hooks/useTelegram";
 import { Icon } from "../../components/Icon/Icon";
+import { useNavigate } from "react-router-dom";
+import { handleShare } from "../../utils/utils";
 import styles from "./ProfilePage.module.css";
 
 export const ProfilePage = () => {
   const { tgUser } = useTelegram();
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
+      <div className={styles.actions}>
+        <button className={styles.actionButton} onClick={handleShare}>
+          <Icon variant="share" size={28} />
+        </button>
+        <button
+          className={styles.actionButton}
+          onClick={() => navigate("/settings")}
+        >
+          <Icon variant="settings" size={28} />
+        </button>
+      </div>
+
       <div className={styles.profileHeader}>
         <div className={styles.avatar}>
           <Icon variant="user" size={48} color="var(--primary-color)" />
@@ -30,17 +45,6 @@ export const ProfilePage = () => {
           <span className={styles.statNumber}>6</span>
           <span className={styles.statLabel}>Active</span>
         </div>
-      </div>
-
-      <div className={styles.actions}>
-        <button className={styles.actionButton}>
-          <Icon variant="settings" size={24} />
-          <span>Settings</span>
-        </button>
-        <button className={styles.actionButton}>
-          <Icon variant="share" size={24} />
-          <span>Share Profile</span>
-        </button>
       </div>
     </div>
   );

@@ -33,17 +33,84 @@ type TaskContextType = {
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
+const getInitialDemoTasks = (): Task[] => {
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const nextWeek = new Date(now);
+  nextWeek.setDate(nextWeek.getDate() + 7);
+
+  return [
+    {
+      id: "1",
+      title: "Complete project presentation",
+      description: "Prepare slides and practice speech",
+      dueDate: tomorrow.toISOString(),
+      completed: false,
+      category: "Work",
+      priority: "high",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "2",
+      title: "Buy groceries",
+      description: "Milk, eggs, bread, fruits",
+      dueDate: now.toISOString(),
+      completed: true,
+      category: "Shopping",
+      priority: "medium",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "3",
+      title: "Morning workout",
+      description: "30 minutes of cardio",
+      dueDate: now.toISOString(),
+      completed: false,
+      category: "Personal",
+      priority: "low",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "4",
+      title: "Plan weekend trip",
+      description: "Research destinations and book hotels",
+      dueDate: nextWeek.toISOString(),
+      completed: false,
+      category: "Personal",
+      priority: "medium",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "5",
+      title: "Call mom",
+      description: "Wish happy birthday",
+      dueDate: now.toISOString(),
+      completed: false,
+      category: "Personal",
+      priority: "high",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+  ];
+};
+
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>(() => {
     const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : [];
+    return savedTasks ? JSON.parse(savedTasks) : getInitialDemoTasks();
   });
 
   const [categories, setCategories] = useState<string[]>(() => {
     const savedCategories = localStorage.getItem("categories");
     return savedCategories
       ? JSON.parse(savedCategories)
-      : ["General", "Work", "Personal"];
+      : ["General", "Work", "Personal", "Shopping"];
   });
 
   useEffect(() => {

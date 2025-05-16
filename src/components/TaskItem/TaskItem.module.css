@@ -1,63 +1,55 @@
 .taskItem {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-}
-
-.taskItem:hover {
-    background-color: var(--card-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--card-border);
 }
 
 .checkbox {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 6px;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--divider-color);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    background-color: transparent;
-    transition: var(--transition);
+    margin-top: 2px;
 }
 
 .checkbox.completed {
     background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .taskContent {
-    flex-grow: 1;
+    flex: 1;
     min-width: 0;
 }
 
 .taskTitle {
     margin: 0;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
     color: var(--text-color);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.4;
 }
 
 .taskTitle.completedTitle {
-    text-decoration: line-through;
     color: var(--text-secondary);
+    text-decoration: line-through;
 }
 
 .taskMeta {
     display: flex;
     gap: 12px;
-    margin-top: 4px;
-    font-size: 12px;
+    margin-top: 6px;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 
@@ -69,7 +61,13 @@
 }
 
 .priorityIndicator {
-    position: absolute;
-    top: 8px;
-    right: 8px;
+    margin-left: auto;
+}
+
+.priority-high .checkbox {
+    border-color: #ff453a;
+}
+
+.priority-medium .checkbox {
+    border-color: #ff9f0a;
 }

@@ -1,39 +1,35 @@
 .container {
     padding: 16px;
+    padding-bottom: 80px;
 }
 
 .header {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 .tabs {
     display: flex;
-    border-bottom: 1px solid var(--divider-color);
-    margin-bottom: 16px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 4px;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
 }
 
 .tab {
-    flex: 1;
     text-align: center;
-    padding: 12px 0;
-    font-size: 14px;
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 500;
     color: var(--text-secondary);
     background: none;
     border: none;
-    position: relative;
+    border-radius: var(--border-radius-small);
 }
 
 .tab.active {
     color: var(--primary-color);
-    font-weight: 500;
-}
-
-.tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
 }
