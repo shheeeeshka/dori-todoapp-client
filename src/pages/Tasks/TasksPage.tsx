@@ -9,20 +9,19 @@ import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryFor
 import { Icon } from "../../components/Icon/Icon";
 import styles from "./TasksPage.module.css";
 
-type TaskTab = "all" | "active" | "completed";
+type TaskTab = "All" | "active" | "completed";
 
 export const TasksPage = () => {
   const { tasks, categories, addCategory } = useTasks();
-  const [selectedTab, setSelectedTab] = useState<TaskTab>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedTab, setSelectedTab] = useState<TaskTab>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks.filter((task) => {
-    // Filter by category
-    if (selectedCategory !== "all" && task.category !== selectedCategory) {
+    if (selectedCategory !== "All" && task.category !== selectedCategory) {
       return false;
     }
 
@@ -64,7 +63,7 @@ export const TasksPage = () => {
 
       <div className={styles.tabsContainer} ref={tabsRef}>
         <CategoryTabs
-          categories={["all", ...categories]}
+          categories={["All", ...categories]}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
           onAddCategory={() => setIsCategorySheetOpen(true)}
@@ -74,9 +73,9 @@ export const TasksPage = () => {
       <div className={styles.statusTabs}>
         <button
           className={`${styles.statusTab} ${
-            selectedTab === "all" ? styles.active : ""
+            selectedTab === "All" ? styles.active : ""
           }`}
-          onClick={() => setSelectedTab("all")}
+          onClick={() => setSelectedTab("All")}
         >
           All
         </button>
@@ -128,7 +127,7 @@ export const TasksPage = () => {
           ) : (
             <AddTaskForm
               defaultCategory={
-                selectedCategory !== "all" ? selectedCategory : undefined
+                selectedCategory !== "All" ? selectedCategory : undefined
               }
               onSubmit={() => setIsTaskSheetOpen(false)}
             />
