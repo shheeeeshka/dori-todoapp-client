@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Icon } from "../Icon/Icon";
 import styles from "./BottomSheet.module.css";
 import { handleShare } from "../../utils/utils";

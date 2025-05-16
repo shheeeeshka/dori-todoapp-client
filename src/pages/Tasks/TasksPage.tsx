@@ -101,7 +101,7 @@ export const TasksPage = () => {
       <TaskList
         tasks={filteredTasks}
         onTaskClick={handleTaskClick}
-        onToggleCompletion={(id) => {
+        onToggleCompletion={() => {
           // Здесь будет логика переключения статуса задачи
         }}
       />

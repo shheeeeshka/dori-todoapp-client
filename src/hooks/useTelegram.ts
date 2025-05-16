@@ -1,3 +1,19 @@
+interface TelegramUser {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  language_code?: string;
+  is_premium?: boolean;
+  photo_url?: string;
+  allows_write_to_pm?: boolean;
+}
+
+interface TelegramWebAppInitData {
+  user?: TelegramUser;
+  query_id?: string;
+}
+
 interface TelegramWebApp {
   WebApp?: {
     close: () => void;
@@ -6,10 +22,7 @@ interface TelegramWebApp {
       show: () => void;
       hide: () => void;
     };
-    initDataUnsafe?: {
-      user?: any;
-      query_id?: string;
-    };
+    initDataUnsafe?: TelegramWebAppInitData;
     version?: string;
     colorScheme?: string;
   };

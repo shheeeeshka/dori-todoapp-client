@@ -78,7 +78,7 @@ export const Icon = ({
 
   return (
     <IconComponent
-      size={size}
+      fontSize={size}
       color={color}
       className={`${styles.icon} ${className}`}
       onClick={onClick}

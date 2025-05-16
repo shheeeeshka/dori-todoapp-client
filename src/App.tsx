@@ -9,7 +9,9 @@ export const App = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    tg?.ready();
+    if (tg?.initDataUnsafe) {
+      console.log(`Launching...`);
+    }
   }, [tg]);
 
   useEffect(() => {

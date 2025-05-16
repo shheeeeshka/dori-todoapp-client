@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Icon } from "../Icon/Icon";
 import styles from "./AddCategoryForm.module.css";
 
 type AddCategoryFormProps = {
@@ -26,7 +25,7 @@ export const AddCategoryForm = ({ onSubmit }: AddCategoryFormProps) => {
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
           placeholder="Enter category name"
-          autoFocus
+          //   autoFocus
           className={styles.input}
         />
       </div>

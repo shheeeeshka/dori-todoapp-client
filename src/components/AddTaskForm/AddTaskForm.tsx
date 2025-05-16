@@ -60,7 +60,7 @@ export const AddTaskForm = ({
           onChange={handleInputChange}
           placeholder="Task title"
           required
-        //   autoFocus
+          //   autoFocus
           className={styles.titleInput}
         />
       </div>
