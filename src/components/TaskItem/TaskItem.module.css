@@ -1,11 +1,12 @@
 .taskItem {
     display: flex;
+    position: relative;
     align-items: flex-start;
     gap: 14px;
-    padding: 16px;
+    padding: 30px 25px;
     background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    margin-bottom: 8px;
+    border-radius: var(--border-radius-large);
+    margin-bottom: 5px;
     box-shadow: var(--shadow);
     border: 1px solid var(--card-border);
 }
@@ -70,4 +71,25 @@
 
 .priority-medium .checkbox {
     border-color: #ff9f0a;
+}
+
+.priorityIndicator {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.priority-low .priorityIndicator {
+    background-color: #32D74B;
+}
+
+.priority-medium .priorityIndicator {
+    background-color: #FF9F0A;
+}
+
+.priority-high .priorityIndicator {
+    background-color: #FF453A;
 }

@@ -1,0 +1,40 @@
+/* CategoryTabs.module.css */
+.tabs {
+    display: flex;
+    gap: 8px;
+    width: max-content;
+    padding: 0 16px;
+}
+
+.tab {
+    scroll-snap-align: start;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.tab.active {
+    color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.addTab {
+    scroll-snap-align: start;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--card-bg);
+    border: none;
+    color: var(--primary-color);
+    box-shadow: var(--shadow);
+}

@@ -1,24 +1,43 @@
+/* TasksPage.module.css */
 .container {
     padding: 16px;
-    padding-bottom: 80px;
+    padding-bottom: 100px;
 }
 
 .header {
     margin-bottom: 24px;
 }
 
-.tabs {
+.header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.tabsContainer {
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+}
+
+.tabsContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.statusTabs {
     display: flex;
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
-    padding: 4px;
-    justify-content: center;
-    gap: 3rem;
+    padding: 6px;
     margin-bottom: 20px;
     box-shadow: var(--shadow);
 }
 
-.tab {
+.statusTab {
+    flex: 1;
     text-align: center;
     padding: 10px 0;
     font-size: 15px;
@@ -27,9 +46,31 @@
     background: none;
     border: none;
     border-radius: var(--border-radius-small);
+    transition: var(--transition);
 }
 
-.tab.active {
+.statusTab.active {
     color: var(--primary-color);
     background-color: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.addButton {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 220;
+    transition: transform 0.2s ease;
+}
+
+.addButton:active {
+    transform: scale(0.95);
 }

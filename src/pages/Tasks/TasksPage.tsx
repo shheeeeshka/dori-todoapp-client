@@ -1,20 +1,24 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTasks } from "../../context/TaskContext";
 import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
 import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
-import { CategorySelector } from "../../components/CategorySelector/CategorySelector";
-// import { Icon } from "../../components/Icon/Icon";
+import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
+import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
+import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
+import { Icon } from "../../components/Icon/Icon";
 import styles from "./TasksPage.module.css";
 
-type TaskTab = "all" | "active" | "completed" | "deleted";
+type TaskTab = "all" | "active" | "completed";
 
 export const TasksPage = () => {
-  const { tasks, categories } = useTasks();
+  const { tasks, categories, addCategory } = useTasks();
   const [selectedTab, setSelectedTab] = useState<TaskTab>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
+  const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks.filter((task) => {
     // Filter by category
@@ -28,8 +32,6 @@ export const TasksPage = () => {
         return !task.completed;
       case "completed":
         return task.completed;
-      case "deleted":
-        return false; // In a real app, you might have a deleted flag
       default:
         return true;
     }
@@ -37,23 +39,41 @@ export const TasksPage = () => {
 
   const handleTaskClick = (taskId: string) => {
     setSelectedTask(taskId);
-    setIsBottomSheetOpen(true);
+    setIsTaskSheetOpen(true);
+  };
+
+  const handleAddCategory = (categoryName: string) => {
+    addCategory(categoryName);
+    setIsCategorySheetOpen(false);
+    // Прокручиваем к последней вкладке после добавления
+    setTimeout(() => {
+      if (tabsRef.current) {
+        tabsRef.current.scrollTo({
+          left: tabsRef.current.scrollWidth,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>My Tasks</h1>
-        <CategorySelector
+        <h1>Tasks</h1>
+      </div>
+
+      <div className={styles.tabsContainer} ref={tabsRef}>
+        <CategoryTabs
           categories={["all", ...categories]}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
+          onAddCategory={() => setIsCategorySheetOpen(true)}
         />
       </div>
 
-      <div className={styles.tabs}>
+      <div className={styles.statusTabs}>
         <button
-          className={`${styles.tab} ${
+          className={`${styles.statusTab} ${
             selectedTab === "all" ? styles.active : ""
           }`}
           onClick={() => setSelectedTab("all")}
@@ -61,7 +81,7 @@ export const TasksPage = () => {
           All
         </button>
         <button
-          className={`${styles.tab} ${
+          className={`${styles.statusTab} ${
             selectedTab === "active" ? styles.active : ""
           }`}
           onClick={() => setSelectedTab("active")}
@@ -69,7 +89,7 @@ export const TasksPage = () => {
           Active
         </button>
         <button
-          className={`${styles.tab} ${
+          className={`${styles.statusTab} ${
             selectedTab === "completed" ? styles.active : ""
           }`}
           onClick={() => setSelectedTab("completed")}
@@ -78,18 +98,52 @@ export const TasksPage = () => {
         </button>
       </div>
 
-      <TaskList tasks={filteredTasks} onTaskClick={handleTaskClick} />
+      <TaskList
+        tasks={filteredTasks}
+        onTaskClick={handleTaskClick}
+        onToggleCompletion={(id) => {
+          // Здесь будет логика переключения статуса задачи
+        }}
+      />
 
-      {isBottomSheetOpen && selectedTask && (
+      <button
+        className={styles.addButton}
+        onClick={() => setIsTaskSheetOpen(true)}
+      >
+        <Icon variant="plus" size={28} color="white" />
+      </button>
+
+      {/* BottomSheet для деталей задачи */}
+      {isTaskSheetOpen && (
         <BottomSheet
-          onClose={() => setIsBottomSheetOpen(false)}
+          onClose={() => setIsTaskSheetOpen(false)}
           showCloseButton
-          title="Task Details"
+          title={selectedTask ? "Task Details" : "New Task"}
         >
-          <TaskDetail
-            taskId={selectedTask}
-            onClose={() => setIsBottomSheetOpen(false)}
-          />
+          {selectedTask ? (
+            <TaskDetail
+              taskId={selectedTask}
+              onClose={() => setIsTaskSheetOpen(false)}
+            />
+          ) : (
+            <AddTaskForm
+              defaultCategory={
+                selectedCategory !== "all" ? selectedCategory : undefined
+              }
+              onSubmit={() => setIsTaskSheetOpen(false)}
+            />
+          )}
+        </BottomSheet>
+      )}
+
+      {/* BottomSheet для добавления категории */}
+      {isCategorySheetOpen && (
+        <BottomSheet
+          onClose={() => setIsCategorySheetOpen(false)}
+          showCloseButton
+          title="New Category"
+        >
+          <AddCategoryForm onSubmit={handleAddCategory} />
         </BottomSheet>
       )}
     </div>

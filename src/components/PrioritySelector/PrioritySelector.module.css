@@ -1,0 +1,37 @@
+.selector {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.priorityButton {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    border-radius: var(--border-radius-small);
+    background-color: var(--card-bg);
+    border: 1px solid var(--divider-color);
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.priorityButton.selected {
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    border-color: currentColor;
+}
+
+.priorityButton:first-child.selected {
+    color: #32D74B;
+}
+
+.priorityButton:nth-child(2).selected {
+    color: #FF9F0A;
+}
+
+.priorityButton:last-child.selected {
+    color: #FF453A;
+}

@@ -24,9 +24,7 @@ export const SettingsPage = () => {
         <ThemeSelector
           themes={themes}
           currentTheme={theme}
-          onSelectTheme={(newTheme) => {
-            document.documentElement.setAttribute("data-theme", newTheme);
-          }}
+          onSelectTheme={(newTheme) => switchTheme(newTheme)}
         />
       </div>
 
