@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 interface TelegramUser {
   id: number;
   first_name?: string;
@@ -49,7 +51,15 @@ declare global {
 }
 
 export function useTelegram() {
+  const [isReady, setIsReady] = useState(false);
   const tg = window.Telegram?.WebApp;
+
+  useEffect(() => {
+    if (tg) {
+      tg.ready();
+      setIsReady(true);
+    }
+  }, [tg]);
 
   const onClose = () => {
     tg?.close();
@@ -64,7 +74,9 @@ export function useTelegram() {
   };
 
   const expandApp = () => {
-    tg?.expand();
+    if (isReady && tg?.isExpanded === false) {
+      tg.expand();
+    }
   };
 
   return {
@@ -72,6 +84,7 @@ export function useTelegram() {
     onToggleButton,
     expandApp,
     tg,
+    isReady,
     tgUser: tg?.initDataUnsafe?.user,
     queryId: tg?.initDataUnsafe?.query_id,
     tgVersion: tg?.version,

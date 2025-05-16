@@ -5,16 +5,15 @@ import { useEffect } from "react";
 import { useTheme } from "./hooks/useTheme";
 
 export const App = () => {
-  const { tg, expandApp } = useTelegram();
+  const { tg, expandApp, isReady } = useTelegram();
   const { theme } = useTheme();
 
   useEffect(() => {
-    if (tg?.initDataUnsafe) {
+    if (tg && isReady) {
       console.log(`Launching...`);
-      tg?.ready();
       expandApp();
     }
-  }, [tg, expandApp]);
+  }, [tg, isReady, expandApp]);
 
   useEffect(() => {
     console.log(theme);

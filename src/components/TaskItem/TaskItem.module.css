@@ -6,7 +6,7 @@
     padding: 30px 25px;
     background-color: var(--card-bg);
     border-radius: var(--border-radius-large);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     box-shadow: var(--shadow);
     border: 1px solid var(--card-border);
 }
