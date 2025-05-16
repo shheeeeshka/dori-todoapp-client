@@ -17,7 +17,7 @@ import {
   FiChevronUp,
   FiClock,
 } from "react-icons/fi";
-import { ComponentType, SVGProps } from "react";
+import type { ComponentType, SVGProps } from "react";
 import styles from "./Icon.module.css";
 
 type IconVariant =
