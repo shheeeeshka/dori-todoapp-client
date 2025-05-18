@@ -16,10 +16,14 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   const [editData, setEditData] = useState({
     title: task?.title || "",
     description: task?.description || "",
-    dueDate: task?.dueDate || "",
+    dueDate: task?.dueDate.split("T")[0] || "",
+    dueTime: task?.dueTime || "",
     category: task?.category || "General",
     priority: task?.priority || "medium",
   });
+
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [showPrioritySelect, setShowPrioritySelect] = useState(false);
 
   if (!task) return null;
 
@@ -33,8 +37,12 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   };
 
   const handleSave = () => {
-    updateTask(task.id, editData);
+    updateTask(task.id, {
+      ...editData,
+      dueDate: editData.dueDate ? `${editData.dueDate}T00:00:00` : "",
+    });
     setIsEditing(false);
+    setEditingField(null);
   };
 
   const handleDelete = () => {
@@ -42,99 +50,157 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     onClose();
   };
 
+  const handleFieldClick = (field: string) => {
+    if (isEditing) {
+      setEditingField(field);
+    }
+  };
+
+  const handlePrioritySelect = (priority: "low" | "medium" | "high") => {
+    setEditData((prev) => ({ ...prev, priority }));
+    setShowPrioritySelect(false);
+  };
+
+  const priorityColors = {
+    high: "#ff4d4f",
+    medium: "#faad14",
+    low: "#52c41a",
+  };
+
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.taskStatus}>
+          <button
+            className={`${styles.checkbox} ${
+              task.completed ? styles.completed : ""
+            }`}
+            onClick={() => toggleTaskCompletion(task.id)}
+          >
+            {task.completed && <Icon variant="check" color="#fff" size={26} />}
+          </button>
+          <span className={styles.statusText}>
+            {task.completed ? "Completed" : "Active"}
+          </span>
+        </div>
+
+        <div className={styles.taskPriority}>
+          <button
+            className={styles.priorityButton}
+            onClick={() =>
+              isEditing && setShowPrioritySelect(!showPrioritySelect)
+            }
+          >
+            <Icon
+              variant="flag"
+              size={16}
+              color={
+                isEditing
+                  ? priorityColors[editData.priority]
+                  : priorityColors[task.priority]
+              }
+            />
+            {isEditing ? editData.priority : task.priority} priority
+          </button>
+
+          {isEditing && showPrioritySelect && (
+            <div className={styles.prioritySelect}>
+              {(["high", "medium", "low"] as const).map((priority) => (
+                <button
+                  key={priority}
+                  className={styles.priorityOption}
+                  onClick={() => handlePrioritySelect(priority)}
+                >
+                  <Icon
+                    variant="flag"
+                    size={16}
+                    color={priorityColors[priority]}
+                  />
+                  {priority} priority
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       {isEditing ? (
-        <div className={styles.editForm}>
-          <input
-            type="text"
-            name="title"
-            value={editData.title}
-            onChange={handleInputChange}
-            className={styles.editTitle}
-          />
-          <textarea
-            name="description"
-            value={editData.description}
-            onChange={handleInputChange}
-            className={styles.editDescription}
-            placeholder="Add description..."
-          />
-
-          <div className={styles.editMeta}>
-            <select
-              name="category"
-              value={editData.category}
-              onChange={handleInputChange}
-            >
-              <option value="General">General</option>
-              <option value="Work">Work</option>
-              <option value="Personal">Personal</option>
-            </select>
-
-            <select
-              name="priority"
-              value={editData.priority}
-              onChange={handleInputChange}
-            >
-              <option value="low">Low Priority</option>
-              <option value="medium">Medium Priority</option>
-              <option value="high">High Priority</option>
-            </select>
-
+        <>
+          <div className={styles.editField}>
             <input
-              type="date"
-              name="dueDate"
-              value={editData.dueDate}
+              type="text"
+              name="title"
+              value={editData.title}
               onChange={handleInputChange}
+              className={`${styles.editInput} ${styles.taskTitle}`}
+              placeholder="Task title"
             />
           </div>
 
-          <div className={styles.editActions}>
+          <div className={styles.editField}>
+            <textarea
+              name="description"
+              value={editData.description}
+              onChange={handleInputChange}
+              className={`${styles.editInput} ${styles.taskDescription}`}
+              placeholder="Add description..."
+              rows={3}
+            />
+          </div>
+
+          <div className={styles.taskMeta}>
+            <div className={styles.metaItem}>
+              <Icon variant="calendar" size={16} />
+              <input
+                type="date"
+                name="dueDate"
+                value={editData.dueDate}
+                onChange={handleInputChange}
+                className={styles.editInput}
+              />
+            </div>
+
+            <div className={styles.metaItem}>
+              <Icon variant="clock" size={16} />
+              <input
+                type="time"
+                name="dueTime"
+                value={editData.dueTime || ""}
+                onChange={handleInputChange}
+                className={styles.editInput}
+              />
+            </div>
+
+            <div className={styles.metaItem}>
+              <Icon variant="tag" size={16} />
+              <select
+                name="category"
+                value={editData.category}
+                onChange={handleInputChange}
+                className={styles.editInput}
+              >
+                <option value="General">General</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+              </select>
+            </div>
+          </div>
+
+          <div className={styles.actions}>
             <button
               onClick={() => setIsEditing(false)}
-              className={styles.cancelButton}
+              className={styles.secondaryButton}
             >
               Cancel
             </button>
-            <button onClick={handleSave} className={styles.saveButton}>
-              Save
+            <button onClick={handleSave} className={styles.primaryButton}>
+              Save Changes
             </button>
           </div>
-        </div>
+        </>
       ) : (
         <>
-          <div className={styles.header}>
-            <div className={styles.taskStatus}>
-              <button
-                className={`${styles.checkbox} ${
-                  task.completed ? styles.completed : ""
-                }`}
-                onClick={() => toggleTaskCompletion(task.id)}
-              >
-                {task.completed && <Icon variant="check" size={16} />}
-              </button>
-              <span className={styles.statusText}>
-                {task.completed ? "Completed" : "Active"}
-              </span>
-            </div>
-
-            <div className={styles.taskPriority}>
-              <Icon
-                variant="flag"
-                size={16}
-                color={
-                  task.priority === "high"
-                    ? "#ff4d4f"
-                    : task.priority === "medium"
-                    ? "#faad14"
-                    : "#52c41a"
-                }
-              />
-              {task.priority} priority
-            </div>
-          </div>
-
           <h2 className={styles.taskTitle}>{task.title}</h2>
 
           {task.description && (
@@ -155,34 +221,30 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
               </span>
             </div>
 
+            {task.dueTime && (
+              <div className={styles.metaItem}>
+                <Icon variant="clock" size={16} />
+                <span>{task.dueTime}</span>
+              </div>
+            )}
+
             <div className={styles.metaItem}>
               <Icon variant="tag" size={16} />
               <span>{task.category}</span>
-            </div>
-
-            <div className={styles.metaItem}>
-              <Icon variant="clock" size={16} />
-              <span>
-                Created:{" "}
-                {new Date(task.createdAt).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
             </div>
           </div>
 
           <div className={styles.actions}>
             <button
               onClick={() => setIsEditing(true)}
-              className={styles.editButton}
+              className={styles.secondaryButton}
             >
               <Icon variant="edit" size={16} />
-              Edit
+              Edit Task
             </button>
-            <button onClick={handleDelete} className={styles.deleteButton}>
+            <button onClick={handleDelete} className={styles.dangerButton}>
               <Icon variant="delete" size={16} />
-              Delete
+              Delete Task
             </button>
           </div>
         </>

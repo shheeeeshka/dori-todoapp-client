@@ -6,6 +6,7 @@ export type Task = {
   title: string;
   description: string;
   dueDate: string;
+  dueTime?: string | null;
   completed: boolean;
   category: string;
   priority: "low" | "medium" | "high";
@@ -42,6 +43,7 @@ const getInitialDemoTasks = (): Task[] => {
       title: "Complete project presentation",
       description: "Prepare slides and practice speech",
       dueDate: tomorrow.toISOString(),
+      dueTime: "15:30",
       completed: false,
       category: "Work",
       priority: "high",

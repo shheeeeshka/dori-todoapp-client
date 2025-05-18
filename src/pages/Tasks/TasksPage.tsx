@@ -41,6 +41,11 @@ export const TasksPage = () => {
     setIsTaskSheetOpen(true);
   };
 
+  const handleTaskSheetClose = () => {
+    setIsTaskSheetOpen(false);
+    setSelectedTask(null);
+  };
+
   const handleAddCategory = (categoryName: string) => {
     addCategory(categoryName);
     setIsCategorySheetOpen(false);
@@ -112,10 +117,9 @@ export const TasksPage = () => {
         <Icon variant="plus" size={28} color="white" />
       </button>
 
-      {/* BottomSheet для деталей задачи */}
       {isTaskSheetOpen && (
         <BottomSheet
-          onClose={() => setIsTaskSheetOpen(false)}
+          onClose={handleTaskSheetClose}
           showCloseButton
           title={selectedTask ? "Task Details" : "New Task"}
         >
@@ -135,10 +139,9 @@ export const TasksPage = () => {
         </BottomSheet>
       )}
 
-      {/* BottomSheet для добавления категории */}
       {isCategorySheetOpen && (
         <BottomSheet
-          onClose={() => setIsCategorySheetOpen(false)}
+          onClose={handleTaskSheetClose}
           showCloseButton
           title="New Category"
         >

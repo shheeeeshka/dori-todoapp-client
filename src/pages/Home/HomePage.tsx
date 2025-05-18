@@ -85,10 +85,13 @@ export const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      {/* Date header */}
+      <div className={styles.appHeader}>
+        <h1 className={styles.appTitle}>Dori to Dori</h1>
+        <p className={styles.appSubtitle}>Your daily task manager</p>
+      </div>
+
       <div className={styles.dateHeader}>{formattedDate}</div>
 
-      {/* Calendar scroll */}
       <div className={styles.calendarContainer}>
         <div className={styles.calendarScroll}>
           {calendarDays.map((date, index) => {

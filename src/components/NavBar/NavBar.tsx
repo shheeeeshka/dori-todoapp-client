@@ -33,13 +33,13 @@ export const NavBar = () => {
         <span>Add Task</span>
       </NavLink>
       <NavLink
-        to="/tasks"
+        to="/shared"
         className={({ isActive }) =>
           `${styles.navItem} ${isActive ? styles.active : ""}`
         }
       >
-        <Icon variant="list" size={24} />
-        <span>Tasks</span>
+        <Icon variant="share" size={24} />
+        <span>Shared</span>
       </NavLink>
       <NavLink
         to="/profile"

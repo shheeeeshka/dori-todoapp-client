@@ -1,0 +1,246 @@
+.container {
+    padding: 16px;
+    padding-bottom: 80px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.inviteButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.taskCard {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 26px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.taskCard.expanded {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.taskHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.taskTitleWrapper {
+    flex: 1;
+}
+
+.taskTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-color);
+}
+
+.taskMeta {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.taskCategory {
+    color: var(--text-secondary);
+}
+
+.taskPriority {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.priority-low {
+    background-color: rgba(0, 200, 83, 0.1);
+    color: #00c853;
+}
+
+.priority-medium {
+    background-color: rgba(255, 171, 0, 0.1);
+    color: #ffab00;
+}
+
+.priority-high {
+    background-color: rgba(255, 45, 85, 0.1);
+    color: #ff2d55;
+}
+
+.taskParticipants {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 12px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.chevron {
+    color: var(--text-secondary);
+}
+
+.taskDetails {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--divider-color);
+}
+
+.taskDescription {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.dueDate {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.participantsSection,
+.commentsSection {
+    margin-top: 16px;
+}
+
+.participantsSection h4,
+.commentsSection h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-color);
+}
+
+.participantsList {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.participant {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.commentsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.comment {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-small);
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.commentHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.commentAuthor {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.commentTime {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.commentText {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.noComments {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 12px 0;
+}
+
+.addComment {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.commentInput {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--divider-color);
+    font-size: 14px;
+}
+
+.commentButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.commentButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

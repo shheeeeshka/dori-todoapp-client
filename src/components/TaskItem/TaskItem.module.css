@@ -93,3 +93,42 @@
 .priority-high .priorityIndicator {
     background-color: #FF453A;
 }
+
+/* Добавляем новые стили */
+.dateTimeWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.taskTime {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary);
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+.taskMeta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-color);
+}
+
+.taskDate {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.taskCategory {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary);
+}

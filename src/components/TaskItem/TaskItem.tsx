@@ -15,6 +15,12 @@ export const TaskItem = ({
   onClick,
   onToggleCompletion,
 }: TaskItemProps) => {
+  const formatTime = (timeString?: string) => {
+    if (!timeString) return "";
+    const [hours, minutes] = timeString.split(":");
+    return `${hours}:${minutes}`;
+  };
+
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleCompletion?.();
@@ -42,13 +48,21 @@ export const TaskItem = ({
         </h3>
         <div className={styles.taskMeta}>
           {task.dueDate && (
-            <span className={styles.taskDate}>
-              <Icon variant="calendar" size={14} />
-              {new Date(task.dueDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
-            </span>
+            <div className={styles.dateTimeWrapper}>
+              <span className={styles.taskDate}>
+                <Icon variant="calendar" size={14} />
+                {new Date(task.dueDate).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                })}
+              </span>
+              {task.dueTime && (
+                <span className={styles.taskTime}>
+                  <Icon variant="clock" size={14} />
+                  {formatTime(task.dueTime)}
+                </span>
+              )}
+            </div>
           )}
           {task.category && (
             <span className={styles.taskCategory}>

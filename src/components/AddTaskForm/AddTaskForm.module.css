@@ -4,6 +4,7 @@
     gap: 20px;
     padding: 0 8px;
     overflow-y: auto;
+    z-index: 1000;
 }
 
 .formGroup {
@@ -90,4 +91,70 @@
     font-weight: 600;
     border: none;
     box-shadow: var(--shadow);
+}
+
+/* Добавляем новые стили */
+.dateLabel,
+.timeLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.dateLabel span,
+.timeLabel span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dateInputContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dateInput {
+    padding: 12px 16px;
+    padding-right: 36px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--divider-color);
+    background-color: var(--card-bg);
+    font-size: 15px;
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+    width: 100%;
+    appearance: none;
+}
+
+.datePickerIcon {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    color: var(--text-secondary);
+}
+
+.timeInput {
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--divider-color);
+    background-color: var(--card-bg);
+    font-size: 15px;
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+    width: 120px;
+}
+
+.formRow {
+    display: flex;
+    gap: 20px;
+    /* flex-direction: column; */
+    overflow: hidden;
+    align-items: center;
+}
+
+.formRow .formGroup {
+    flex: 1;
 }

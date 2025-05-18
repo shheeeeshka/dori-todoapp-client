@@ -20,11 +20,30 @@ export const BottomSheet = ({
   title = null,
 }: BottomSheetProps) => {
   const [isClosing, setIsClosing] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    // Сохраняем текущую позицию скролла
+    const currentScrollY = window.scrollY;
+    setScrollY(currentScrollY);
+
+    // Блокируем скролл на body
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${currentScrollY}px`;
+    document.body.style.width = "100%";
     document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+
     return () => {
-      document.body.style.overflow = "auto";
+      // Восстанавливаем стандартное поведение при размонтировании
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+
+      // Восстанавливаем позицию скролла
+      window.scrollTo(0, scrollY);
     };
   }, []);
 
@@ -37,7 +56,13 @@ export const BottomSheet = ({
   };
 
   return (
-    <div className={styles.modalOverlay} onClick={handleClose}>
+    <div
+      className={styles.modalOverlay}
+      onClick={handleClose}
+      onTouchMove={(e) => {
+        e.preventDefault();
+      }}
+    >
       <div
         className={`${styles.modalContent} ${isClosing ? styles.closing : ""}`}
         onClick={(e) => e.stopPropagation()}

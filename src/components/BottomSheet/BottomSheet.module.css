@@ -9,6 +9,8 @@
   justify-content: center;
   align-items: flex-end;
   z-index: 1000;
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .modalContent {
@@ -22,6 +24,9 @@
   overflow-y: auto;
   transform: translateY(100%);
   animation: slideUp 0.3s ease-out forwards;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1001;
 }
 
 .modalContent.closing {
