@@ -43,6 +43,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     });
     setIsEditing(false);
     setEditingField(null);
+    console.log({ editingField });
   };
 
   const handleDelete = () => {
@@ -50,11 +51,11 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     onClose();
   };
 
-  const handleFieldClick = (field: string) => {
-    if (isEditing) {
-      setEditingField(field);
-    }
-  };
+  // const handleFieldClick = (field: string) => {
+  //   if (isEditing) {
+  //     setEditingField(field);
+  //   }
+  // };
 
   const handlePrioritySelect = (priority: "low" | "medium" | "high") => {
     setEditData((prev) => ({ ...prev, priority }));
