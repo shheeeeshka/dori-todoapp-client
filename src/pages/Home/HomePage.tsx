@@ -1,28 +1,39 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTasks } from "../../context/TaskContext";
 import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
 import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
+import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
+import {
+  FaPlus,
+  FaQrcode,
+  FaShare,
+  FaFire,
+  FaStar,
+  FaCalendarAlt,
+  FaClock,
+  FaWallet,
+} from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 import styles from "./HomePage.module.css";
 
 export const HomePage = () => {
   const { tasks, toggleTaskCompletion } = useTasks();
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const today = new Date();
   const todayDateString = today.toISOString().split("T")[0];
 
-  // Format today's date as "17 April 2025"
   const formattedDate = today.toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
 
-  // Generate calendar days (today + next 30 days)
-  const calendarDays = Array.from({ length: 31 }, (_, i) => {
+  const calendarDays = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
     return date;
@@ -83,68 +94,186 @@ export const HomePage = () => {
     });
   };
 
+  const completedTasks = tasks.filter((task) => task.completed).length;
+  const totalTasks = tasks.length;
+  const completionRate =
+    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
   return (
     <div className={styles.container}>
-      <div className={styles.appHeader}>
-        <h1 className={styles.appTitle}>Dori to Dori</h1>
-        <p className={styles.appSubtitle}>Your daily task manager</p>
-      </div>
-
-      <div className={styles.dateHeader}>{formattedDate}</div>
-
-      <div className={styles.calendarContainer}>
-        <div className={styles.calendarScroll}>
-          {calendarDays.map((date, index) => {
-            const dayName = date.toLocaleDateString("en-US", {
-              weekday: "short",
-            });
-            const dayNumber = date.getDate();
-            const dateString = date.toISOString().split("T")[0];
-            const isToday = dateString === todayDateString;
-            const isSelected = selectedDate === dateString;
-
-            return (
-              <button
-                key={index}
-                className={`${styles.dayCard} ${isToday ? styles.today : ""} ${
-                  isSelected ? styles.selected : ""
-                }`}
-                onClick={() => handleDateClick(date)}
-              >
-                <div className={styles.dayName}>{dayName}</div>
-                <div className={styles.dayNumber}>{dayNumber}</div>
-              </button>
-            );
-          })}
+      <div className={styles.header}>
+        <div className={styles.userInfo}>
+          <div className={styles.avatar}>
+            <img src="/api/placeholder/40/40" alt="User" />
+          </div>
+          <div className={styles.userDetails}>
+            <h2>Welcome back!</h2>
+            <p>{formattedDate}</p>
+          </div>
+        </div>
+        <div className={styles.headerActions}>
+          <button className={styles.iconButton}>
+            <FaQrcode size={20} />
+          </button>
+          <button className={styles.iconButton}>
+            <FaShare size={18} />
+          </button>
         </div>
       </div>
 
-      {selectedDate ? (
-        <>
-          <h1 className={styles.title}>{getTitleForSelectedDate()}</h1>
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statIcon}>
+            <MdDashboard size={24} />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statNumber}>{totalTasks}</span>
+            <span className={styles.statLabel}>Total Tasks</span>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={styles.statIcon}>
+            <FaFire size={24} />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statNumber}>{completedTasks}</span>
+            <span className={styles.statLabel}>Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.progressSection}>
+        <div className={styles.progressHeader}>
+          <span>Your Progress</span>
+          <span>{completionRate}%</span>
+        </div>
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{ width: `${completionRate}%` }}
+          />
+        </div>
+      </div>
+
+      <div className={styles.quickActions}>
+        <button
+          className={styles.quickAction}
+          onClick={() => setIsAddTaskOpen(true)}
+        >
+          <div className={styles.actionIcon}>
+            <FaPlus size={20} />
+          </div>
+          <span>Add Task</span>
+        </button>
+
+        <button className={styles.quickAction}>
+          <div className={styles.actionIcon}>
+            <FaCalendarAlt size={20} />
+          </div>
+          <span>Schedule</span>
+        </button>
+
+        <button className={styles.quickAction}>
+          <div className={styles.actionIcon}>
+            <FaStar size={20} />
+          </div>
+          <span>Priority</span>
+        </button>
+
+        <button className={styles.quickAction}>
+          <div className={styles.actionIcon}>
+            <FaQrcode size={20} />
+          </div>
+          <span>Scan QR</span>
+        </button>
+      </div>
+
+      <div className={styles.calendarSection}>
+        <div className={styles.sectionHeader}>
+          <h3>This Week</h3>
+          <button className={styles.viewAll}>View All</button>
+        </div>
+
+        <div className={styles.calendarContainer}>
+          <div className={styles.calendarScroll}>
+            {calendarDays.map((date, index) => {
+              const dayName = date.toLocaleDateString("en-US", {
+                weekday: "short",
+              });
+              const dayNumber = date.getDate();
+              const dateString = date.toISOString().split("T")[0];
+              const isToday = dateString === todayDateString;
+              const isSelected = selectedDate === dateString;
+              const dayTasks = tasks.filter(
+                (task) =>
+                  task.dueDate &&
+                  task.dueDate.split("T")[0] === dateString &&
+                  !task.completed
+              );
+
+              return (
+                <button
+                  key={index}
+                  className={`${styles.dayCard} ${
+                    isToday ? styles.today : ""
+                  } ${isSelected ? styles.selected : ""}`}
+                  onClick={() => handleDateClick(date)}
+                >
+                  <div className={styles.dayName}>{dayName}</div>
+                  <div className={styles.dayNumber}>{dayNumber}</div>
+                  {dayTasks.length > 0 && (
+                    <div className={styles.taskIndicator}>
+                      {dayTasks.length}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.tasksSection}>
+        <div className={styles.sectionHeader}>
+          <h3>{selectedDate ? getTitleForSelectedDate() : "Today's Tasks"}</h3>
+          <span className={styles.taskCount}>
+            {selectedDate ? filteredTasks.length : todayTasks.length}
+          </span>
+        </div>
+
+        {selectedDate ? (
           <TaskList
             tasks={filteredTasks}
             onTaskClick={handleTaskClick}
             onToggleCompletion={toggleTaskCompletion}
           />
-        </>
-      ) : (
-        <>
-          <h1 className={styles.title}>Today</h1>
-          <TaskList
-            tasks={todayTasks}
-            onTaskClick={handleTaskClick}
-            onToggleCompletion={toggleTaskCompletion}
-          />
+        ) : (
+          <>
+            <TaskList
+              tasks={todayTasks}
+              onTaskClick={handleTaskClick}
+              onToggleCompletion={toggleTaskCompletion}
+            />
 
-          <h1 className={`${styles.title} ${styles.title2}`}>Upcoming</h1>
-          <TaskList
-            tasks={upcomingTasks}
-            onTaskClick={handleTaskClick}
-            onToggleCompletion={toggleTaskCompletion}
-          />
-        </>
-      )}
+            {upcomingTasks.length > 0 && (
+              <>
+                <div className={styles.sectionHeader}>
+                  <h3>Upcoming Tasks</h3>
+                  <span className={styles.taskCount}>
+                    {upcomingTasks.length}
+                  </span>
+                </div>
+                <TaskList
+                  tasks={upcomingTasks}
+                  onTaskClick={handleTaskClick}
+                  onToggleCompletion={toggleTaskCompletion}
+                />
+              </>
+            )}
+          </>
+        )}
+      </div>
 
       {isBottomSheetOpen && selectedTask && (
         <BottomSheet
@@ -156,6 +285,16 @@ export const HomePage = () => {
             taskId={selectedTask}
             onClose={() => setIsBottomSheetOpen(false)}
           />
+        </BottomSheet>
+      )}
+
+      {isAddTaskOpen && (
+        <BottomSheet
+          onClose={() => setIsAddTaskOpen(false)}
+          showCloseButton
+          title="Add New Task"
+        >
+          <AddTaskForm onSubmit={() => setIsAddTaskOpen(false)} />
         </BottomSheet>
       )}
     </div>

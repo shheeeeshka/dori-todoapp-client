@@ -1,19 +1,108 @@
-/* TasksPage.module.css */
 .container {
-    padding: 16px;
+    padding: 20px;
     padding-bottom: 100px;
+    background: linear-gradient(135deg, rgba(124, 61, 50, 0.1) 0%, rgba(173, 101, 90, 0.1) 50%, rgba(109, 52, 42, 0.1) 100%);
+    min-height: 100vh;
+    backdrop-filter: blur(10px);
 }
 
+/* Header Styles */
 .header {
-    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--text-color);
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
+.headerContent h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: #7C3D32;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.headerActions {
+    display: flex;
+    gap: 10px;
+}
+
+.headerButton {
+    width: 45px;
+    height: 45px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.addButton {
+    width: 45px;
+    height: 45px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(124, 61, 50, 0.3);
+}
+
+/* Search Bar */
+.searchBar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 15px;
+    color: #AD655A;
+    z-index: 1;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border-radius: 20px;
+    border: 2px solid rgba(124, 61, 50, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    color: #7C3D32;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: #7C3D32;
+    box-shadow: 0 0 0 3px rgba(124, 61, 50, 0.1);
+}
+
+.searchInput::placeholder {
+    color: #AD655A;
+    opacity: 0.7;
+}
+
+/* Tabs Container */
 .tabsContainer {
     width: 100%;
     overflow-x: auto;
@@ -27,50 +116,131 @@
     display: none;
 }
 
+/* Status Tabs */
 .statusTabs {
     display: flex;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
     padding: 6px;
     margin-bottom: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 20px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .statusTab {
     flex: 1;
     text-align: center;
-    padding: 10px 0;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-secondary);
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #AD655A;
     background: none;
     border: none;
-    border-radius: var(--border-radius-small);
-    transition: var(--transition);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .statusTab.active {
-    color: var(--primary-color);
-    background-color: rgba(var(--primary-color-rgb), 0.1);
+    color: white;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    box-shadow: 0 2px 8px rgba(124, 61, 50, 0.3);
 }
 
-.addButton {
-    position: fixed;
-    bottom: 80px;
-    right: 30px;
-    width: 65px;
-    height: 65px;
+/* Task Counter */
+.taskCounter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.taskCounter span:first-child {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7C3D32;
+}
+
+.categoryTag {
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    margin-top: 20px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.emptyIcon {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    z-index: 220;
-    transition: transform 0.2s ease;
+    color: white;
+    margin: 0 auto 20px;
 }
 
-.addButton:active {
+.emptyState h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    color: #7C3D32;
+}
+
+.emptyState p {
+    margin: 0 0 20px 0;
+    color: #AD655A;
+    font-size: 14px;
+}
+
+.emptyAction {
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(124, 61, 50, 0.3);
+}
+
+.emptyAction:active {
     transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .headerContent h1 {
+        font-size: 20px;
+    }
+
+    .statusTab {
+        font-size: 12px;
+        padding: 10px 0;
+    }
+
+    .searchInput {
+        padding: 12px 12px 12px 40px;
+        font-size: 14px;
+    }
 }

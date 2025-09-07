@@ -6,7 +6,7 @@ import { TaskList } from "../../components/TaskList/TaskList";
 import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
 import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
-import { Icon } from "../../components/Icon/Icon";
+import { FaPlus, FaFilter, FaSearch } from "react-icons/fa";
 import styles from "./TasksPage.module.css";
 
 type TaskTab = "All" | "active" | "completed";
@@ -18,9 +18,19 @@ export const TasksPage = () => {
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks.filter((task) => {
+    // Filter by search query
+    if (
+      searchQuery &&
+      !task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      return false;
+    }
+
+    // Filter by category
     if (selectedCategory !== "All" && task.category !== selectedCategory) {
       return false;
     }
@@ -49,7 +59,6 @@ export const TasksPage = () => {
   const handleAddCategory = (categoryName: string) => {
     addCategory(categoryName);
     setIsCategorySheetOpen(false);
-    // Прокручиваем к последней вкладке после добавления
     setTimeout(() => {
       if (tabsRef.current) {
         tabsRef.current.scrollTo({
@@ -60,12 +69,43 @@ export const TasksPage = () => {
     }, 100);
   };
 
+  const handleCategorySheetClose = () => {
+    setIsCategorySheetOpen(false);
+  };
+
   return (
     <div className={styles.container}>
+      {/* Header */}
       <div className={styles.header}>
-        <h1>Tasks</h1>
+        <div className={styles.headerContent}>
+          <h1>My Tasks</h1>
+          <div className={styles.headerActions}>
+            <button className={styles.headerButton}>
+              <FaFilter size={18} />
+            </button>
+            <button
+              className={styles.addButton}
+              onClick={() => setIsTaskSheetOpen(true)}
+            >
+              <FaPlus size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className={styles.searchBar}>
+          <FaSearch size={18} className={styles.searchIcon} />
+          <input
+            type="text"
+            placeholder="Search tasks..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.searchInput}
+          />
+        </div>
       </div>
 
+      {/* Category Tabs */}
       <div className={styles.tabsContainer} ref={tabsRef}>
         <CategoryTabs
           categories={["All", ...categories]}
@@ -75,6 +115,7 @@ export const TasksPage = () => {
         />
       </div>
 
+      {/* Status Tabs */}
       <div className={styles.statusTabs}>
         <button
           className={`${styles.statusTab} ${
@@ -82,7 +123,7 @@ export const TasksPage = () => {
           }`}
           onClick={() => setSelectedTab("All")}
         >
-          All
+          All Tasks
         </button>
         <button
           className={`${styles.statusTab} ${
@@ -102,21 +143,39 @@ export const TasksPage = () => {
         </button>
       </div>
 
+      {/* Task Counter */}
+      <div className={styles.taskCounter}>
+        <span>{filteredTasks.length} tasks</span>
+        {selectedCategory !== "All" && (
+          <span className={styles.categoryTag}>{selectedCategory}</span>
+        )}
+      </div>
+
+      {/* Task List */}
       <TaskList
         tasks={filteredTasks}
         onTaskClick={handleTaskClick}
-        onToggleCompletion={() => {
-          // Здесь будет логика переключения статуса задачи
-        }}
+        onToggleCompletion={() => {}}
       />
 
-      <button
-        className={styles.addButton}
-        onClick={() => setIsTaskSheetOpen(true)}
-      >
-        <Icon variant="plus" size={28} color="white" />
-      </button>
+      {/* Empty State */}
+      {filteredTasks.length === 0 && (
+        <div className={styles.emptyState}>
+          <div className={styles.emptyIcon}>
+            <FaSearch size={48} />
+          </div>
+          <h3>No tasks found</h3>
+          <p>Try changing your search or filters</p>
+          <button
+            className={styles.emptyAction}
+            onClick={() => setIsTaskSheetOpen(true)}
+          >
+            Create Task
+          </button>
+        </div>
+      )}
 
+      {/* Bottom Sheets */}
       {isTaskSheetOpen && (
         <BottomSheet
           onClose={handleTaskSheetClose}
@@ -141,11 +200,14 @@ export const TasksPage = () => {
 
       {isCategorySheetOpen && (
         <BottomSheet
-          onClose={handleTaskSheetClose}
+          onClose={handleCategorySheetClose}
           showCloseButton
           title="New Category"
         >
-          <AddCategoryForm onSubmit={handleAddCategory} />
+          <AddCategoryForm
+            onSubmit={handleAddCategory}
+            onCancel={handleCategorySheetClose}
+          />
         </BottomSheet>
       )}
     </div>

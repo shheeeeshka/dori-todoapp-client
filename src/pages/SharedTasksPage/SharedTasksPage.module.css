@@ -1,57 +1,251 @@
 .container {
-    padding: 16px;
-    padding-bottom: 80px;
+    padding: 20px;
+    padding-bottom: 100px;
+    background: linear-gradient(135deg, var(--primary-color-rgb) 0%, var(--secondary-color-rgb) 50%, var(--accent-color-rgb) 100%);
+    min-height: 100vh;
+    backdrop-filter: blur(10px);
 }
 
 .header {
+    background: rgba(var(--card-bg-rgb), 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(var(--primary-color-rgb), 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.headerContent {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .header h1 {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text-color);
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.headerSubtitle {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.headerActions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.headerButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.headerButton:active {
+    transform: scale(0.95);
 }
 
 .inviteButton {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    background-color: var(--primary-color);
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    border-radius: var(--border-radius);
+    border-radius: 16px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.inviteButton:active {
+    transform: scale(0.95);
+}
+
+.statsSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.statCard {
+    background: rgba(var(--card-bg-rgb), 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 8px 32px rgba(var(--primary-color-rgb), 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.statContent {
+    flex: 1;
+}
+
+.statNumber {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-color);
+    display: block;
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 14px;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 5px;
+}
+
+.qrSection {
+    margin-bottom: 25px;
+}
+
+.qrCard {
+    background: rgba(var(--card-bg-rgb), 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(var(--primary-color-rgb), 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.qrHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.qrHeader h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.joiningCode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(var(--primary-color-rgb), 0.1);
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+}
+
+.joiningCode span {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+}
+
+.copyButton {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.qrHint {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.sectionHeader h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.taskCount {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .taskList {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .taskCard {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: 26px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+    background: rgba(var(--card-bg-rgb), 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(var(--primary-color-rgb), 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
 }
 
 .taskCard.expanded {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 40px rgba(var(--primary-color-rgb), 0.2);
+    transform: translateY(-2px);
 }
 
 .taskHeader {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     cursor: pointer;
-    justify-content: center;
+    gap: 15px;
 }
 
 .taskTitleWrapper {
@@ -59,27 +253,33 @@
 }
 
 .taskTitle {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
     color: var(--text-color);
+    display: block;
 }
 
 .taskMeta {
     display: flex;
-    gap: 8px;
-    font-size: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .taskCategory {
-    color: var(--text-secondary);
+    background: rgba(var(--primary-color-rgb), 0.1);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .taskPriority {
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
     text-transform: capitalize;
 }
 
@@ -101,146 +301,337 @@
 .taskParticipants {
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin: 0 12px;
+    gap: 6px;
     color: var(--text-secondary);
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .chevron {
     color: var(--text-secondary);
+    flex-shrink: 0;
 }
 
 .taskDetails {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--divider-color);
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(var(--divider-color-rgb), 0.3);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .taskDescription {
     color: var(--text-secondary);
-    font-size: 14px;
-    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 20px;
 }
 
 .dueDate {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 14px;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(var(--primary-color-rgb), 0.05);
+    border-radius: 12px;
 }
 
 .participantsSection,
 .commentsSection {
-    margin-top: 16px;
+    margin-top: 24px;
 }
 
 .participantsSection h4,
 .commentsSection h4 {
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: var(--text-color);
 }
 
 .participantsList {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
+    gap: 12px;
 }
 
 .participant {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(var(--primary-color-rgb), 0.1);
+    border-radius: 16px;
 }
 
 .avatar {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    background-color: var(--secondary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .commentsList {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 16px;
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .comment {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-small);
-    padding: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background: rgba(var(--card-bg-rgb), 0.8);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .commentHeader {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 8px;
+    flex-wrap: wrap;
 }
 
 .commentAuthor {
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--text-color);
 }
 
 .commentTime {
-    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
     color: var(--text-secondary);
 }
 
 .commentText {
     font-size: 14px;
     color: var(--text-color);
+    line-height: 1.4;
+    margin: 0;
 }
 
 .noComments {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-secondary);
     text-align: center;
-    padding: 12px 0;
+    padding: 30px 20px;
+    background: rgba(var(--primary-color-rgb), 0.05);
+    border-radius: 16px;
 }
 
 .addComment {
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 12px;
+    margin-top: 20px;
 }
 
 .commentInput {
     flex: 1;
-    padding: 10px 12px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--divider-color);
+    padding: 14px 18px;
+    border-radius: 20px;
+    border: 2px solid rgba(var(--primary-color-rgb), 0.1);
+    background: rgba(var(--card-bg-rgb), 0.9);
     font-size: 14px;
+    color: var(--text-color);
+    transition: border-color 0.2s ease;
+}
+
+.commentInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 .commentButton {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .commentButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.commentButton:not(:disabled):active {
+    transform: scale(0.95);
+}
+
+.qrModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.qrModalContent {
+    background: rgba(var(--card-bg-rgb), 0.95);
+    backdrop-filter: blur(30px);
+    border-radius: 30px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.qrModalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.qrModalHeader h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+    background: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.qrCodePlaceholder {
+    text-align: center;
+    padding: 40px;
+    background: rgba(var(--primary-color-rgb), 0.05);
+    border-radius: 20px;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+}
+
+.qrCodePlaceholder p {
+    margin: 15px 0 0 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.qrModalFooter {
+    text-align: center;
+}
+
+.qrModalFooter p {
+    margin: 0 0 20px 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.copyCodeButton {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.copyCodeButton:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .statsSection {
+        grid-template-columns: 1fr;
+    }
+
+    .taskTitle {
+        font-size: 16px;
+    }
+
+    .joiningCode span {
+        font-size: 16px;
+    }
 }

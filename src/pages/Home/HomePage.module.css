@@ -1,115 +1,350 @@
 .container {
-    padding: 16px;
-    padding-bottom: 80px;
+    padding: 20px;
+    padding-bottom: 100px;
+    background: linear-gradient(135deg, rgba(124, 61, 50, 0.1) 0%, rgba(173, 101, 90, 0.1) 50%, rgba(109, 52, 42, 0.1) 100%);
+    min-height: 100vh;
+    backdrop-filter: blur(10px);
 }
 
-.dateHeader {
-    font-size: 20px;
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.userDetails h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #7C3D32;
+}
+
+.userDetails p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: #AD655A;
+    opacity: 0.8;
+}
+
+.headerActions {
+    display: flex;
+    gap: 10px;
+}
+
+.iconButton {
+    width: 45px;
+    height: 45px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.iconButton:active {
+    transform: scale(0.95);
+}
+
+/* Stats Grid */
+.statsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.statCard {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.statContent {
+    flex: 1;
+}
+
+.statNumber {
+    font-size: 24px;
+    font-weight: 800;
+    color: #7C3D32;
+    display: block;
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 14px;
+    color: #AD655A;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Progress Section */
+.progressSection {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.progressHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.progressHeader span {
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 16px;
-    color: var(--text-color);
+    color: #7C3D32;
+}
+
+.progressBar {
+    width: 100%;
+    height: 12px;
+    background: rgba(124, 61, 50, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #7C3D32, #AD655A);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+/* Quick Actions */
+.quickActions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.quickAction {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 15px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 20px rgba(124, 61, 50, 0.1);
+}
+
+.quickAction:active {
+    transform: scale(0.95);
+}
+
+.actionIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.quickAction span {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7C3D32;
+    text-align: center;
+}
+
+/* Calendar Section */
+.calendarSection {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sectionHeader h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #7C3D32;
+}
+
+.viewAll {
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .calendarContainer {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    margin-bottom: 24px;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
 }
 
 .calendarScroll {
     display: flex;
     gap: 12px;
     width: max-content;
-    padding-right: 16px;
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .dayCard {
     width: 70px;
-    height: 80px;
-    color: var(--text-secondary);
-    background: var(--card-bg);
-    border-radius: var(--border-radius-small);
+    height: 90px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 18px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--card-border);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
-    transition: var(--transition);
-    border: none;
-    padding: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(124, 61, 50, 0.1);
 }
 
 .dayCard:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(124, 61, 50, 0.15);
 }
 
 .dayCard.selected {
-    background: var(--secondary-color);
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
     color: white;
 }
 
 .dayCard.today {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, #AD655A, #D49C8C);
     color: white;
 }
 
 .dayCard.selected.today {
-    background: var(--primary-color);
-    opacity: 0.9;
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
 }
 
 .dayName {
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+    opacity: 0.8;
 }
 
 .dayNumber {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 800;
 }
 
-.title {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 16px 0 20px 0;
-    color: var(--text-color);
-    position: relative;
-    padding-left: 12px;
-}
-
-.title::before {
-    content: '';
+.taskIndicator {
     position: absolute;
-    left: 0;
-    top: 5px;
-    bottom: 5px;
-    width: 4px;
-    background-color: var(--primary-color);
-    border-radius: 4px;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FF6B6B;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.title2::before {
-    background-color: var(--secondary-color);
+/* Tasks Section */
+.tasksSection {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.emptyState {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-secondary);
-}
-
-.emptyStateIcon {
-    font-size: 48px;
-    margin-bottom: 16px;
-    color: var(--divider-color);
+.taskCount {
+    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /* Hide scrollbar but keep functionality */
@@ -122,42 +357,23 @@
     scrollbar-width: none;
 }
 
-/* HomePage.module.css */
-/* Добавленные стили для заголовка приложения */
-.appHeader {
-    text-align: center;
-    margin-bottom: 24px;
-    padding-top: 8px;
-}
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
 
-.appTitle {
-    font-size: 32px;
-    font-weight: 800;
-    margin: 0;
-    color: var(--primary-color);
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    display: inline-block;
-}
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
 
-.appTitle::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border-radius: 3px;
-}
+    .quickActions {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
 
-.appSubtitle {
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin-top: 18px;
-    font-weight: 500;
+    .dayCard {
+        width: 60px;
+        height: 80px;
+    }
 }
