@@ -22,7 +22,6 @@ export const TasksPage = () => {
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks.filter((task) => {
-    // Filter by search query
     if (
       searchQuery &&
       !task.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -30,12 +29,10 @@ export const TasksPage = () => {
       return false;
     }
 
-    // Filter by category
     if (selectedCategory !== "All" && task.category !== selectedCategory) {
       return false;
     }
 
-    // Filter by tab
     switch (selectedTab) {
       case "active":
         return !task.completed;
@@ -75,10 +72,9 @@ export const TasksPage = () => {
 
   return (
     <div className={styles.container}>
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>My Tasks</h1>
+          <h1>Tasks</h1>
           <div className={styles.headerActions}>
             <button className={styles.headerButton}>
               <FaFilter size={18} />
@@ -92,7 +88,6 @@ export const TasksPage = () => {
           </div>
         </div>
 
-        {/* Search Bar */}
         <div className={styles.searchBar}>
           <FaSearch size={18} className={styles.searchIcon} />
           <input
@@ -105,7 +100,6 @@ export const TasksPage = () => {
         </div>
       </div>
 
-      {/* Category Tabs */}
       <div className={styles.tabsContainer} ref={tabsRef}>
         <CategoryTabs
           categories={["All", ...categories]}
@@ -115,7 +109,6 @@ export const TasksPage = () => {
         />
       </div>
 
-      {/* Status Tabs */}
       <div className={styles.statusTabs}>
         <button
           className={`${styles.statusTab} ${
@@ -143,7 +136,6 @@ export const TasksPage = () => {
         </button>
       </div>
 
-      {/* Task Counter */}
       <div className={styles.taskCounter}>
         <span>{filteredTasks.length} tasks</span>
         {selectedCategory !== "All" && (
@@ -151,14 +143,12 @@ export const TasksPage = () => {
         )}
       </div>
 
-      {/* Task List */}
       <TaskList
         tasks={filteredTasks}
         onTaskClick={handleTaskClick}
         onToggleCompletion={() => {}}
       />
 
-      {/* Empty State */}
       {filteredTasks.length === 0 && (
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>
@@ -175,7 +165,6 @@ export const TasksPage = () => {
         </div>
       )}
 
-      {/* Bottom Sheets */}
       {isTaskSheetOpen && (
         <BottomSheet
           onClose={handleTaskSheetClose}

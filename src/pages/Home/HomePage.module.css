@@ -1,110 +1,104 @@
 .container {
-    padding: 20px;
+    padding: 24px;
     padding-bottom: 100px;
-    background: linear-gradient(135deg, rgba(124, 61, 50, 0.1) 0%, rgba(173, 101, 90, 0.1) 50%, rgba(109, 52, 42, 0.1) 100%);
+    background: var(--background-color);
     min-height: 100vh;
-    backdrop-filter: blur(10px);
 }
 
-/* Header Styles */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 25px;
-    padding: 20px;
-    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 32px;
 }
 
 .userInfo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
 }
 
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    width: 56px;
+    height: 56px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.userDetails h2 {
-    margin: 0;
-    font-size: 18px;
+    color: white;
     font-weight: 700;
-    color: #7C3D32;
+    font-size: 20px;
 }
 
-.userDetails p {
-    margin: 4px 0 0 0;
+.userDetails h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.greeting {
+    margin: 0;
     font-size: 14px;
-    color: #AD655A;
-    opacity: 0.8;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .headerActions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .iconButton {
-    width: 45px;
-    height: 45px;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
-    border: none;
-    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
 }
 
-.iconButton:active {
-    transform: scale(0.95);
+.iconButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(15, 11, 19, 0.15);
 }
 
-/* Stats Grid */
 .statsGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
 }
 
 .statCard {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius-large);
     padding: 20px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    gap: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--card-border);
+    transition: var(--transition);
+}
+
+.statCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(15, 11, 19, 0.18);
 }
 
 .statIcon {
-    width: 50px;
-    height: 50px;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,91 +110,52 @@
 }
 
 .statNumber {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
-    color: #7C3D32;
+    color: var(--text-color);
     display: block;
-    line-height: 1;
+    line-height: 1.2;
 }
 
 .statLabel {
-    font-size: 14px;
-    color: #AD655A;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
     display: block;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
-/* Progress Section */
-.progressSection {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.progressHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.progressHeader span {
-    font-size: 16px;
-    font-weight: 600;
-    color: #7C3D32;
-}
-
-.progressBar {
-    width: 100%;
-    height: 12px;
-    background: rgba(124, 61, 50, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progressFill {
-    height: 100%;
-    background: linear-gradient(90deg, #7C3D32, #AD655A);
-    border-radius: 10px;
-    transition: width 0.5s ease;
-}
-
-/* Quick Actions */
 .quickActions {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
+    gap: 16px;
+    margin-bottom: 32px;
 }
 
 .quickAction {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 18px;
-    padding: 15px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 20px 12px;
+    border: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     cursor: pointer;
-    transition: transform 0.2s ease;
-    box-shadow: 0 4px 20px rgba(124, 61, 50, 0.1);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
 }
 
-.quickAction:active {
-    transform: scale(0.95);
+.quickAction:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(15, 11, 19, 0.18);
 }
 
 .actionIcon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -208,21 +163,19 @@
 }
 
 .quickAction span {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
-    color: #7C3D32;
+    color: var(--text-color);
     text-align: center;
 }
 
-/* Calendar Section */
 .calendarSection {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 25px;
-    padding: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--card-bg);
+    border-radius: var(--border-radius-large);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--card-border);
 }
 
 .sectionHeader {
@@ -236,67 +189,62 @@
     margin: 0;
     font-size: 18px;
     font-weight: 700;
-    color: #7C3D32;
+    color: var(--text-color);
 }
 
-.viewAll {
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
+.dateDisplay {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .calendarContainer {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 
 .calendarScroll {
     display: flex;
     gap: 12px;
     width: max-content;
-    padding: 5px 0;
+    padding: 4px 0;
 }
 
 .dayCard {
-    width: 70px;
-    height: 90px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 18px;
+    width: 64px;
+    height: 80px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--card-border);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     position: relative;
-    box-shadow: 0 4px 15px rgba(124, 61, 50, 0.1);
+    box-shadow: 0 2px 12px rgba(15, 11, 19, 0.08);
 }
 
 .dayCard:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(124, 61, 50, 0.15);
+    box-shadow: 0 8px 24px rgba(15, 11, 19, 0.12);
 }
 
 .dayCard.selected {
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
 }
 
 .dayCard.today {
-    background: linear-gradient(135deg, #AD655A, #D49C8C);
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
     color: white;
 }
 
 .dayCard.selected.today {
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
 .dayName {
@@ -308,7 +256,7 @@
 }
 
 .dayNumber {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
 }
 
@@ -319,7 +267,7 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #FF6B6B;
+    background: #ff4757;
     color: white;
     font-size: 10px;
     font-weight: 700;
@@ -328,26 +276,23 @@
     justify-content: center;
 }
 
-/* Tasks Section */
 .tasksSection {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border-radius: 25px;
-    padding: 20px;
-    box-shadow: 0 8px 32px rgba(124, 61, 50, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--card-bg);
+    border-radius: var(--border-radius-large);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--card-border);
 }
 
 .taskCount {
-    background: linear-gradient(135deg, #7C3D32, #AD655A);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 12px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
-/* Hide scrollbar but keep functionality */
 .calendarContainer::-webkit-scrollbar {
     display: none;
 }
@@ -357,23 +302,23 @@
     scrollbar-width: none;
 }
 
-/* Responsive Design */
 @media (max-width: 480px) {
     .container {
-        padding: 15px;
+        padding: 20px;
     }
 
     .statsGrid {
         grid-template-columns: 1fr;
+        gap: 12px;
     }
 
     .quickActions {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 12px;
     }
 
     .dayCard {
-        width: 60px;
-        height: 80px;
+        width: 56px;
+        height: 72px;
     }
 }

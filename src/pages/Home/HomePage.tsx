@@ -6,15 +6,13 @@ import { TaskList } from "../../components/TaskList/TaskList";
 import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import {
   FaPlus,
-  FaQrcode,
-  FaShare,
-  FaFire,
-  FaStar,
+  FaSearch,
+  FaBell,
   FaCalendarAlt,
-  FaClock,
-  FaWallet,
+  FaStar,
+  FaChartLine,
 } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdTaskAlt } from "react-icons/md";
 import styles from "./HomePage.module.css";
 
 export const HomePage = () => {
@@ -28,6 +26,7 @@ export const HomePage = () => {
   const todayDateString = today.toISOString().split("T")[0];
 
   const formattedDate = today.toLocaleDateString("en-US", {
+    weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -99,24 +98,28 @@ export const HomePage = () => {
   const completionRate =
     totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
+  const highPriorityTasks = tasks.filter(
+    (task) => task.priority === "high" && !task.completed
+  ).length;
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.userInfo}>
           <div className={styles.avatar}>
-            <img src="/api/placeholder/40/40" alt="User" />
+            <div className={styles.avatarInitial}>D</div>
           </div>
           <div className={styles.userDetails}>
-            <h2>Welcome back!</h2>
-            <p>{formattedDate}</p>
+            <p className={styles.greeting}>Good morning</p>
+            <h1>David</h1>
           </div>
         </div>
         <div className={styles.headerActions}>
           <button className={styles.iconButton}>
-            <FaQrcode size={20} />
+            <FaSearch size={18} />
           </button>
           <button className={styles.iconButton}>
-            <FaShare size={18} />
+            <FaBell size={18} />
           </button>
         </div>
       </div>
@@ -124,7 +127,7 @@ export const HomePage = () => {
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
-            <MdDashboard size={24} />
+            <MdTaskAlt size={24} />
           </div>
           <div className={styles.statContent}>
             <span className={styles.statNumber}>{totalTasks}</span>
@@ -134,25 +137,22 @@ export const HomePage = () => {
 
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
-            <FaFire size={24} />
+            <FaChartLine size={24} />
           </div>
           <div className={styles.statContent}>
-            <span className={styles.statNumber}>{completedTasks}</span>
-            <span className={styles.statLabel}>Completed</span>
+            <span className={styles.statNumber}>{completionRate}%</span>
+            <span className={styles.statLabel}>Progress</span>
           </div>
         </div>
-      </div>
 
-      <div className={styles.progressSection}>
-        <div className={styles.progressHeader}>
-          <span>Your Progress</span>
-          <span>{completionRate}%</span>
-        </div>
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progressFill}
-            style={{ width: `${completionRate}%` }}
-          />
+        <div className={styles.statCard}>
+          <div className={styles.statIcon}>
+            <FaStar size={24} />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statNumber}>{highPriorityTasks}</span>
+            <span className={styles.statLabel}>Priority</span>
+          </div>
         </div>
       </div>
 
@@ -183,16 +183,16 @@ export const HomePage = () => {
 
         <button className={styles.quickAction}>
           <div className={styles.actionIcon}>
-            <FaQrcode size={20} />
+            <MdDashboard size={20} />
           </div>
-          <span>Scan QR</span>
+          <span>Projects</span>
         </button>
       </div>
 
       <div className={styles.calendarSection}>
         <div className={styles.sectionHeader}>
           <h3>This Week</h3>
-          <button className={styles.viewAll}>View All</button>
+          <span className={styles.dateDisplay}>{formattedDate}</span>
         </div>
 
         <div className={styles.calendarContainer}>

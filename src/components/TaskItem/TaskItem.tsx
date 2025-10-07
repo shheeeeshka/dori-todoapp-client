@@ -74,7 +74,7 @@ export const TaskItem = ({
       </div>
       {task.priority === "high" && (
         <span className={styles.priorityIndicator}>
-          <Icon variant="flag" size={16} color="#ff4d4f" />
+          <Icon variant="flag" size={16} color="#ff4757" />
         </span>
       )}
     </li>
