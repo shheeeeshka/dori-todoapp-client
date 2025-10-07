@@ -3,6 +3,7 @@ import styles from "./AddCategoryForm.module.css";
 
 type AddCategoryFormProps = {
   onSubmit: (categoryName: string) => void;
+  onCancel: () => void;
 };
 
 export const AddCategoryForm = ({ onSubmit }: AddCategoryFormProps) => {

@@ -8,7 +8,6 @@ import {
   FaChevronUp,
   FaComment,
   FaQrcode,
-  FaShare,
   FaUsers,
   FaClock,
   FaPaperPlane,
@@ -48,7 +47,7 @@ export const SharedTasksPage = () => {
   const [newComment, setNewComment] = useState("");
   const [activeTask, setActiveTask] = useState<string | null>(null);
   const [showQR, setShowQR] = useState(false);
-  const [joiningCode, setJoiningCode] = useState("TEAM-789-XYZ");
+  const [joiningCode, _] = useState("TEAM-789-XYZ");
 
   const sharedTasks: SharedTask[] = [
     {
@@ -131,7 +130,7 @@ export const SharedTasksPage = () => {
     },
   ];
 
-  const handleAddComment = (taskId: string) => {
+  const handleAddComment = () => {
     if (!newComment.trim()) return;
     setNewComment("");
   };
@@ -333,7 +332,7 @@ export const SharedTasksPage = () => {
                       className={styles.commentInput}
                     />
                     <button
-                      onClick={() => handleAddComment(task._id)}
+                      onClick={() => handleAddComment()}
                       className={styles.commentButton}
                       disabled={!newComment.trim()}
                     >
