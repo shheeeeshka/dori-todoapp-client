@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useTasks } from "../../context/TaskContext";
-import { PrioritySelector } from "../PrioritySelector/PrioritySelector";
-import { Icon } from "../Icon/Icon";
+import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
 import styles from "./AddTaskForm.module.css";
 
 type AddTaskFormProps = {
@@ -13,11 +12,11 @@ export const AddTaskForm = ({
   defaultCategory,
   onSubmit,
 }: AddTaskFormProps) => {
-  const { addTask } = useTasks();
+  const { addTask, categories } = useTasks();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    dueDate: "",
+    dueDate: new Date().toISOString().split("T")[0],
     dueTime: "",
     category: defaultCategory || "General",
     priority: "medium" as "low" | "medium" | "high",
@@ -60,9 +59,8 @@ export const AddTaskForm = ({
           name="title"
           value={formData.title}
           onChange={handleInputChange}
-          placeholder="Task title"
+          placeholder="Task Planner Mobile Apps"
           required
-          //   autoFocus
           className={styles.titleInput}
         />
       </div>
@@ -72,7 +70,7 @@ export const AddTaskForm = ({
           name="description"
           value={formData.description}
           onChange={handleInputChange}
-          placeholder="Description (optional)"
+          placeholder="Add task description..."
           rows={3}
           className={styles.descriptionInput}
         />
@@ -80,52 +78,92 @@ export const AddTaskForm = ({
 
       <div className={styles.formRow}>
         <div className={styles.formGroup}>
-          <label className={styles.dateLabel}>
-            <Icon variant="calendar" size={18} />
-            <span>Due Date</span>
-            <div className={styles.dateInputContainer}>
-              <input
-                type="date"
-                name="dueDate"
-                value={formData.dueDate}
-                onChange={handleInputChange}
-                min={new Date().toISOString().split("T")[0]}
-                className={styles.dateInput}
-              />
-              <Icon
-                variant="chevron-down"
-                size={16}
-                className={styles.datePickerIcon}
-              />
-            </div>
+          <label className={styles.label}>
+            <FaCalendar className={styles.labelIcon} />
+            Due date
           </label>
+          <input
+            type="date"
+            name="dueDate"
+            value={formData.dueDate}
+            onChange={handleInputChange}
+            className={styles.dateInput}
+          />
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.timeLabel}>
-            <Icon variant="clock" size={18} />
-            <span>Time (optional)</span>
-            <input
-              type="time"
-              name="dueTime"
-              value={formData.dueTime}
-              onChange={handleInputChange}
-              className={styles.timeInput}
-            />
+          <label className={styles.label}>
+            <FaClock className={styles.labelIcon} />
+            Time
           </label>
+          <input
+            type="time"
+            name="dueTime"
+            value={formData.dueTime}
+            onChange={handleInputChange}
+            className={styles.timeInput}
+          />
         </div>
       </div>
 
-      <div className={styles.prioritySection}>
-        <span>Priority</span>
-        <PrioritySelector
-          selected={formData.priority}
-          onChange={handlePriorityChange}
-        />
+      <div className={styles.formGroup}>
+        <label className={styles.label}>
+          <FaTag className={styles.labelIcon} />
+          Workspace
+        </label>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleInputChange}
+          className={styles.selectInput}
+        >
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div>
 
-      <button type="submit" className={styles.submitButton}>
-        Add Task
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Priority</label>
+        <div className={styles.priorityButtons}>
+          <button
+            type="button"
+            className={`${styles.priorityButton} ${
+              formData.priority === "low" ? styles.prioritySelected : ""
+            }`}
+            onClick={() => handlePriorityChange("low")}
+          >
+            Low
+          </button>
+          <button
+            type="button"
+            className={`${styles.priorityButton} ${
+              formData.priority === "medium" ? styles.prioritySelected : ""
+            }`}
+            onClick={() => handlePriorityChange("medium")}
+          >
+            Medium
+          </button>
+          <button
+            type="button"
+            className={`${styles.priorityButton} ${
+              formData.priority === "high" ? styles.prioritySelected : ""
+            }`}
+            onClick={() => handlePriorityChange("high")}
+          >
+            High
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className={styles.submitButton}
+        disabled={!formData.title.trim()}
+      >
+        Create
       </button>
     </form>
   );

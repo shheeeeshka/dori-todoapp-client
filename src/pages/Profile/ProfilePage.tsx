@@ -1,9 +1,17 @@
 import { useTelegram } from "../../hooks/useTelegram";
-import { Icon } from "../../components/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import { handleShare } from "../../utils/utils";
 import { useTasks } from "../../context/TaskContext";
 import { useEffect, useState } from "react";
+import {
+  FaShare,
+  FaCog,
+  FaBars,
+  FaList,
+  FaCheck,
+  FaClock,
+  FaFlag,
+} from "react-icons/fa";
 import styles from "./ProfilePage.module.css";
 
 export const ProfilePage = () => {
@@ -17,9 +25,9 @@ export const ProfilePage = () => {
     highPriority: 0,
     overdue: 0,
   });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Calculate real stats from tasks
     const now = new Date();
     const calculatedStats = {
       total: tasks.length,
@@ -33,8 +41,7 @@ export const ProfilePage = () => {
       ).length,
     };
 
-    // Animate stats counting up
-    const duration = 1000; // animation duration in ms
+    const duration = 1000;
     const startTime = Date.now();
 
     const animateStats = () => {
@@ -74,15 +81,23 @@ export const ProfilePage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.actions}>
-        <button className={styles.actionButton} onClick={handleShare}>
-          <Icon variant="share" size={28} />
-        </button>
         <button
-          className={styles.actionButton}
-          onClick={() => navigate("/settings")}
+          className={styles.menuButton}
+          onClick={() => setIsMenuOpen(true)}
         >
-          <Icon variant="settings" size={28} />
+          <FaBars size={20} />
         </button>
+        <div className={styles.actionButtons}>
+          <button className={styles.actionButton} onClick={handleShare}>
+            <FaShare size={20} />
+          </button>
+          <button
+            className={styles.actionButton}
+            onClick={() => navigate("/settings")}
+          >
+            <FaCog size={20} />
+          </button>
+        </div>
       </div>
 
       <div className={styles.pageContent}>
@@ -95,7 +110,9 @@ export const ProfilePage = () => {
                 className={styles.avatarImage}
               />
             ) : (
-              <Icon variant="user" size={48} color="var(--primary-color)" />
+              <div className={styles.avatarPlaceholder}>
+                {tgUser?.first_name?.[0] || "U"}
+              </div>
             )}
           </div>
           <div className={styles.userInfo}>
@@ -110,7 +127,7 @@ export const ProfilePage = () => {
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <Icon variant="list" size={24} />
+              <FaList size={20} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.total}</span>
@@ -120,7 +137,7 @@ export const ProfilePage = () => {
 
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <Icon variant="check" size={24} />
+              <FaCheck size={20} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.completed}</span>
@@ -130,7 +147,7 @@ export const ProfilePage = () => {
 
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <Icon variant="clock" size={24} />
+              <FaClock size={20} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.active}</span>
@@ -140,7 +157,7 @@ export const ProfilePage = () => {
 
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <Icon variant="flag" size={24} />
+              <FaFlag size={20} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.highPriority}</span>
@@ -170,9 +187,9 @@ export const ProfilePage = () => {
               <div key={task.id} className={styles.activityItem}>
                 <div className={styles.activityIcon}>
                   {task.completed ? (
-                    <Icon variant="check" size={16} color="#4CAF50" />
+                    <FaCheck size={16} color="#4CAF50" />
                   ) : (
-                    <Icon variant="clock" size={16} color="#FF9800" />
+                    <FaClock size={16} color="#FF9800" />
                   )}
                 </div>
                 <div className={styles.activityContent}>
@@ -187,6 +204,33 @@ export const ProfilePage = () => {
           </div>
         </div>
       </div>
+
+      {isMenuOpen && (
+        <div className={styles.menuOverlay}>
+          <div className={styles.menuContent}>
+            <button
+              className={styles.closeMenu}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              ×
+            </button>
+            <nav className={styles.menuNav}>
+              <a href="/" className={styles.menuItem}>
+                Home
+              </a>
+              <a href="/tasks" className={styles.menuItem}>
+                Tasks
+              </a>
+              <a href="/shared" className={styles.menuItem}>
+                Shared
+              </a>
+              <a href="/profile" className={styles.menuItem}>
+                Profile
+              </a>
+            </nav>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

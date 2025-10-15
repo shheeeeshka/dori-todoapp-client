@@ -24,15 +24,6 @@ export const NavBar = () => {
         <span>Tasks</span>
       </NavLink>
       <NavLink
-        to="/add-task"
-        className={({ isActive }) =>
-          `${styles.navItem} ${isActive ? styles.active : ""}`
-        }
-      >
-        <Icon variant="plus-circle" size={24} />
-        <span>Add Task</span>
-      </NavLink>
-      <NavLink
         to="/shared"
         className={({ isActive }) =>
           `${styles.navItem} ${isActive ? styles.active : ""}`

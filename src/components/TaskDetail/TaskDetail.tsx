@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTasks } from "../../context/TaskContext";
-import { Icon } from "../Icon/Icon";
+import {
+  FaCheck,
+  FaFlag,
+  FaCalendar,
+  FaClock,
+  FaTag,
+  FaTrash,
+  FaEdit,
+} from "react-icons/fa";
 import styles from "./TaskDetail.module.css";
 
 type TaskDetailProps = {
@@ -12,7 +20,6 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   const { tasks, updateTask, deleteTask, toggleTaskCompletion } = useTasks();
   const task = tasks.find((t) => t.id === taskId);
 
-  const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({
     title: task?.title || "",
     description: task?.description || "",
@@ -24,6 +31,17 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
 
   const [editingField, setEditingField] = useState<string | null>(null);
   const [showPrioritySelect, setShowPrioritySelect] = useState(false);
+
+  const longPressTimer = useRef<number | null>(null);
+  const LONG_PRESS_DURATION = 500;
+
+  useEffect(() => {
+    return () => {
+      if (longPressTimer.current) {
+        clearTimeout(longPressTimer.current);
+      }
+    };
+  }, []);
 
   if (!task) return null;
 
@@ -41,9 +59,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
       ...editData,
       dueDate: editData.dueDate ? `${editData.dueDate}T00:00:00` : "",
     });
-    setIsEditing(false);
     setEditingField(null);
-    console.log({ editingField });
   };
 
   const handleDelete = () => {
@@ -51,73 +67,123 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     onClose();
   };
 
-  // const handleFieldClick = (field: string) => {
-  //   if (isEditing) {
-  //     setEditingField(field);
-  //   }
-  // };
-
   const handlePrioritySelect = (priority: "low" | "medium" | "high") => {
     setEditData((prev) => ({ ...prev, priority }));
     setShowPrioritySelect(false);
+    handleSave();
   };
 
-  const priorityColors = {
-    high: "#ff4d4f",
-    medium: "#faad14",
-    low: "#52c41a",
+  const handleLongPressStart = (field: string) => {
+    longPressTimer.current = window.setTimeout(() => {
+      setEditingField(field);
+    }, LONG_PRESS_DURATION);
+  };
+
+  const handleLongPressEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
+  const priorityConfig = {
+    high: { color: "#ff4757", label: "High" },
+    medium: { color: "#ffa502", label: "Medium" },
+    low: { color: "#2ed573", label: "Low" },
+  };
+
+  const currentPriority = editingField ? editData.priority : task.priority;
+
+  const renderEditableField = (
+    field: string,
+    value: string,
+    placeholder: string,
+    isTextarea = false
+  ) => {
+    if (editingField === field) {
+      if (isTextarea) {
+        return (
+          <textarea
+            name={field}
+            value={value}
+            onChange={handleInputChange}
+            onBlur={handleSave}
+            className={styles.editInput}
+            placeholder={placeholder}
+            rows={4}
+            autoFocus
+          />
+        );
+      }
+      return (
+        <input
+          name={field}
+          value={value}
+          onChange={handleInputChange}
+          onBlur={handleSave}
+          className={styles.editInput}
+          placeholder={placeholder}
+          autoFocus
+        />
+      );
+    }
+
+    return (
+      <div
+        className={styles.viewField}
+        onTouchStart={() => handleLongPressStart(field)}
+        onTouchEnd={handleLongPressEnd}
+        onMouseDown={() => handleLongPressStart(field)}
+        onMouseUp={handleLongPressEnd}
+        onMouseLeave={handleLongPressEnd}
+      >
+        {value || <span className={styles.placeholder}>{placeholder}</span>}
+        <FaEdit className={styles.editIcon} size={14} />
+      </div>
+    );
   };
 
   return (
     <div className={styles.container}>
+      {/* Header */}
       <div className={styles.header}>
-        <div className={styles.taskStatus}>
+        <div className={styles.statusSection}>
           <button
             className={`${styles.checkbox} ${
               task.completed ? styles.completed : ""
             }`}
             onClick={() => toggleTaskCompletion(task.id)}
           >
-            {task.completed && <Icon variant="check" color="#fff" size={26} />}
+            {task.completed && <FaCheck size={14} />}
           </button>
-          <span className={styles.statusText}>
-            {task.completed ? "Completed" : "Active"}
-          </span>
+          <div className={styles.statusInfo}>
+            <span className={styles.statusLabel}>Status</span>
+            <span className={styles.statusText}>
+              {task.completed ? "Completed" : "In Progress"}
+            </span>
+          </div>
         </div>
 
-        <div className={styles.taskPriority}>
+        <div className={styles.prioritySection}>
+          <div className={styles.priorityLabel}>Priority</div>
           <button
             className={styles.priorityButton}
-            onClick={() =>
-              isEditing && setShowPrioritySelect(!showPrioritySelect)
-            }
+            onClick={() => setShowPrioritySelect(!showPrioritySelect)}
           >
-            <Icon
-              variant="flag"
-              size={16}
-              color={
-                isEditing
-                  ? priorityColors[editData.priority]
-                  : priorityColors[task.priority]
-              }
-            />
-            {isEditing ? editData.priority : task.priority} priority
+            <FaFlag color={priorityConfig[currentPriority].color} size={16} />
+            <span>{priorityConfig[currentPriority].label}</span>
           </button>
 
-          {isEditing && showPrioritySelect && (
-            <div className={styles.prioritySelect}>
+          {showPrioritySelect && (
+            <div className={styles.priorityDropdown}>
               {(["high", "medium", "low"] as const).map((priority) => (
                 <button
                   key={priority}
                   className={styles.priorityOption}
                   onClick={() => handlePrioritySelect(priority)}
                 >
-                  <Icon
-                    variant="flag"
-                    size={16}
-                    color={priorityColors[priority]}
-                  />
-                  {priority} priority
+                  <FaFlag color={priorityConfig[priority].color} size={14} />
+                  <span>{priorityConfig[priority].label}</span>
                 </button>
               ))}
             </div>
@@ -125,131 +191,133 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
         </div>
       </div>
 
-      {isEditing ? (
-        <>
-          <div className={styles.editField}>
-            <input
-              type="text"
-              name="title"
-              value={editData.title}
-              onChange={handleInputChange}
-              className={`${styles.editInput} ${styles.taskTitle}`}
-              placeholder="Task title"
-            />
-          </div>
+      {/* Content */}
+      <div className={styles.content}>
+        {/* Title */}
+        <div className={styles.field}>
+          <label className={styles.fieldLabel}>Title</label>
+          {renderEditableField("title", editData.title, "Enter task title")}
+        </div>
 
-          <div className={styles.editField}>
-            <textarea
-              name="description"
-              value={editData.description}
-              onChange={handleInputChange}
-              className={`${styles.editInput} ${styles.taskDescription}`}
-              placeholder="Add description..."
-              rows={3}
-            />
-          </div>
+        {/* Description */}
+        <div className={styles.field}>
+          <label className={styles.fieldLabel}>Description</label>
+          {renderEditableField(
+            "description",
+            editData.description,
+            "Add a description...",
+            true
+          )}
+        </div>
 
-          <div className={styles.taskMeta}>
-            <div className={styles.metaItem}>
-              <Icon variant="calendar" size={16} />
+        {/* Details Grid */}
+        <div className={styles.detailsGrid}>
+          <div className={styles.detailItem}>
+            <div className={styles.detailHeader}>
+              <FaCalendar className={styles.detailIcon} />
+              <span className={styles.detailLabel}>Due Date</span>
+            </div>
+            {editingField === "dueDate" ? (
               <input
                 type="date"
                 name="dueDate"
                 value={editData.dueDate}
                 onChange={handleInputChange}
+                onBlur={handleSave}
                 className={styles.editInput}
+                autoFocus
               />
-            </div>
+            ) : (
+              <div
+                className={styles.viewField}
+                onTouchStart={() => handleLongPressStart("dueDate")}
+                onTouchEnd={handleLongPressEnd}
+              >
+                {editData.dueDate ? (
+                  new Date(editData.dueDate).toLocaleDateString("en-US", {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                  })
+                ) : (
+                  <span className={styles.placeholder}>Set date</span>
+                )}
+                <FaEdit className={styles.editIcon} size={12} />
+              </div>
+            )}
+          </div>
 
-            <div className={styles.metaItem}>
-              <Icon variant="clock" size={16} />
+          <div className={styles.detailItem}>
+            <div className={styles.detailHeader}>
+              <FaClock className={styles.detailIcon} />
+              <span className={styles.detailLabel}>Time</span>
+            </div>
+            {editingField === "dueTime" ? (
               <input
                 type="time"
                 name="dueTime"
                 value={editData.dueTime || ""}
                 onChange={handleInputChange}
+                onBlur={handleSave}
                 className={styles.editInput}
+                autoFocus
               />
-            </div>
+            ) : (
+              <div
+                className={styles.viewField}
+                onTouchStart={() => handleLongPressStart("dueTime")}
+                onTouchEnd={handleLongPressEnd}
+              >
+                {editData.dueTime || (
+                  <span className={styles.placeholder}>Set time</span>
+                )}
+                <FaEdit className={styles.editIcon} size={12} />
+              </div>
+            )}
+          </div>
 
-            <div className={styles.metaItem}>
-              <Icon variant="tag" size={16} />
+          <div className={styles.detailItem}>
+            <div className={styles.detailHeader}>
+              <FaTag className={styles.detailIcon} />
+              <span className={styles.detailLabel}>Category</span>
+            </div>
+            {editingField === "category" ? (
               <select
                 name="category"
                 value={editData.category}
                 onChange={handleInputChange}
+                onBlur={handleSave}
                 className={styles.editInput}
+                autoFocus
               >
                 <option value="General">General</option>
                 <option value="Work">Work</option>
                 <option value="Personal">Personal</option>
                 <option value="Shopping">Shopping</option>
+                <option value="Development">Development</option>
+                <option value="Design">Design</option>
               </select>
-            </div>
-          </div>
-
-          <div className={styles.actions}>
-            <button
-              onClick={() => setIsEditing(false)}
-              className={styles.secondaryButton}
-            >
-              Cancel
-            </button>
-            <button onClick={handleSave} className={styles.primaryButton}>
-              Save Changes
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <h2 className={styles.taskTitle}>{task.title}</h2>
-
-          {task.description && (
-            <p className={styles.taskDescription}>{task.description}</p>
-          )}
-
-          <div className={styles.taskMeta}>
-            <div className={styles.metaItem}>
-              <Icon variant="calendar" size={16} />
-              <span>
-                {task.dueDate
-                  ? new Date(task.dueDate).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      month: "long",
-                      day: "numeric",
-                    })
-                  : "No due date"}
-              </span>
-            </div>
-
-            {task.dueTime && (
-              <div className={styles.metaItem}>
-                <Icon variant="clock" size={16} />
-                <span>{task.dueTime}</span>
+            ) : (
+              <div
+                className={styles.viewField}
+                onTouchStart={() => handleLongPressStart("category")}
+                onTouchEnd={handleLongPressEnd}
+              >
+                {editData.category}
+                <FaEdit className={styles.editIcon} size={12} />
               </div>
             )}
-
-            <div className={styles.metaItem}>
-              <Icon variant="tag" size={16} />
-              <span>{task.category}</span>
-            </div>
           </div>
+        </div>
+      </div>
 
-          <div className={styles.actions}>
-            <button
-              onClick={() => setIsEditing(true)}
-              className={styles.secondaryButton}
-            >
-              <Icon variant="edit" size={16} />
-              Edit Task
-            </button>
-            <button onClick={handleDelete} className={styles.dangerButton}>
-              <Icon variant="delete" size={16} />
-              Delete Task
-            </button>
-          </div>
-        </>
-      )}
+      {/* Actions */}
+      <div className={styles.actions}>
+        <button onClick={handleDelete} className={styles.deleteButton}>
+          <FaTrash size={16} />
+          Delete Task
+        </button>
+      </div>
     </div>
   );
 };

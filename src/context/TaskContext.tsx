@@ -40,10 +40,10 @@ const getInitialDemoTasks = (): Task[] => {
   return [
     {
       id: "1",
-      title: "Complete project presentation",
-      description: "Prepare slides and practice speech",
-      dueDate: tomorrow.toISOString(),
-      dueTime: "15:30",
+      title: "Meeting with UNGLO",
+      description: "Discuss project requirements and timeline",
+      dueDate: now.toISOString(),
+      dueTime: "14:00",
       completed: false,
       category: "Work",
       priority: "high",
@@ -52,20 +52,58 @@ const getInitialDemoTasks = (): Task[] => {
     },
     {
       id: "2",
-      title: "Buy groceries",
-      description: "Milk, eggs, bread, fruits",
+      title: "Design Review",
+      description: "Review mobile app design with team",
       dueDate: now.toISOString(),
-      completed: true,
-      category: "Shopping",
+      dueTime: "16:30",
+      completed: false,
+      category: "Design",
       priority: "medium",
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     },
     {
       id: "3",
-      title: "Morning workout",
-      description: "30 minutes of cardio",
+      title: "Daily Standup",
+      description: "Team daily standup meeting",
       dueDate: now.toISOString(),
+      dueTime: "10:00",
+      completed: true,
+      category: "Work",
+      priority: "medium",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "4",
+      title: "Client Presentation",
+      description: "Present final deliverables to client",
+      dueDate: tomorrow.toISOString(),
+      dueTime: "11:00",
+      completed: false,
+      category: "Work",
+      priority: "high",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "5",
+      title: "Code Review",
+      description: "Review pull requests and provide feedback",
+      dueDate: now.toISOString(),
+      dueTime: "15:00",
+      completed: false,
+      category: "Development",
+      priority: "medium",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+    {
+      id: "6",
+      title: "Team Lunch",
+      description: "Monthly team building lunch",
+      dueDate: now.toISOString(),
+      dueTime: "13:00",
       completed: false,
       category: "Personal",
       priority: "low",
@@ -73,24 +111,25 @@ const getInitialDemoTasks = (): Task[] => {
       updatedAt: now.toISOString(),
     },
     {
-      id: "4",
-      title: "Plan weekend trip",
-      description: "Research destinations and book hotels",
+      id: "7",
+      title: "Project Planning",
+      description: "Plan next sprint and assign tasks",
       dueDate: nextWeek.toISOString(),
+      dueTime: "09:00",
       completed: false,
-      category: "Personal",
-      priority: "medium",
+      category: "Work",
+      priority: "high",
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     },
     {
-      id: "5",
-      title: "Call mom",
-      description: "Wish happy birthday",
+      id: "8",
+      title: "Documentation Update",
+      description: "Update project documentation",
       dueDate: now.toISOString(),
       completed: false,
-      category: "Personal",
-      priority: "high",
+      category: "Documentation",
+      priority: "low",
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     },
@@ -107,7 +146,14 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     const savedCategories = localStorage.getItem("categories");
     return savedCategories
       ? JSON.parse(savedCategories)
-      : ["General", "Work", "Personal", "Shopping"];
+      : [
+          "Work",
+          "Design",
+          "Development",
+          "Personal",
+          "Documentation",
+          "General",
+        ];
   });
 
   useEffect(() => {
@@ -166,7 +212,6 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deleteCategory = (category: string) => {
-    // Move tasks from deleted category to 'General'
     setTasks(
       tasks.map((task) =>
         task.category === category ? { ...task, category: "General" } : task

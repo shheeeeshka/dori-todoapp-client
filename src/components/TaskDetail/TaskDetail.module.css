@@ -1,195 +1,297 @@
 .container {
-    padding: 16px;
-    color: var(--text-color);
-    padding-bottom: 80px;
+  padding: 0;
+  background: var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Header */
 .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 20px 20px;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
 }
 
-.taskStatus {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.statusSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .checkbox {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    border: 2px solid var(--primary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background-color: transparent;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .checkbox.completed {
-    background-color: var(--primary-color);
+  background: var(--primary-color);
+}
+
+.checkbox:active {
+  transform: scale(0.95);
+}
+
+.statusInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statusLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .statusText {
-    font-size: 14px;
-    color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
 }
 
-.taskPriority {
-    position: relative;
+.prioritySection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.priorityLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .priorityButton {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    background: none;
-    border: none;
-    color: var(--text-color);
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--secondary-color);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.priorityButton:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+.priorityButton:active {
+  background: var(--card-hover);
+  transform: scale(0.98);
 }
 
-.prioritySelect {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius-small);
-    box-shadow: var(--shadow);
-    padding: 8px;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 150px;
+.priorityDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
 }
 
 .priorityOption {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.priorityOption:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+.priorityOption:active {
+  background: var(--card-hover);
 }
 
-.taskTitle {
-    font-size: 22px;
-    margin: 0 0 16px 0;
-    font-weight: 600;
+/* Content */
+.content {
+  flex: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.taskDescription {
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-    white-space: pre-wrap;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.taskMeta {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.metaItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
+/* View Fields */
+.viewField {
+  position: relative;
+  padding: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--text-color);
+  line-height: 1.4;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.editField {
-    margin-bottom: 16px;
+.viewField:active {
+  background: var(--card-hover);
+  border-color: var(--primary-color);
+  transform: scale(0.99);
 }
 
+.placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.editIcon {
+  color: var(--text-secondary);
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.viewField:active .editIcon {
+  opacity: 1;
+}
+
+/* Edit Inputs */
 .editInput {
-    width: 100%;
-    background: transparent;
-    border: none;
-    color: var(--text-color);
-    font-family: inherit;
-    padding: 0;
-    margin: 0;
+  width: 100%;
+  padding: 16px;
+  background: var(--card-bg);
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--text-color);
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
 }
 
 .editInput:focus {
-    outline: none;
+  background: var(--card-hover);
 }
 
-.editInput.taskTitle {
-    font-size: 22px;
-    font-weight: 600;
+textarea.editInput {
+  resize: none;
+  line-height: 1.5;
+  min-height: 120px;
 }
 
-.editInput.taskDescription {
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--text-secondary);
-    resize: none;
+select.editInput {
+  cursor: pointer;
 }
 
+/* Details Grid */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detailIcon {
+  color: var(--text-secondary);
+}
+
+.detailLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Actions */
 .actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
+  padding: 20px;
+  background: var(--card-bg);
+  border-top: 1px solid var(--card-border);
 }
 
-.primaryButton,
-.secondaryButton,
-.dangerButton {
-    flex: 1;
-    padding: 12px;
-    border-radius: var(--border-radius-small);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: var(--transition);
-    border: 1px solid transparent;
+.deleteButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: transparent;
+  border: 1px solid #ff4757;
+  border-radius: 12px;
+  color: #ff4757;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.primaryButton {
-    background-color: var(--primary-color);
-    color: white;
+.deleteButton:active {
+  background: rgba(255, 71, 87, 0.1);
+  transform: scale(0.98);
 }
 
-.primaryButton:hover {
-    opacity: 0.9;
-}
-
-.secondaryButton {
-    background-color: var(--card-bg);
-    border-color: var(--divider-color);
-    color: var(--text-color);
-}
-
-.dangerButton {
-    background-color: #fff1f0;
-    border-color: #ffccc7;
-    color: #ff4d4f;
-}
-
-.dangerButton:hover {
-    background-color: #ffccc7;
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .container {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .viewField {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .priorityButton,
+  .deleteButton {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
 }

@@ -1,17 +1,35 @@
 .taskList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .emptyState {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
+    justify-content: center;
+    padding: 48px 24px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--card-border);
+    text-align: center;
+}
+
+.emptyIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+}
+
+.emptyState p {
+    margin: 0;
     color: var(--text-secondary);
     font-size: 16px;
     font-weight: 500;

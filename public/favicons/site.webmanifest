@@ -3,17 +3,17 @@
   "short_name": "Dori To Dori",
   "icons": [
     {
-      "src": "/favicon_io/android-chrome-192x192.png",
+      "src": "/favicons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/favicon_io/android-chrome-512x512.png",
+      "src": "/favicons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "theme_color": "#3168e8",
-  "background_color": "#f8fafc",
+  "theme_color": "#0d0d11",
+  "background_color": "#0d0d11",
   "display": "standalone"
 }

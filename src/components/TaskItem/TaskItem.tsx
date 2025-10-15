@@ -1,5 +1,5 @@
 import { useTasks } from "../../context/TaskContext";
-import { Icon } from "../Icon/Icon";
+import { FaCheck, FaClock, FaCircle } from "react-icons/fa";
 import styles from "./TaskItem.module.css";
 
 type Task = ReturnType<typeof useTasks>["tasks"][number];
@@ -8,12 +8,14 @@ type TaskItemProps = {
   task: Task;
   onClick: () => void;
   onToggleCompletion?: () => void;
+  highlighted?: boolean;
 };
 
 export const TaskItem = ({
   task,
   onClick,
   onToggleCompletion,
+  highlighted = false,
 }: TaskItemProps) => {
   const formatTime = (timeString?: string) => {
     if (!timeString) return "";
@@ -27,56 +29,47 @@ export const TaskItem = ({
   };
 
   return (
-    <li className={styles.taskItem} onClick={onClick}>
+    <div
+      className={`${styles.taskItem} ${highlighted ? styles.highlighted : ""}`}
+      onClick={onClick}
+    >
       <button
         className={`${styles.checkbox} ${
           task.completed ? styles.completed : ""
-        }`}
+        } ${highlighted ? styles.highlightedCheckbox : ""}`}
         onClick={handleToggle}
       >
-        {task.completed && (
-          <Icon variant="check" size={16} color="var(--primary-color)" />
-        )}
+        {task.completed && <FaCheck size={14} className={styles.checkIcon} />}
       </button>
       <div className={styles.taskContent}>
-        <h3
-          className={`${styles.taskTitle} ${
-            task.completed ? styles.completedTitle : ""
-          }`}
-        >
-          {task.title}
-        </h3>
-        <div className={styles.taskMeta}>
-          {task.dueDate && (
-            <div className={styles.dateTimeWrapper}>
-              <span className={styles.taskDate}>
-                <Icon variant="calendar" size={14} />
-                {new Date(task.dueDate).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
-              {task.dueTime && (
-                <span className={styles.taskTime}>
-                  <Icon variant="clock" size={14} />
-                  {formatTime(task.dueTime)}
-                </span>
-              )}
-            </div>
+        <div className={styles.taskHeader}>
+          <h3
+            className={`${styles.taskTitle} ${
+              task.completed ? styles.completedTitle : ""
+            }`}
+          >
+            {task.title}
+          </h3>
+          {task.priority === "high" && !highlighted && (
+            <span className={styles.priorityBadge}>High</span>
           )}
-          {task.category && (
-            <span className={styles.taskCategory}>
-              <Icon variant="tag" size={14} />
-              {task.category}
+        </div>
+        {task.description && (
+          <p className={styles.taskDescription}>{task.description}</p>
+        )}
+        <div className={styles.taskMeta}>
+          <span className={styles.taskCategory}>
+            <FaCircle size={8} className={styles.categoryDot} />
+            {task.category}
+          </span>
+          {task.dueTime && (
+            <span className={styles.taskTime}>
+              <FaClock size={12} />
+              {formatTime(task.dueTime)}
             </span>
           )}
         </div>
       </div>
-      {task.priority === "high" && (
-        <span className={styles.priorityIndicator}>
-          <Icon variant="flag" size={16} color="#ff4757" />
-        </span>
-      )}
-    </li>
+    </div>
   );
 };

@@ -6,7 +6,7 @@ import { TaskList } from "../../components/TaskList/TaskList";
 import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
 import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
-import { FaPlus, FaFilter, FaSearch } from "react-icons/fa";
+import { FaPlus, FaFilter, FaSearch, FaBars } from "react-icons/fa";
 import styles from "./TasksPage.module.css";
 
 type TaskTab = "All" | "active" | "completed";
@@ -19,6 +19,7 @@ export const TasksPage = () => {
   const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks.filter((task) => {
@@ -73,6 +74,12 @@ export const TasksPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <button
+          className={styles.menuButton}
+          onClick={() => setIsMenuOpen(true)}
+        >
+          <FaBars size={20} />
+        </button>
         <div className={styles.headerContent}>
           <h1>Tasks</h1>
           <div className={styles.headerActions}>
@@ -198,6 +205,33 @@ export const TasksPage = () => {
             onCancel={handleCategorySheetClose}
           />
         </BottomSheet>
+      )}
+
+      {isMenuOpen && (
+        <div className={styles.menuOverlay}>
+          <div className={styles.menuContent}>
+            <button
+              className={styles.closeMenu}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              ×
+            </button>
+            <nav className={styles.menuNav}>
+              <a href="/" className={styles.menuItem}>
+                Home
+              </a>
+              <a href="/tasks" className={styles.menuItem}>
+                Tasks
+              </a>
+              <a href="/shared" className={styles.menuItem}>
+                Shared
+              </a>
+              <a href="/profile" className={styles.menuItem}>
+                Profile
+              </a>
+            </nav>
+          </div>
+        </div>
       )}
     </div>
   );

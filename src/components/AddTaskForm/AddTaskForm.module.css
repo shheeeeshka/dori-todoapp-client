@@ -3,8 +3,6 @@
     flex-direction: column;
     gap: 20px;
     padding: 0 8px;
-    overflow-y: auto;
-    z-index: 1000;
 }
 
 .formGroup {
@@ -13,148 +11,125 @@
     gap: 8px;
 }
 
+.label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.labelIcon {
+    width: 16px;
+    height: 16px;
+    color: var(--text-secondary);
+}
+
 .titleInput {
     padding: 16px;
-    border-radius: var(--border-radius);
-    border: none;
-    background-color: var(--card-bg);
-    font-size: 17px;
-    font-weight: 500;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--border);
+    background: var(--secondary-color);
+    font-size: 16px;
     color: var(--text-color);
-    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.titleInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 .descriptionInput {
     padding: 16px;
-    border-radius: var(--border-radius);
-    border: none;
-    background-color: var(--card-bg);
-    font-size: 15px;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--border);
+    background: var(--secondary-color);
+    font-size: 14px;
     color: var(--text-color);
     resize: none;
-    box-shadow: var(--shadow);
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.descriptionInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 .formRow {
-    display: flex;
-    gap: 12px;
-}
-
-.formRow .formGroup {
-    flex: 1;
-}
-
-.formRow label {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-.formRow label span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
 }
 
 .dateInput,
+.timeInput,
 .selectInput {
     padding: 12px 16px;
-    border-radius: var(--border-radius);
-    border: none;
-    background-color: var(--card-bg);
-    font-size: 15px;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--border);
+    background: var(--secondary-color);
+    font-size: 14px;
     color: var(--text-color);
-    box-shadow: var(--shadow);
-    width: 100%;
+    transition: var(--transition);
+    font-family: inherit;
 }
 
-.prioritySection {
-    display: flex;
-    flex-direction: column;
+.dateInput:focus,
+.timeInput:focus,
+.selectInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.priorityButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 8px;
 }
 
-.prioritySection span {
-    font-size: 13px;
-    color: var(--text-secondary);
+.priorityButton {
+    padding: 12px 8px;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.priorityButton:hover {
+    background: var(--card-hover);
+}
+
+.prioritySelected {
+    background: var(--primary-color);
+    color: var(--primary-foreground);
+    border-color: var(--primary-color);
 }
 
 .submitButton {
-    margin-top: 16px;
+    margin-top: 8px;
     padding: 16px;
-    border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 17px;
+    border-radius: var(--border-radius-small);
+    background: var(--primary-color);
+    color: var(--primary-foreground);
+    font-size: 16px;
     font-weight: 600;
     border: none;
-    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-/* Добавляем новые стили */
-.dateLabel,
-.timeLabel {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--text-secondary);
+.submitButton:hover:not(:disabled) {
+    background: hsl(18 98% 52%);
 }
 
-.dateLabel span,
-.timeLabel span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.dateInputContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.dateInput {
-    padding: 12px 16px;
-    padding-right: 36px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--divider-color);
-    background-color: var(--card-bg);
-    font-size: 15px;
-    color: var(--text-color);
-    box-shadow: var(--shadow);
-    width: 100%;
-    appearance: none;
-}
-
-.datePickerIcon {
-    position: absolute;
-    right: 12px;
-    pointer-events: none;
-    color: var(--text-secondary);
-}
-
-.timeInput {
-    padding: 12px 16px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--divider-color);
-    background-color: var(--card-bg);
-    font-size: 15px;
-    color: var(--text-color);
-    box-shadow: var(--shadow);
-    width: 120px;
-}
-
-.formRow {
-    display: flex;
-    gap: 20px;
-    /* flex-direction: column; */
-    overflow: hidden;
-    align-items: center;
-}
-
-.formRow .formGroup {
-    flex: 1;
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
