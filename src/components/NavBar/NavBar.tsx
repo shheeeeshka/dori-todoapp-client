@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Icon } from "../Icon/Icon";
+import { FaHome, FaCalendarAlt, FaShareAlt, FaUser } from "react-icons/fa";
 import styles from "./NavBar.module.css";
 
 export const NavBar = () => {
@@ -11,7 +11,7 @@ export const NavBar = () => {
           `${styles.navItem} ${isActive ? styles.active : ""}`
         }
       >
-        <Icon variant="home" size={24} />
+        <FaHome size={20} />
         <span>Home</span>
       </NavLink>
       <NavLink
@@ -20,7 +20,7 @@ export const NavBar = () => {
           `${styles.navItem} ${isActive ? styles.active : ""}`
         }
       >
-        <Icon variant="list" size={24} />
+        <FaCalendarAlt size={20} />
         <span>Tasks</span>
       </NavLink>
       <NavLink
@@ -29,7 +29,7 @@ export const NavBar = () => {
           `${styles.navItem} ${isActive ? styles.active : ""}`
         }
       >
-        <Icon variant="share" size={24} />
+        <FaShareAlt size={20} />
         <span>Shared</span>
       </NavLink>
       <NavLink
@@ -38,7 +38,7 @@ export const NavBar = () => {
           `${styles.navItem} ${isActive ? styles.active : ""}`
         }
       >
-        <Icon variant="user" size={24} />
+        <FaUser size={20} />
         <span>Profile</span>
       </NavLink>
     </nav>

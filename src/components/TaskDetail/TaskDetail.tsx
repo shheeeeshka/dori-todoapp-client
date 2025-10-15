@@ -33,7 +33,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   const [showPrioritySelect, setShowPrioritySelect] = useState(false);
 
   const longPressTimer = useRef<number | null>(null);
-  const LONG_PRESS_DURATION = 500;
+  // const LONG_PRESS_DURATION = 500;
 
   useEffect(() => {
     return () => {
@@ -73,17 +73,8 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     handleSave();
   };
 
-  const handleLongPressStart = (field: string) => {
-    longPressTimer.current = window.setTimeout(() => {
-      setEditingField(field);
-    }, LONG_PRESS_DURATION);
-  };
-
-  const handleLongPressEnd = () => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-      longPressTimer.current = null;
-    }
+  const handleFieldPress = (field: string) => {
+    setEditingField(field);
   };
 
   const priorityConfig = {
@@ -129,15 +120,10 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     }
 
     return (
-      <div
-        className={styles.viewField}
-        onTouchStart={() => handleLongPressStart(field)}
-        onTouchEnd={handleLongPressEnd}
-        onMouseDown={() => handleLongPressStart(field)}
-        onMouseUp={handleLongPressEnd}
-        onMouseLeave={handleLongPressEnd}
-      >
-        {value || <span className={styles.placeholder}>{placeholder}</span>}
+      <div className={styles.viewField} onClick={() => handleFieldPress(field)}>
+        <span className={value ? styles.fieldValue : styles.placeholder}>
+          {value || placeholder}
+        </span>
         <FaEdit className={styles.editIcon} size={14} />
       </div>
     );
@@ -145,7 +131,6 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
 
   return (
     <div className={styles.container}>
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.statusSection}>
           <button
@@ -154,7 +139,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
             }`}
             onClick={() => toggleTaskCompletion(task.id)}
           >
-            {task.completed && <FaCheck size={14} />}
+            {task.completed && <FaCheck size={16} color="#fff" />}
           </button>
           <div className={styles.statusInfo}>
             <span className={styles.statusLabel}>Status</span>
@@ -165,7 +150,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
         </div>
 
         <div className={styles.prioritySection}>
-          <div className={styles.priorityLabel}>Priority</div>
+          <span className={styles.priorityLabel}>Priority</span>
           <button
             className={styles.priorityButton}
             onClick={() => setShowPrioritySelect(!showPrioritySelect)}
@@ -191,26 +176,22 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
         </div>
       </div>
 
-      {/* Content */}
       <div className={styles.content}>
-        {/* Title */}
         <div className={styles.field}>
           <label className={styles.fieldLabel}>Title</label>
           {renderEditableField("title", editData.title, "Enter task title")}
         </div>
 
-        {/* Description */}
         <div className={styles.field}>
           <label className={styles.fieldLabel}>Description</label>
           {renderEditableField(
             "description",
             editData.description,
-            "Add a description...",
+            "Add description...",
             true
           )}
         </div>
 
-        {/* Details Grid */}
         <div className={styles.detailsGrid}>
           <div className={styles.detailItem}>
             <div className={styles.detailHeader}>
@@ -230,18 +211,21 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
             ) : (
               <div
                 className={styles.viewField}
-                onTouchStart={() => handleLongPressStart("dueDate")}
-                onTouchEnd={handleLongPressEnd}
+                onClick={() => handleFieldPress("dueDate")}
               >
-                {editData.dueDate ? (
-                  new Date(editData.dueDate).toLocaleDateString("en-US", {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                  })
-                ) : (
-                  <span className={styles.placeholder}>Set date</span>
-                )}
+                <span
+                  className={
+                    editData.dueDate ? styles.fieldValue : styles.placeholder
+                  }
+                >
+                  {editData.dueDate
+                    ? new Date(editData.dueDate).toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                      })
+                    : "Set date"}
+                </span>
                 <FaEdit className={styles.editIcon} size={12} />
               </div>
             )}
@@ -256,7 +240,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
               <input
                 type="time"
                 name="dueTime"
-                value={editData.dueTime || ""}
+                value={editData.dueTime}
                 onChange={handleInputChange}
                 onBlur={handleSave}
                 className={styles.editInput}
@@ -265,12 +249,15 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
             ) : (
               <div
                 className={styles.viewField}
-                onTouchStart={() => handleLongPressStart("dueTime")}
-                onTouchEnd={handleLongPressEnd}
+                onClick={() => handleFieldPress("dueTime")}
               >
-                {editData.dueTime || (
-                  <span className={styles.placeholder}>Set time</span>
-                )}
+                <span
+                  className={
+                    editData.dueTime ? styles.fieldValue : styles.placeholder
+                  }
+                >
+                  {editData.dueTime || "Set time"}
+                </span>
                 <FaEdit className={styles.editIcon} size={12} />
               </div>
             )}
@@ -300,10 +287,9 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
             ) : (
               <div
                 className={styles.viewField}
-                onTouchStart={() => handleLongPressStart("category")}
-                onTouchEnd={handleLongPressEnd}
+                onClick={() => handleFieldPress("category")}
               >
-                {editData.category}
+                <span className={styles.fieldValue}>{editData.category}</span>
                 <FaEdit className={styles.editIcon} size={12} />
               </div>
             )}
@@ -311,7 +297,6 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
         </div>
       </div>
 
-      {/* Actions */}
       <div className={styles.actions}>
         <button onClick={handleDelete} className={styles.deleteButton}>
           <FaTrash size={16} />

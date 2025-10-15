@@ -21,14 +21,26 @@ export const HomePage = () => {
   const todayDateString = today.toISOString().split("T")[0];
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
+  const weekDays = Array.from({ length: 30 }, (_, i) => {
     const date = new Date(today);
     date.setDate(today.getDate() - today.getDay() + i);
     return date;
   });
 
-  const todayTasks = tasks.filter((t) => !t.completed);
-  let filteredTasks = todayTasks;
+  const getTasksForSelectedDate = () => {
+    if (selectedDate) {
+      return tasks.filter(
+        (task) => task.dueDate.split("T")[0] === selectedDate && !task.completed
+      );
+    } else {
+      return tasks.filter(
+        (task) =>
+          task.dueDate.split("T")[0] === todayDateString && !task.completed
+      );
+    }
+  };
+
+  let filteredTasks = getTasksForSelectedDate();
 
   if (searchQuery.trim()) {
     filteredTasks = filteredTasks.filter(
@@ -45,7 +57,8 @@ export const HomePage = () => {
 
   const handleDateClick = (date: Date) => {
     const dateString = date.toISOString().split("T")[0];
-    setSelectedDate(dateString === todayDateString ? null : dateString);
+    if (selectedDate === dateString) return setSelectedDate(null);
+    return setSelectedDate(dateString);
   };
 
   const completedTasks = tasks.filter((task) => task.completed).length;
@@ -182,7 +195,6 @@ export const HomePage = () => {
             >
               <div className={styles.progressText}>
                 <span className={styles.progressNumber}>{dailyProgress}%</span>
-                <span className={styles.progressLabel}>Done</span>
               </div>
             </div>
           </div>

@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTasks } from "../../context/TaskContext";
-import { FaCalendar, FaClock, FaTag } from "react-icons/fa";
+import {
+  FaCalendar,
+  FaClock,
+  FaTag,
+  FaPaperclip,
+  FaTimes,
+} from "react-icons/fa";
 import styles from "./AddTaskForm.module.css";
 
 type AddTaskFormProps = {
   defaultCategory?: string;
   onSubmit: () => void;
+};
+
+type FileAttachment = {
+  id: string;
+  file: File;
+  url: string;
 };
 
 export const AddTaskForm = ({
@@ -21,6 +33,8 @@ export const AddTaskForm = ({
     category: defaultCategory || "General",
     priority: "medium" as "low" | "medium" | "high",
   });
+  const [attachments, setAttachments] = useState<FileAttachment[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -33,6 +47,43 @@ export const AddTaskForm = ({
 
   const handlePriorityChange = (priority: "low" | "medium" | "high") => {
     setFormData((prev) => ({ ...prev, priority }));
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const newAttachments: FileAttachment[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.size > 10 * 1024 * 1024) {
+        alert("File size must be less than 10MB");
+        continue;
+      }
+
+      const url = URL.createObjectURL(file);
+      newAttachments.push({
+        id: Date.now().toString() + i,
+        file,
+        url,
+      });
+    }
+
+    setAttachments((prev) => [...prev, ...newAttachments]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const removeAttachment = (id: string) => {
+    setAttachments((prev) => {
+      const attachment = prev.find((a) => a.id === id);
+      if (attachment) {
+        URL.revokeObjectURL(attachment.url);
+      }
+      return prev.filter((a) => a.id !== id);
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -48,7 +99,30 @@ export const AddTaskForm = ({
       priority: formData.priority,
     });
 
+    attachments.forEach((attachment) => {
+      URL.revokeObjectURL(attachment.url);
+    });
+
     onSubmit();
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  };
+
+  const getFileIcon = (file: File): string => {
+    const type = file.type;
+    if (type.startsWith("image/")) return "🖼️";
+    if (type.startsWith("video/")) return "🎥";
+    if (type.startsWith("audio/")) return "🎵";
+    if (type === "application/pdf") return "📄";
+    if (type.includes("document") || type.includes("word")) return "📝";
+    if (type.includes("spreadsheet") || type.includes("excel")) return "📊";
+    if (type.includes("presentation") || type.includes("powerpoint"))
+      return "📑";
+    return "📎";
   };
 
   return (
@@ -156,6 +230,55 @@ export const AddTaskForm = ({
             High
           </button>
         </div>
+      </div>
+
+      <div className={styles.formGroup}>
+        <label className={styles.label}>
+          <FaPaperclip className={styles.labelIcon} />
+          Attachments
+        </label>
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileSelect}
+          multiple
+          accept="*/*"
+          className={styles.fileInput}
+          id="file-upload"
+        />
+
+        <label htmlFor="file-upload" className={styles.fileUploadButton}>
+          <FaPaperclip size={16} />
+          <span>Choose Files</span>
+        </label>
+
+        {attachments.length > 0 && (
+          <div className={styles.attachmentsList}>
+            {attachments.map((attachment) => (
+              <div key={attachment.id} className={styles.attachmentItem}>
+                <span className={styles.fileIcon}>
+                  {getFileIcon(attachment.file)}
+                </span>
+                <div className={styles.fileInfo}>
+                  <span className={styles.fileName}>
+                    {attachment.file.name}
+                  </span>
+                  <span className={styles.fileSize}>
+                    {formatFileSize(attachment.file.size)}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeAttachment(attachment.id)}
+                  className={styles.removeFileButton}
+                >
+                  <FaTimes size={12} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <button

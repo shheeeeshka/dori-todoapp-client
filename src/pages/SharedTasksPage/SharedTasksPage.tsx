@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   FaPlus,
   FaUser,
@@ -12,8 +11,9 @@ import {
   FaClock,
   FaPaperPlane,
   FaFire,
+  FaBell,
 } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
+import { MdTaskAlt, MdDashboard, MdTrendingUp } from "react-icons/md";
 import styles from "./SharedTasksPage.module.css";
 
 type Participant = {
@@ -43,18 +43,17 @@ type SharedTask = {
 };
 
 export const SharedTasksPage = () => {
-  const navigate = useNavigate();
   const [newComment, setNewComment] = useState("");
   const [activeTask, setActiveTask] = useState<string | null>(null);
   const [showQR, setShowQR] = useState(false);
-  const [joiningCode, _] = useState("TEAM-789-XYZ");
+  const [joiningCode] = useState("TEAM-789-XYZ");
 
   const sharedTasks: SharedTask[] = [
     {
       _id: "1",
       title: "Team Project: Mobile App Design",
       description:
-        "Finalize the UI components and create design system for our new mobile application. We need to decide on color palette, typography, and component library.",
+        "Finalize the UI components and create design system for our new mobile application.",
       dueDate: "2024-06-15",
       participants: [
         { _id: "1", name: "You", avatar: "Y" },
@@ -77,13 +76,6 @@ export const SharedTasksPage = () => {
           text: "How about Friday at 3 PM? I'll prepare the design mockups.",
           timestamp: "2024-06-10T15:45:00",
         },
-        {
-          _id: "3",
-          userId: "3",
-          userName: "Maria",
-          text: "I've updated the color scheme based on our last discussion.",
-          timestamp: "2024-06-11T09:15:00",
-        },
       ],
       category: "Design",
       priority: "high",
@@ -93,7 +85,7 @@ export const SharedTasksPage = () => {
       _id: "2",
       title: "Marketing Campaign Launch",
       description:
-        "Coordinate the launch of our Q3 marketing campaign across all platforms including social media, email, and paid advertising.",
+        "Coordinate the launch of our Q3 marketing campaign across all platforms.",
       dueDate: "2024-07-01",
       participants: [
         { _id: "1", name: "You", avatar: "Y" },
@@ -112,23 +104,9 @@ export const SharedTasksPage = () => {
       priority: "medium",
       createdBy: "5",
     },
-    {
-      _id: "3",
-      title: "Product Development Sprint",
-      description:
-        "Weekly sprint planning and task allocation for the development team. Review progress and adjust timelines as needed.",
-      dueDate: "2024-06-20",
-      participants: [
-        { _id: "1", name: "You", avatar: "Y" },
-        { _id: "6", name: "Mike", avatar: "M" },
-        { _id: "7", name: "Lisa", avatar: "L" },
-      ],
-      comments: [],
-      category: "Development",
-      priority: "high",
-      createdBy: "6",
-    },
   ];
+
+  const filteredTasks = sharedTasks;
 
   const handleAddComment = () => {
     if (!newComment.trim()) return;
@@ -160,78 +138,99 @@ export const SharedTasksPage = () => {
     navigator.clipboard.writeText(joiningCode);
   };
 
+  const totalParticipants = sharedTasks.reduce(
+    (sum, task) => sum + task.participants.length,
+    0
+  );
+  const activeTeams = new Set(sharedTasks.map((task) => task.category)).size;
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.headerContent}>
-          <h1>Shared Tasks</h1>
-          <div className={styles.headerActions}>
-            <button
-              className={styles.headerButton}
-              onClick={() => setShowQR(true)}
-            >
-              <FaQrcode size={20} />
-            </button>
-            <button
-              className={styles.inviteButton}
-              onClick={() => navigate("/invite")}
-            >
-              <FaPlus size={16} />
-              <span>Invite</span>
-            </button>
+        <div className={styles.userInfo}>
+          <div className={styles.avatar}>
+            <div className={styles.avatarInitial}>D</div>
+          </div>
+          <div>
+            <p className={styles.greeting}>Team Collaboration</p>
+            <h2 className={styles.userName}>David</h2>
           </div>
         </div>
-        <p className={styles.headerSubtitle}>
-          Collaborate with your team on shared tasks
-        </p>
+        <button className={styles.notificationButton}>
+          <FaBell className={styles.bellIcon} />
+          <span className={styles.notificationDot} />
+        </button>
       </div>
 
-      <div className={styles.statsSection}>
+      <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
-            <FaUsers size={24} />
+            <MdTaskAlt className={styles.statIconSvg} />
           </div>
           <div className={styles.statContent}>
-            <span className={styles.statNumber}>3</span>
-            <span className={styles.statLabel}>Active Teams</span>
+            <span className={styles.statNumber}>{sharedTasks.length}</span>
+            <span className={styles.statLabel}>Shared Tasks</span>
           </div>
         </div>
+
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
-            <FaFire size={24} />
+            <MdTrendingUp className={styles.statIconSvg} />
           </div>
           <div className={styles.statContent}>
-            <span className={styles.statNumber}>12</span>
-            <span className={styles.statLabel}>Total Tasks</span>
+            <span className={styles.statNumber}>{totalParticipants}</span>
+            <span className={styles.statLabel}>Team Members</span>
+          </div>
+        </div>
+
+        <div className={styles.statCardLarge}>
+          <div className={styles.statIconLarge}>
+            <MdDashboard className={styles.statIconSvgLarge} />
+          </div>
+          <div className={styles.statContentLarge}>
+            <span className={styles.statNumberLarge}>{activeTeams}</span>
+            <span className={styles.statLabelLarge}>Active Teams</span>
           </div>
         </div>
       </div>
 
-      <div className={styles.qrSection}>
-        <div className={styles.qrCard}>
-          <div className={styles.qrHeader}>
-            <FaQrcode size={24} />
-            <h3>Join with Code</h3>
+      <div className={styles.quickActions}>
+        <button className={styles.actionButton} onClick={() => setShowQR(true)}>
+          <div className={styles.actionIcon}>
+            <FaQrcode size={20} />
           </div>
-          <div className={styles.joiningCode}>
-            <span>{joiningCode}</span>
-            <button onClick={copyJoiningCode} className={styles.copyButton}>
-              Copy
-            </button>
+          <span>Join Code</span>
+        </button>
+
+        <button className={styles.actionButton}>
+          <div className={styles.actionIcon}>
+            <FaUsers size={20} />
           </div>
-          <p className={styles.qrHint}>
-            Share this code with team members to join your tasks
-          </p>
-        </div>
+          <span>Invite</span>
+        </button>
+
+        <button className={styles.actionButton}>
+          <div className={styles.actionIcon}>
+            <FaPlus size={20} />
+          </div>
+          <span>New Team</span>
+        </button>
+
+        <button className={styles.actionButton}>
+          <div className={styles.actionIcon}>
+            <FaFire size={20} />
+          </div>
+          <span>Activity</span>
+        </button>
       </div>
 
-      <div className={styles.sectionHeader}>
-        <h2>Team Tasks</h2>
-        <span className={styles.taskCount}>{sharedTasks.length} tasks</span>
+      <div className={styles.tasksHeader}>
+        <h3 className={styles.sectionTitle}>Team Tasks</h3>
+        <span className={styles.taskCount}>{filteredTasks.length} tasks</span>
       </div>
 
       <div className={styles.taskList}>
-        {sharedTasks.map((task) => (
+        {filteredTasks.map((task) => (
           <div
             key={task._id}
             className={`${styles.taskCard} ${
@@ -332,7 +331,7 @@ export const SharedTasksPage = () => {
                       className={styles.commentInput}
                     />
                     <button
-                      onClick={() => handleAddComment()}
+                      onClick={handleAddComment}
                       className={styles.commentButton}
                       disabled={!newComment.trim()}
                     >
@@ -346,29 +345,47 @@ export const SharedTasksPage = () => {
         ))}
       </div>
 
+      {filteredTasks.length === 0 && (
+        <div className={styles.emptyState}>
+          <div className={styles.emptyIcon}>
+            <FaUsers size={32} />
+          </div>
+          <h3>No shared tasks found</h3>
+          <p>Create a new team or join existing one to start collaborating</p>
+          <button
+            className={styles.emptyAction}
+            onClick={() => setShowQR(true)}
+          >
+            Join Team
+          </button>
+        </div>
+      )}
+
       {showQR && (
         <div className={styles.qrModal}>
           <div className={styles.qrModalContent}>
             <div className={styles.qrModalHeader}>
-              <h3>Scan to Join</h3>
+              <h3>Team Join Code</h3>
               <button
                 onClick={() => setShowQR(false)}
                 className={styles.closeButton}
               >
-                <IoMdClose size={24} />
+                ×
               </button>
             </div>
             <div className={styles.qrCodePlaceholder}>
-              <FaQrcode size={120} />
-              <p>QR Code Display</p>
+              <FaQrcode size={80} />
+              <div className={styles.joiningCodeDisplay}>
+                <span>{joiningCode}</span>
+              </div>
             </div>
             <div className={styles.qrModalFooter}>
-              <p>Scan this code to join the shared task team</p>
+              <p>Share this code with team members to collaborate</p>
               <button
                 onClick={copyJoiningCode}
                 className={styles.copyCodeButton}
               >
-                Copy Joining Code
+                Copy Code
               </button>
             </div>
           </div>

@@ -23,11 +23,9 @@ export const BottomSheet = ({
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    // Сохраняем текущую позицию скролла
     const currentScrollY = window.scrollY;
     setScrollY(currentScrollY);
 
-    // Блокируем скролл на body
     document.body.style.position = "fixed";
     document.body.style.top = `-${currentScrollY}px`;
     document.body.style.width = "100%";
@@ -35,14 +33,12 @@ export const BottomSheet = ({
     document.body.style.touchAction = "none";
 
     return () => {
-      // Восстанавливаем стандартное поведение при размонтировании
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.width = "";
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
 
-      // Восстанавливаем позицию скролла
       window.scrollTo(0, scrollY);
     };
   }, []);

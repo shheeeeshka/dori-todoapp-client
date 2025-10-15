@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaCalendar, FaCross } from "react-icons/fa";
+import { FaCalendar, FaXmark } from "react-icons/fa6";
 import styles from "./DatePickerDialog.module.css";
 
 interface DatePickerDialogProps {
@@ -99,7 +99,7 @@ export const DatePickerDialog = ({
             </div>
           </div>
           <button className={styles.closeButton} onClick={onClose}>
-            <FaCross size={16} />
+            <FaXmark size={16} />
           </button>
         </div>
 

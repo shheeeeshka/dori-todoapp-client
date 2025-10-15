@@ -133,3 +133,98 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.fileInput {
+  display: none;
+}
+
+.fileUploadButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border: 2px dashed var(--border);
+  border-radius: var(--border-radius-small);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  justify-content: center;
+}
+
+.fileUploadButton:active {
+  background: var(--secondary-color);
+  border-color: var(--primary-color);
+  transform: scale(0.98);
+}
+
+.attachmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--secondary-color);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-small);
+  transition: all 0.1s ease;
+}
+
+.attachmentItem:active {
+  background: var(--card-hover);
+}
+
+.fileIcon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.fileName {
+  font-size: 14px;
+  color: var(--text-color);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.removeFileButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.removeFileButton:active {
+  background: rgba(255, 71, 87, 0.1);
+  color: #ff4757;
+  transform: scale(0.9);
+}

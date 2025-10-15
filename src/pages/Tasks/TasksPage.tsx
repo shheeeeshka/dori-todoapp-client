@@ -6,7 +6,15 @@ import { TaskList } from "../../components/TaskList/TaskList";
 import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
 import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
-import { FaPlus, FaFilter, FaSearch, FaBars } from "react-icons/fa";
+import {
+  FaPlus,
+  FaSearch,
+  FaBell,
+  FaCalendarAlt,
+  FaChartLine,
+  FaStar,
+} from "react-icons/fa";
+import { MdTaskAlt } from "react-icons/md";
 import styles from "./TasksPage.module.css";
 
 type TaskTab = "All" | "active" | "completed";
@@ -19,7 +27,6 @@ export const TasksPage = () => {
   const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks.filter((task) => {
@@ -71,39 +78,117 @@ export const TasksPage = () => {
     setIsCategorySheetOpen(false);
   };
 
+  const completedTasks = tasks.filter((task) => task.completed).length;
+  const totalTasks = tasks.length;
+  const completionRate =
+    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const highPriorityTasks = tasks.filter(
+    (task) => task.priority === "high" && !task.completed
+  ).length;
+
+  const timelineTasks = tasks
+    .filter((task) => task.dueTime && !task.completed)
+    .sort((a, b) => (a.dueTime || "").localeCompare(b.dueTime || ""))
+    .slice(0, 5);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button
-          className={styles.menuButton}
-          onClick={() => setIsMenuOpen(true)}
-        >
-          <FaBars size={20} />
+        <div className={styles.userInfo}>
+          <div className={styles.avatar}>
+            <div className={styles.avatarInitial}>D</div>
+          </div>
+          <div>
+            <p className={styles.greeting}>Your Tasks</p>
+            <h2 className={styles.userName}>David</h2>
+          </div>
+        </div>
+        <button className={styles.notificationButton}>
+          <FaBell className={styles.bellIcon} />
+          <span className={styles.notificationDot} />
         </button>
-        <div className={styles.headerContent}>
-          <h1>Tasks</h1>
-          <div className={styles.headerActions}>
-            <button className={styles.headerButton}>
-              <FaFilter size={18} />
-            </button>
-            <button
-              className={styles.addButton}
-              onClick={() => setIsTaskSheetOpen(true)}
-            >
-              <FaPlus size={18} />
-            </button>
+      </div>
+
+      <div className={styles.searchContainer}>
+        <div className={styles.searchInput}>
+          <FaSearch className={styles.searchIcon} />
+          <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search your tasks..."
+            className={styles.searchField}
+          />
+        </div>
+      </div>
+
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <div className={styles.statIcon}>
+            <MdTaskAlt className={styles.statIconSvg} />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statNumber}>{totalTasks}</span>
+            <span className={styles.statLabel}>Total</span>
           </div>
         </div>
 
-        <div className={styles.searchBar}>
-          <FaSearch size={18} className={styles.searchIcon} />
-          <input
-            type="text"
-            placeholder="Search tasks..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={styles.searchInput}
-          />
+        <div className={styles.statCard}>
+          <div className={styles.statIcon}>
+            <FaChartLine className={styles.statIconSvg} />
+          </div>
+          <div className={styles.statContent}>
+            <span className={styles.statNumber}>{completionRate}%</span>
+            <span className={styles.statLabel}>Done</span>
+          </div>
+        </div>
+
+        <div className={styles.statCardLarge}>
+          <div className={styles.statIconLarge}>
+            <FaStar className={styles.statIconSvgLarge} />
+          </div>
+          <div className={styles.statContentLarge}>
+            <span className={styles.statNumberLarge}>{highPriorityTasks}</span>
+            <span className={styles.statLabelLarge}>Priority</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.timelineSection}>
+        <div className={styles.sectionHeader}>
+          <h3 className={styles.sectionTitle}>Today's Timeline</h3>
+          <button className={styles.seeMore}>View All</button>
+        </div>
+        <div className={styles.timeline}>
+          {timelineTasks.length > 0 ? (
+            timelineTasks.map((task, _) => (
+              <div key={task.id} className={styles.timelineItem}>
+                <div className={styles.timelineTime}>{task.dueTime}</div>
+                <div className={styles.timelineContent}>
+                  <div className={styles.timelineTitle}>{task.title}</div>
+                  <div className={styles.timelineCategory}>{task.category}</div>
+                </div>
+                <div className={styles.timelineDot} />
+              </div>
+            ))
+          ) : (
+            <div className={styles.timelineEmpty}>
+              <FaCalendarAlt className={styles.timelineEmptyIcon} />
+              <p>No scheduled tasks for today</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.tabsHeader}>
+        <h3 className={styles.sectionTitle}>My Tasks</h3>
+        <div className={styles.taskActions}>
+          <button
+            className={styles.addTaskButton}
+            onClick={() => setIsTaskSheetOpen(true)}
+          >
+            <FaPlus className={styles.addIcon} />
+            New Task
+          </button>
         </div>
       </div>
 
@@ -123,7 +208,7 @@ export const TasksPage = () => {
           }`}
           onClick={() => setSelectedTab("All")}
         >
-          All Tasks
+          All
         </button>
         <button
           className={`${styles.statusTab} ${
@@ -144,25 +229,21 @@ export const TasksPage = () => {
       </div>
 
       <div className={styles.taskCounter}>
-        <span>{filteredTasks.length} tasks</span>
+        <span className={styles.taskCount}>{filteredTasks.length} tasks</span>
         {selectedCategory !== "All" && (
           <span className={styles.categoryTag}>{selectedCategory}</span>
         )}
       </div>
 
-      <TaskList
-        tasks={filteredTasks}
-        onTaskClick={handleTaskClick}
-        onToggleCompletion={() => {}}
-      />
+      <TaskList tasks={filteredTasks} onTaskClick={handleTaskClick} />
 
       {filteredTasks.length === 0 && (
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>
-            <FaSearch size={48} />
+            <FaSearch size={32} />
           </div>
           <h3>No tasks found</h3>
-          <p>Try changing your search or filters</p>
+          <p>Try changing your search or create a new task</p>
           <button
             className={styles.emptyAction}
             onClick={() => setIsTaskSheetOpen(true)}
@@ -205,33 +286,6 @@ export const TasksPage = () => {
             onCancel={handleCategorySheetClose}
           />
         </BottomSheet>
-      )}
-
-      {isMenuOpen && (
-        <div className={styles.menuOverlay}>
-          <div className={styles.menuContent}>
-            <button
-              className={styles.closeMenu}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              ×
-            </button>
-            <nav className={styles.menuNav}>
-              <a href="/" className={styles.menuItem}>
-                Home
-              </a>
-              <a href="/tasks" className={styles.menuItem}>
-                Tasks
-              </a>
-              <a href="/shared" className={styles.menuItem}>
-                Shared
-              </a>
-              <a href="/profile" className={styles.menuItem}>
-                Profile
-              </a>
-            </nav>
-          </div>
-        </div>
       )}
     </div>
   );

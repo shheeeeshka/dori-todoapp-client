@@ -27,6 +27,7 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   z-index: 1001;
+  scrollbar-width: none;
 }
 
 .modalContent.closing {
