@@ -5,8 +5,7 @@ import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
 import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import { DatePickerDialog } from "../../components/DatePickerDialog/DatePickerDialog";
-import { FaPlus, FaSearch, FaBell, FaCalendarAlt } from "react-icons/fa";
-import { MdTaskAlt, MdDashboard, MdTrendingUp } from "react-icons/md";
+import { FaSearch, FaBell, FaCalendarAlt } from "react-icons/fa";
 import styles from "./HomePage.module.css";
 
 export const HomePage = () => {
@@ -51,8 +50,8 @@ export const HomePage = () => {
 
   const completedTasks = tasks.filter((task) => task.completed).length;
   const totalTasks = tasks.length;
-  const completionRate =
-    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  // const completionRate =
+  //   totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   const highPriorityTasks = tasks.filter(
     (task) => task.priority === "high" && !task.completed
