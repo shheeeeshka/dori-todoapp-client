@@ -1,17 +1,9 @@
 import { useTelegram } from "../../hooks/useTelegram";
+import { Icon } from "../../components/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import { handleShare } from "../../utils/utils";
 import { useTasks } from "../../context/TaskContext";
 import { useEffect, useState } from "react";
-import {
-  FaShare,
-  FaCog,
-  FaBars,
-  FaList,
-  FaCheck,
-  FaClock,
-  FaFlag,
-} from "react-icons/fa";
 import styles from "./ProfilePage.module.css";
 
 export const ProfilePage = () => {
@@ -25,9 +17,9 @@ export const ProfilePage = () => {
     highPriority: 0,
     overdue: 0,
   });
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Calculate real stats from tasks
     const now = new Date();
     const calculatedStats = {
       total: tasks.length,
@@ -41,7 +33,8 @@ export const ProfilePage = () => {
       ).length,
     };
 
-    const duration = 1000;
+    // Animate stats counting up
+    const duration = 1000; // animation duration in ms
     const startTime = Date.now();
 
     const animateStats = () => {
@@ -81,39 +74,26 @@ export const ProfilePage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.actions}>
-        <button
-          className={styles.menuButton}
-          onClick={() => setIsMenuOpen(true)}
-        >
-          <FaBars size={20} />
+        <button className={styles.actionButton} onClick={handleShare}>
+          <Icon variant="share" size={28} />
         </button>
-        <div className={styles.actionButtons}>
-          <button className={styles.actionButton} onClick={handleShare}>
-            <FaShare size={20} />
-          </button>
-          <button
-            className={styles.actionButton}
-            onClick={() => navigate("/settings")}
-          >
-            <FaCog size={20} />
-          </button>
-        </div>
+        <button
+          className={styles.actionButton}
+          onClick={() => navigate("/settings")}
+        >
+          <Icon variant="settings" size={28} />
+        </button>
       </div>
 
       <div className={styles.pageContent}>
         <div className={styles.profileHeader}>
           <div className={styles.avatar}>
-            {tgUser?.photo_url ? (
-              <img
-                src={tgUser.photo_url}
-                alt="Profile"
-                className={styles.avatarImage}
-              />
-            ) : (
-              <div className={styles.avatarPlaceholder}>
-                {tgUser?.first_name?.[0] || "U"}
-              </div>
-            )}
+            <img
+              src="https://t4.ftcdn.net/jpg/05/99/64/79/360_F_599647918_bmfbrXIWjwB7mOiWvH85F9iIwijsDjkd.jpg"
+              alt="Profile"
+              className={styles.avatarImage}
+              loading="lazy"
+            />
           </div>
           <div className={styles.userInfo}>
             <h1>{tgUser?.first_name || "User"}</h1>
@@ -127,7 +107,7 @@ export const ProfilePage = () => {
         <div className={styles.statsGrid}>
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <FaList size={20} />
+              <Icon variant="list" size={24} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.total}</span>
@@ -137,7 +117,7 @@ export const ProfilePage = () => {
 
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <FaCheck size={20} />
+              <Icon variant="check" size={24} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.completed}</span>
@@ -147,7 +127,7 @@ export const ProfilePage = () => {
 
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <FaClock size={20} />
+              <Icon variant="clock" size={24} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.active}</span>
@@ -157,7 +137,7 @@ export const ProfilePage = () => {
 
           <div className={styles.statCard}>
             <div className={styles.statIcon}>
-              <FaFlag size={20} />
+              <Icon variant="flag" size={24} />
             </div>
             <div className={styles.statContent}>
               <span className={styles.statNumber}>{stats.highPriority}</span>
@@ -187,9 +167,9 @@ export const ProfilePage = () => {
               <div key={task.id} className={styles.activityItem}>
                 <div className={styles.activityIcon}>
                   {task.completed ? (
-                    <FaCheck size={16} color="#4CAF50" />
+                    <Icon variant="check" size={16} color="#4CAF50" />
                   ) : (
-                    <FaClock size={16} color="#FF9800" />
+                    <Icon variant="clock" size={16} color="#FF9800" />
                   )}
                 </div>
                 <div className={styles.activityContent}>
@@ -204,33 +184,6 @@ export const ProfilePage = () => {
           </div>
         </div>
       </div>
-
-      {isMenuOpen && (
-        <div className={styles.menuOverlay}>
-          <div className={styles.menuContent}>
-            <button
-              className={styles.closeMenu}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              ×
-            </button>
-            <nav className={styles.menuNav}>
-              <a href="/" className={styles.menuItem}>
-                Home
-              </a>
-              <a href="/tasks" className={styles.menuItem}>
-                Tasks
-              </a>
-              <a href="/shared" className={styles.menuItem}>
-                Shared
-              </a>
-              <a href="/profile" className={styles.menuItem}>
-                Profile
-              </a>
-            </nav>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
