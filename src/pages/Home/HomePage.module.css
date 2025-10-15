@@ -233,6 +233,10 @@
     height: 260px;
 }
 
+.statsGrid > * {
+    flex-shrink: 0;
+}
+
 .statCard {
     background: var(--card-bg);
     border-radius: var(--border-radius);
