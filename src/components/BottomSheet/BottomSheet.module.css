@@ -16,11 +16,9 @@
 .modalContent {
   width: 100%;
   max-width: 500px;
-  max-height: 80vh;
-  min-height: 25vh;
+  max-height: 85vh;
   background-color: var(--card-bg);
   border-radius: 24px 24px 0 0;
-  padding: 16px;
   overflow-y: auto;
   transform: translateY(100%);
   animation: slideUp 0.3s ease-out forwards;
@@ -28,6 +26,11 @@
   -webkit-overflow-scrolling: touch;
   z-index: 1001;
   scrollbar-width: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modalContent::-webkit-scrollbar {
+  display: none;
 }
 
 .modalContent.closing {
@@ -38,7 +41,6 @@
   from {
     transform: translateY(100%);
   }
-
   to {
     transform: translateY(0);
   }
@@ -48,40 +50,38 @@
   from {
     transform: translateY(0);
   }
-
   to {
     transform: translateY(100%);
   }
 }
 
-.modalHeader {
+.dragHandleContainer {
   display: flex;
-  margin-bottom: 16px;
-  padding: 8px 20px;
-  align-items: center;
-}
-
-.modalTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-.actionButton {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: var(--card-bg);
-  display: flex;
-  align-items: center;
   justify-content: center;
-  border: none;
-  box-shadow: var(--shadow);
+  padding: 12px 0 8px;
+}
+
+.dragHandle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.header {
+  padding: 0 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
 }
 
 .contentWrapper {
   padding: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
