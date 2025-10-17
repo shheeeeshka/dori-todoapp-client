@@ -256,7 +256,6 @@ export const TasksPage = () => {
       {isTaskSheetOpen && (
         <BottomSheet
           onClose={handleTaskSheetClose}
-          showCloseButton={false}
           title={selectedTask ? "Task Details" : "New Task"}
         >
           {selectedTask ? (
@@ -278,7 +277,6 @@ export const TasksPage = () => {
       {isCategorySheetOpen && (
         <BottomSheet
           onClose={handleCategorySheetClose}
-          showCloseButton={false}
           title="New Category"
         >
           <AddCategoryForm
