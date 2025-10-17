@@ -42,11 +42,11 @@ export const TaskList = ({
     <div className={styles.taskList}>
       {tasks.map((task, index) => (
         <TaskItem
-          key={task.id}
+          key={task._id}
           task={task}
-          onClick={() => onTaskClick(task.id)}
+          onClick={() => onTaskClick(task._id)}
           onToggleCompletion={
-            onToggleCompletion ? () => onToggleCompletion(task.id) : undefined
+            onToggleCompletion ? () => onToggleCompletion(task._id) : undefined
           }
           highlighted={index === highlightedIndex}
         />
