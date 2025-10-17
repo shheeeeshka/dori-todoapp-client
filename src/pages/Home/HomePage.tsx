@@ -247,28 +247,27 @@ export const HomePage = () => {
         <span>Create New Task</span>
       </button>
 
-      {isBottomSheetOpen && selectedTask && (
-        <BottomSheet
-          onClose={() => setIsBottomSheetOpen(false)}
-          showCloseButton
-          title="Task Details"
-        >
-          <TaskDetail
-            taskId={selectedTask}
-            onClose={() => setIsBottomSheetOpen(false)}
-          />
-        </BottomSheet>
-      )}
+   
+{isBottomSheetOpen && selectedTask && (
+  <BottomSheet
+    onClose={() => setIsBottomSheetOpen(false)}
+    title="Task Details"
+  >
+    <TaskDetail
+      taskId={selectedTask}
+      onClose={() => setIsBottomSheetOpen(false)}
+    />
+  </BottomSheet>
+)}
 
-      {isAddTaskOpen && (
-        <BottomSheet
-          onClose={() => setIsAddTaskOpen(false)}
-          showCloseButton
-          title="Add New Task"
-        >
-          <AddTaskForm onSubmit={() => setIsAddTaskOpen(false)} />
-        </BottomSheet>
-      )}
+{isAddTaskOpen && (
+  <BottomSheet
+    onClose={() => setIsAddTaskOpen(false)}
+    title="Add New Task"
+  >
+    <AddTaskForm onSubmit={() => setIsAddTaskOpen(false)} />
+  </BottomSheet>
+)}
 
       <DatePickerDialog
         isOpen={isCalendarOpen}
