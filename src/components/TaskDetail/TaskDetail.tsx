@@ -9,8 +9,6 @@ import {
   FaTrash,
   FaEdit,
   FaPaperclip,
-  FaImage,
-  FaFile,
 } from "react-icons/fa";
 import styles from "./TaskDetail.module.css";
 
@@ -165,7 +163,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     
     return (
       <div className={styles.fileItem}>
-        <FaFile className={styles.fileIcon} />
+        <FaPaperclip className={styles.fileIcon} />
         <span className={styles.fileName}>{file.name}</span>
       </div>
     );
@@ -409,7 +407,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
           <div className={styles.field}>
             <label className={styles.fieldLabel}>Attachments</label>
             <div className={styles.attachmentsGrid}>
-              {task.attachments.map((file: any) => (
+              {task.attachments.map((file) => (
                 <div key={file._id} className={styles.attachmentCard}>
                   {renderFilePreview(file)}
                 </div>
