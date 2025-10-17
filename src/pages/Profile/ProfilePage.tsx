@@ -164,7 +164,7 @@ export const ProfilePage = () => {
           <h2 className={styles.sectionTitle}>Recent Activity</h2>
           <div className={styles.activityList}>
             {tasks.slice(0, 3).map((task) => (
-              <div key={task.id} className={styles.activityItem}>
+              <div key={task._id} className={styles.activityItem}>
                 <div className={styles.activityIcon}>
                   {task.completed ? (
                     <Icon variant="check" size={16} color="#4CAF50" />
