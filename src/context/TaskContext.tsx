@@ -1,8 +1,22 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 
+export type Subtask = {
+  _id: string;
+  title: string;
+  completed: boolean;
+};
+
+export type FileAttachment = {
+  _id: string;
+  name: string;
+  url: string;
+  type: string;
+  size: number;
+};
+
 export type Task = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   dueDate: string;
@@ -12,13 +26,18 @@ export type Task = {
   priority: "low" | "medium" | "high";
   createdAt: string;
   updatedAt: string;
+  projectId?: string;
+  subtasks?: Subtask[];
+  attachments?: FileAttachment[];
 };
 
 type TaskContextType = {
   tasks: Task[];
   categories: string[];
   addTask: (
-    task: Omit<Task, "id" | "createdAt" | "updatedAt" | "completed">
+    task: Omit<Task, "_id" | "createdAt" | "updatedAt" | "completed" | "subtasks" | "attachments"> & {
+      subtasks?: Subtask[];
+    }
   ) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
@@ -39,7 +58,7 @@ const getInitialDemoTasks = (): Task[] => {
 
   return [
     {
-      id: "1",
+      _id: "1",
       title: "Meeting with UNGLO",
       description: "Discuss project requirements and timeline",
       dueDate: now.toISOString(),
@@ -49,9 +68,14 @@ const getInitialDemoTasks = (): Task[] => {
       priority: "high",
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
+      projectId: "project1",
+      subtasks: [
+        { _id: "1-1", title: "Prepare agenda", completed: false },
+        { _id: "1-2", title: "Review documents", completed: true }
+      ]
     },
     {
-      id: "2",
+      _id: "2",
       title: "Design Review",
       description: "Review mobile app design with team",
       dueDate: now.toISOString(),
@@ -63,7 +87,7 @@ const getInitialDemoTasks = (): Task[] => {
       updatedAt: now.toISOString(),
     },
     {
-      id: "3",
+      _id: "3",
       title: "Daily Standup",
       description: "Team daily standup meeting",
       dueDate: now.toISOString(),
@@ -75,7 +99,7 @@ const getInitialDemoTasks = (): Task[] => {
       updatedAt: now.toISOString(),
     },
     {
-      id: "4",
+      _id: "4",
       title: "Client Presentation",
       description: "Present final deliverables to client",
       dueDate: tomorrow.toISOString(),
@@ -85,9 +109,10 @@ const getInitialDemoTasks = (): Task[] => {
       priority: "high",
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
+      projectId: "project2",
     },
     {
-      id: "5",
+      _id: "5",
       title: "Code Review",
       description: "Review pull requests and provide feedback",
       dueDate: now.toISOString(),
@@ -99,7 +124,7 @@ const getInitialDemoTasks = (): Task[] => {
       updatedAt: now.toISOString(),
     },
     {
-      id: "6",
+      _id: "6",
       title: "Team Lunch",
       description: "Monthly team building lunch",
       dueDate: now.toISOString(),
@@ -111,7 +136,7 @@ const getInitialDemoTasks = (): Task[] => {
       updatedAt: now.toISOString(),
     },
     {
-      id: "7",
+      _id: "7",
       title: "Project Planning",
       description: "Plan next sprint and assign tasks",
       dueDate: nextWeek.toISOString(),
@@ -121,9 +146,10 @@ const getInitialDemoTasks = (): Task[] => {
       priority: "high",
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
+      projectId: "project1",
     },
     {
-      id: "8",
+      _id: "8",
       title: "Documentation Update",
       description: "Update project documentation",
       dueDate: now.toISOString(),
@@ -165,14 +191,18 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   }, [categories]);
 
   const addTask = (
-    task: Omit<Task, "id" | "createdAt" | "updatedAt" | "completed">
+    task: Omit<Task, "_id" | "createdAt" | "updatedAt" | "completed" | "subtasks" | "attachments"> & {
+      subtasks?: Subtask[];
+    }
   ) => {
     const newTask: Task = {
       ...task,
-      id: Date.now().toString(),
+      _id: Date.now().toString(),
       completed: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      subtasks: task.subtasks || [],
+      attachments: [],
     };
     setTasks([...tasks, newTask]);
   };
@@ -180,7 +210,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const updateTask = (id: string, updates: Partial<Task>) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id
+        task._id === id
           ? { ...task, ...updates, updatedAt: new Date().toISOString() }
           : task
       )
@@ -188,13 +218,13 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deleteTask = (id: string) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    setTasks(tasks.filter((task) => task._id !== id));
   };
 
   const toggleTaskCompletion = (id: string) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id
+        task._id === id
           ? {
               ...task,
               completed: !task.completed,
