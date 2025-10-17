@@ -63,8 +63,6 @@ export const HomePage = () => {
 
   const completedTasks = tasks.filter((task) => task.completed).length;
   const totalTasks = tasks.length;
-  // const completionRate =
-  //   totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   const highPriorityTasks = tasks.filter(
     (task) => task.priority === "high" && !task.completed
@@ -173,7 +171,7 @@ export const HomePage = () => {
           </div>
           <div className={styles.workspaceTasks}>
             {favoriteWorkspaceTasks.map((task) => (
-              <div key={task.id} className={styles.workspaceTask}>
+              <div key={task._id} className={styles.workspaceTask}>
                 <div className={styles.taskDot} />
                 <span className={styles.taskText}>{task.title}</span>
               </div>
@@ -247,27 +245,26 @@ export const HomePage = () => {
         <span>Create New Task</span>
       </button>
 
-   
-{isBottomSheetOpen && selectedTask && (
-  <BottomSheet
-    onClose={() => setIsBottomSheetOpen(false)}
-    title="Task Details"
-  >
-    <TaskDetail
-      taskId={selectedTask}
-      onClose={() => setIsBottomSheetOpen(false)}
-    />
-  </BottomSheet>
-)}
+      {isBottomSheetOpen && selectedTask && (
+        <BottomSheet
+          onClose={() => setIsBottomSheetOpen(false)}
+          title="Task Details"
+        >
+          <TaskDetail
+            taskId={selectedTask}
+            onClose={() => setIsBottomSheetOpen(false)}
+          />
+        </BottomSheet>
+      )}
 
-{isAddTaskOpen && (
-  <BottomSheet
-    onClose={() => setIsAddTaskOpen(false)}
-    title="Add New Task"
-  >
-    <AddTaskForm onSubmit={() => setIsAddTaskOpen(false)} />
-  </BottomSheet>
-)}
+      {isAddTaskOpen && (
+        <BottomSheet
+          onClose={() => setIsAddTaskOpen(false)}
+          title="Add New Task"
+        >
+          <AddTaskForm onSubmit={() => setIsAddTaskOpen(false)} />
+        </BottomSheet>
+      )}
 
       <DatePickerDialog
         isOpen={isCalendarOpen}
