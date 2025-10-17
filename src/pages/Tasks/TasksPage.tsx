@@ -161,7 +161,7 @@ export const TasksPage = () => {
         <div className={styles.timeline}>
           {timelineTasks.length > 0 ? (
             timelineTasks.map((task, _) => (
-              <div key={task.id} className={styles.timelineItem}>
+              <div key={task._id} className={styles.timelineItem}>
                 <div className={styles.timelineTime}>{task.dueTime}</div>
                 <div className={styles.timelineContent}>
                   <div className={styles.timelineTitle}>{task.title}</div>
@@ -256,7 +256,7 @@ export const TasksPage = () => {
       {isTaskSheetOpen && (
         <BottomSheet
           onClose={handleTaskSheetClose}
-          showCloseButton
+          showCloseButton={false}
           title={selectedTask ? "Task Details" : "New Task"}
         >
           {selectedTask ? (
@@ -278,7 +278,7 @@ export const TasksPage = () => {
       {isCategorySheetOpen && (
         <BottomSheet
           onClose={handleCategorySheetClose}
-          showCloseButton
+          showCloseButton={false}
           title="New Category"
         >
           <AddCategoryForm
