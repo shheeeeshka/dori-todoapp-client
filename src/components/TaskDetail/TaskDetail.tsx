@@ -8,6 +8,9 @@ import {
   FaTag,
   FaTrash,
   FaEdit,
+  FaPaperclip,
+  FaImage,
+  FaFile,
 } from "react-icons/fa";
 import styles from "./TaskDetail.module.css";
 
@@ -18,22 +21,23 @@ type TaskDetailProps = {
 
 export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   const { tasks, updateTask, deleteTask, toggleTaskCompletion } = useTasks();
-  const task = tasks.find((t) => t.id === taskId);
+  const task = tasks.find((t) => t._id === taskId);
 
   const [editData, setEditData] = useState({
     title: task?.title || "",
     description: task?.description || "",
-    dueDate: task?.dueDate.split("T")[0] || "",
+    dueDate: task?.dueDate?.split("T")[0] || "",
     dueTime: task?.dueTime || "",
     category: task?.category || "General",
+    projectId: task?.projectId || "",
     priority: task?.priority || "medium",
   });
 
   const [editingField, setEditingField] = useState<string | null>(null);
   const [showPrioritySelect, setShowPrioritySelect] = useState(false);
+  const [subtasks, setSubtasks] = useState(task?.subtasks || []);
 
   const longPressTimer = useRef<number | null>(null);
-  // const LONG_PRESS_DURATION = 500;
 
   useEffect(() => {
     return () => {
@@ -55,15 +59,16 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   };
 
   const handleSave = () => {
-    updateTask(task.id, {
+    updateTask(task._id, {
       ...editData,
+      subtasks,
       dueDate: editData.dueDate ? `${editData.dueDate}T00:00:00` : "",
     });
     setEditingField(null);
   };
 
   const handleDelete = () => {
-    deleteTask(task.id);
+    deleteTask(task._id);
     onClose();
   };
 
@@ -75,6 +80,25 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
 
   const handleFieldPress = (field: string) => {
     setEditingField(field);
+  };
+
+  const addSubtask = () => {
+    const newSubtask = {
+      _id: Date.now().toString(),
+      title: "",
+      completed: false,
+    };
+    setSubtasks([...subtasks, newSubtask]);
+  };
+
+  const updateSubtask = (id: string, updates: Partial<{ title: string; completed: boolean }>) => {
+    setSubtasks(subtasks.map(st => 
+      st._id === id ? { ...st, ...updates } : st
+    ));
+  };
+
+  const deleteSubtask = (id: string) => {
+    setSubtasks(subtasks.filter(st => st._id !== id));
   };
 
   const priorityConfig = {
@@ -129,15 +153,35 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     );
   };
 
+  const renderFilePreview = (file: any) => {
+    if (file.type?.startsWith('image/')) {
+      return (
+        <div className={styles.filePreview}>
+          <img src={file.url} alt={file.name} className={styles.fileImage} />
+          <span className={styles.fileName}>{file.name}</span>
+        </div>
+      );
+    }
+    
+    return (
+      <div className={styles.fileItem}>
+        <FaFile className={styles.fileIcon} />
+        <span className={styles.fileName}>{file.name}</span>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
+      <div className={styles.dragHandle} />
+
       <div className={styles.header}>
         <div className={styles.statusSection}>
           <button
             className={`${styles.checkbox} ${
               task.completed ? styles.completed : ""
             }`}
-            onClick={() => toggleTaskCompletion(task.id)}
+            onClick={() => toggleTaskCompletion(task._id)}
           >
             {task.completed && <FaCheck size={16} color="#fff" />}
           </button>
@@ -294,7 +338,85 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
               </div>
             )}
           </div>
+
+          <div className={styles.detailItem}>
+            <div className={styles.detailHeader}>
+              <FaTag className={styles.detailIcon} />
+              <span className={styles.detailLabel}>Project</span>
+            </div>
+            {editingField === "projectId" ? (
+              <select
+                name="projectId"
+                value={editData.projectId}
+                onChange={handleInputChange}
+                onBlur={handleSave}
+                className={styles.editInput}
+                autoFocus
+              >
+                <option value="">No Project</option>
+                <option value="project1">Project 1</option>
+                <option value="project2">Project 2</option>
+                <option value="project3">Project 3</option>
+              </select>
+            ) : (
+              <div
+                className={styles.viewField}
+                onClick={() => handleFieldPress("projectId")}
+              >
+                <span className={styles.fieldValue}>
+                  {editData.projectId || "No Project"}
+                </span>
+                <FaEdit className={styles.editIcon} size={12} />
+              </div>
+            )}
+          </div>
         </div>
+
+        <div className={styles.field}>
+          <label className={styles.fieldLabel}>Subtasks</label>
+          <div className={styles.subtasksList}>
+            {subtasks.map((subtask) => (
+              <div key={subtask._id} className={styles.subtaskItem}>
+                <input
+                  type="checkbox"
+                  checked={subtask.completed}
+                  onChange={(e) => updateSubtask(subtask._id, { completed: e.target.checked })}
+                  className={styles.subtaskCheckbox}
+                />
+                <input
+                  type="text"
+                  value={subtask.title}
+                  onChange={(e) => updateSubtask(subtask._id, { title: e.target.value })}
+                  onBlur={handleSave}
+                  placeholder="Subtask title"
+                  className={styles.subtaskInput}
+                />
+                <button
+                  onClick={() => deleteSubtask(subtask._id)}
+                  className={styles.deleteSubtaskButton}
+                >
+                  <FaTrash size={12} />
+                </button>
+              </div>
+            ))}
+            <button onClick={addSubtask} className={styles.addSubtaskButton}>
+              + Add Subtask
+            </button>
+          </div>
+        </div>
+
+        {task.attachments && task.attachments.length > 0 && (
+          <div className={styles.field}>
+            <label className={styles.fieldLabel}>Attachments</label>
+            <div className={styles.attachmentsGrid}>
+              {task.attachments.map((file: any) => (
+                <div key={file._id} className={styles.attachmentCard}>
+                  {renderFilePreview(file)}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={styles.actions}>
