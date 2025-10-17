@@ -1,3 +1,4 @@
+// TaskItem.tsx
 import { useTasks } from "../../context/TaskContext";
 import { FaCheck, FaClock, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useState } from "react";
@@ -8,7 +9,7 @@ type Task = ReturnType<typeof useTasks>["tasks"][number];
 type TaskItemProps = {
   task: Task;
   onClick: () => void;
-  onToggleCompletion?: () => void;
+  onToggleCompletion: () => void;
   highlighted?: boolean;
 };
 
@@ -28,7 +29,7 @@ export const TaskItem = ({
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onToggleCompletion?.();
+    onToggleCompletion();
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -56,7 +57,7 @@ export const TaskItem = ({
             onClick={handleToggle}
           >
             {task.completed && (
-              <FaCheck size={12} className={styles.checkIcon} />
+              <FaCheck size={18} className={styles.checkIcon} />
             )}
           </button>
 
@@ -88,7 +89,7 @@ export const TaskItem = ({
         </div>
 
         <button className={styles.expandButton} onClick={handleClick}>
-          {isExpanded ? <FaChevronUp size={14} /> : <FaChevronDown size={14} />}
+          {isExpanded ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
         </button>
       </div>
 

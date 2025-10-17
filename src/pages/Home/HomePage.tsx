@@ -7,6 +7,7 @@ import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import { DatePickerDialog } from "../../components/DatePickerDialog/DatePickerDialog";
 import { FaSearch, FaBell, FaCalendarAlt } from "react-icons/fa";
 import styles from "./HomePage.module.css";
+import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   const { tasks, toggleTaskCompletion } = useTasks();
@@ -87,14 +88,14 @@ export const HomePage = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.userInfo}>
-          <div className={styles.avatar}>
+          <Link to="profile" className={styles.avatar}>
             <img
               src="https://t4.ftcdn.net/jpg/05/99/64/79/360_F_599647918_bmfbrXIWjwB7mOiWvH85F9iIwijsDjkd.jpg"
               alt="Profile"
               className={styles.avatarImage}
               loading="lazy"
             />
-          </div>
+          </Link>
           <div>
             <p className={styles.greeting}>Good Morning</p>
             <h2 className={styles.userName}>Dude</h2>
@@ -246,10 +247,7 @@ export const HomePage = () => {
       </button>
 
       {isBottomSheetOpen && selectedTask && (
-        <BottomSheet
-          onClose={() => setIsBottomSheetOpen(false)}
-          title="Task Details"
-        >
+        <BottomSheet onClose={() => setIsBottomSheetOpen(false)}>
           <TaskDetail
             taskId={selectedTask}
             onClose={() => setIsBottomSheetOpen(false)}

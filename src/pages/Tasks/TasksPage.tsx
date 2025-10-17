@@ -7,49 +7,70 @@ import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
 import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
 import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
 import {
-  FaPlus,
   FaSearch,
-  FaBell,
   FaCalendarAlt,
-  FaChartLine,
-  FaStar,
+  FaClock,
+  FaCheckCircle,
+  FaFilter,
 } from "react-icons/fa";
 import { MdTaskAlt } from "react-icons/md";
 import styles from "./TasksPage.module.css";
 
 type TaskTab = "All" | "active" | "completed";
+type SortOption = "dueDate" | "priority" | "createdAt" | "title";
 
 export const TasksPage = () => {
-  const { tasks, categories, addCategory } = useTasks();
-  const [selectedTab, setSelectedTab] = useState<TaskTab>("All");
+  const { tasks, categories, addCategory, toggleTaskCompletion } = useTasks();
+  const [selectedTab, _] = useState<TaskTab>("All");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("dueDate");
+  const [showFilters, setShowFilters] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
 
-  const filteredTasks = tasks.filter((task) => {
-    if (
-      searchQuery &&
-      !task.title.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      return false;
-    }
+  const filteredTasks = tasks
+    .filter((task) => {
+      if (
+        searchQuery &&
+        !task.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        !task.description.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        return false;
+      }
 
-    if (selectedCategory !== "All" && task.category !== selectedCategory) {
-      return false;
-    }
+      if (selectedCategory !== "All" && task.category !== selectedCategory) {
+        return false;
+      }
 
-    switch (selectedTab) {
-      case "active":
-        return !task.completed;
-      case "completed":
-        return task.completed;
-      default:
-        return true;
-    }
-  });
+      switch (selectedTab) {
+        case "active":
+          return !task.completed;
+        case "completed":
+          return task.completed;
+        default:
+          return true;
+      }
+    })
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "dueDate":
+          return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+        case "priority":
+          const priorityOrder = { high: 3, medium: 2, low: 1 };
+          return priorityOrder[b.priority] - priorityOrder[a.priority];
+        case "createdAt":
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "title":
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
+    });
 
   const handleTaskClick = (taskId: string) => {
     setSelectedTask(taskId);
@@ -82,92 +103,137 @@ export const TasksPage = () => {
   const totalTasks = tasks.length;
   const completionRate =
     totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-  const highPriorityTasks = tasks.filter(
-    (task) => task.priority === "high" && !task.completed
+  const overdueTasks = tasks.filter(
+    (task) => !task.completed && new Date(task.dueDate) < new Date()
   ).length;
+
+  const todayTasks = tasks.filter(
+    (task) =>
+      !task.completed &&
+      new Date(task.dueDate).toDateString() === new Date().toDateString()
+  );
 
   const timelineTasks = tasks
     .filter((task) => task.dueTime && !task.completed)
     .sort((a, b) => (a.dueTime || "").localeCompare(b.dueTime || ""))
-    .slice(0, 5);
+    .slice(0, 3);
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.userInfo}>
-          <div className={styles.avatar}>
-            <div className={styles.avatarInitial}>D</div>
+      <div className={styles.heroSection}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroText}>
+            <h1 className={styles.heroTitle}>My Tasks</h1>
+            <p className={styles.heroSubtitle}>Stay organized and productive</p>
           </div>
-          <div>
-            <p className={styles.greeting}>Your Tasks</p>
-            <h2 className={styles.userName}>David</h2>
+          <div className={styles.heroStats}>
+            <div className={styles.heroStat}>
+              <span className={styles.heroStatNumber}>{todayTasks.length}</span>
+              <span className={styles.heroStatLabel}>Today</span>
+            </div>
+            <div className={styles.heroStat}>
+              <span className={styles.heroStatNumber}>{overdueTasks}</span>
+              <span className={styles.heroStatLabel}>Overdue</span>
+            </div>
           </div>
         </div>
-        <button className={styles.notificationButton}>
-          <FaBell className={styles.bellIcon} />
-          <span className={styles.notificationDot} />
-        </button>
+        <div className={styles.heroGradient}></div>
       </div>
 
-      <div className={styles.searchContainer}>
-        <div className={styles.searchInput}>
+      <div className={styles.searchSection}>
+        <div className={styles.searchContainer}>
           <FaSearch className={styles.searchIcon} />
           <input
+            type="text"
+            placeholder="Search tasks..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search your tasks..."
-            className={styles.searchField}
+            className={styles.searchInput}
           />
+          <button
+            className={styles.filterButton}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <FaFilter size={14} />
+          </button>
         </div>
       </div>
 
-      <div className={styles.statsGrid}>
+      {showFilters && (
+        <div className={styles.filtersPanel}>
+          <div className={styles.filterGroup}>
+            <label>Sort by:</label>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value as SortOption)}
+              className={styles.filterSelect}
+            >
+              <option value="dueDate">Due Date</option>
+              <option value="priority">Priority</option>
+              <option value="createdAt">Recently Added</option>
+              <option value="title">Title</option>
+            </select>
+          </div>
+        </div>
+      )}
+
+      <div className={styles.statsOverview}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
             <MdTaskAlt className={styles.statIconSvg} />
           </div>
           <div className={styles.statContent}>
             <span className={styles.statNumber}>{totalTasks}</span>
-            <span className={styles.statLabel}>Total</span>
+            <span className={styles.statLabel}>Total Tasks</span>
           </div>
         </div>
 
         <div className={styles.statCard}>
           <div className={styles.statIcon}>
-            <FaChartLine className={styles.statIconSvg} />
+            <FaCheckCircle className={styles.statIconSvg} />
           </div>
           <div className={styles.statContent}>
-            <span className={styles.statNumber}>{completionRate}%</span>
-            <span className={styles.statLabel}>Done</span>
+            <span className={styles.statNumber}>{completedTasks}</span>
+            <span className={styles.statLabel}>Completed</span>
           </div>
         </div>
 
         <div className={styles.statCardLarge}>
-          <div className={styles.statIconLarge}>
-            <FaStar className={styles.statIconSvgLarge} />
-          </div>
           <div className={styles.statContentLarge}>
-            <span className={styles.statNumberLarge}>{highPriorityTasks}</span>
-            <span className={styles.statLabelLarge}>Priority</span>
+            <span className={styles.statNumberLarge}>{completionRate}%</span>
+            <span className={styles.statLabelLarge}>Completion Rate</span>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${completionRate}%` }}
+              ></div>
+            </div>
           </div>
         </div>
       </div>
 
       <div className={styles.timelineSection}>
         <div className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle}>Today's Timeline</h3>
+          <h3 className={styles.sectionTitle}>
+            <FaClock className={styles.sectionIcon} />
+            Today's Schedule
+          </h3>
           <button className={styles.seeMore}>View All</button>
         </div>
         <div className={styles.timeline}>
           {timelineTasks.length > 0 ? (
-            timelineTasks.map((task, _) => (
+            timelineTasks.map((task) => (
               <div key={task._id} className={styles.timelineItem}>
                 <div className={styles.timelineTime}>{task.dueTime}</div>
                 <div className={styles.timelineContent}>
                   <div className={styles.timelineTitle}>{task.title}</div>
                   <div className={styles.timelineCategory}>{task.category}</div>
                 </div>
-                <div className={styles.timelineDot} />
+                <div
+                  className={`${styles.timelineDot} ${
+                    styles[`priority-${task.priority}`]
+                  }`}
+                />
               </div>
             ))
           ) : (
@@ -181,14 +247,11 @@ export const TasksPage = () => {
 
       <div className={styles.tabsHeader}>
         <h3 className={styles.sectionTitle}>My Tasks</h3>
-        <div className={styles.taskActions}>
-          <button
-            className={styles.addTaskButton}
-            onClick={() => setIsTaskSheetOpen(true)}
-          >
-            <FaPlus className={styles.addIcon} />
-            New Task
-          </button>
+        <div className={styles.taskStats}>
+          <span className={styles.taskCount}>{filteredTasks.length} tasks</span>
+          {selectedCategory !== "All" && (
+            <span className={styles.categoryTag}>{selectedCategory}</span>
+          )}
         </div>
       </div>
 
@@ -201,41 +264,11 @@ export const TasksPage = () => {
         />
       </div>
 
-      <div className={styles.statusTabs}>
-        <button
-          className={`${styles.statusTab} ${
-            selectedTab === "All" ? styles.active : ""
-          }`}
-          onClick={() => setSelectedTab("All")}
-        >
-          All
-        </button>
-        <button
-          className={`${styles.statusTab} ${
-            selectedTab === "active" ? styles.active : ""
-          }`}
-          onClick={() => setSelectedTab("active")}
-        >
-          Active
-        </button>
-        <button
-          className={`${styles.statusTab} ${
-            selectedTab === "completed" ? styles.active : ""
-          }`}
-          onClick={() => setSelectedTab("completed")}
-        >
-          Completed
-        </button>
-      </div>
-
-      <div className={styles.taskCounter}>
-        <span className={styles.taskCount}>{filteredTasks.length} tasks</span>
-        {selectedCategory !== "All" && (
-          <span className={styles.categoryTag}>{selectedCategory}</span>
-        )}
-      </div>
-
-      <TaskList tasks={filteredTasks} onTaskClick={handleTaskClick} />
+      <TaskList
+        tasks={filteredTasks}
+        onTaskClick={handleTaskClick}
+        onToggleCompletion={toggleTaskCompletion}
+      />
 
       {filteredTasks.length === 0 && (
         <div className={styles.emptyState}>
@@ -243,7 +276,7 @@ export const TasksPage = () => {
             <FaSearch size={32} />
           </div>
           <h3>No tasks found</h3>
-          <p>Try changing your search or create a new task</p>
+          <p>Try changing your filters or create a new task</p>
           <button
             className={styles.emptyAction}
             onClick={() => setIsTaskSheetOpen(true)}
@@ -275,10 +308,7 @@ export const TasksPage = () => {
       )}
 
       {isCategorySheetOpen && (
-        <BottomSheet
-          onClose={handleCategorySheetClose}
-          title="New Category"
-        >
+        <BottomSheet onClose={handleCategorySheetClose} title="New Category">
           <AddCategoryForm
             onSubmit={handleAddCategory}
             onCancel={handleCategorySheetClose}

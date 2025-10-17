@@ -89,14 +89,17 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     setSubtasks([...subtasks, newSubtask]);
   };
 
-  const updateSubtask = (id: string, updates: Partial<{ title: string; completed: boolean }>) => {
-    setSubtasks(subtasks.map(st => 
-      st._id === id ? { ...st, ...updates } : st
-    ));
+  const updateSubtask = (
+    id: string,
+    updates: Partial<{ title: string; completed: boolean }>
+  ) => {
+    setSubtasks(
+      subtasks.map((st) => (st._id === id ? { ...st, ...updates } : st))
+    );
   };
 
   const deleteSubtask = (id: string) => {
-    setSubtasks(subtasks.filter(st => st._id !== id));
+    setSubtasks(subtasks.filter((st) => st._id !== id));
   };
 
   const priorityConfig = {
@@ -152,7 +155,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   };
 
   const renderFilePreview = (file: any) => {
-    if (file.type?.startsWith('image/')) {
+    if (file.type?.startsWith("image/")) {
       return (
         <div className={styles.filePreview}>
           <img src={file.url} alt={file.name} className={styles.fileImage} />
@@ -160,7 +163,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
         </div>
       );
     }
-    
+
     return (
       <div className={styles.fileItem}>
         <FaPaperclip className={styles.fileIcon} />
@@ -235,138 +238,142 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
         </div>
 
         <div className={styles.detailsGrid}>
-          <div className={styles.detailItem}>
-            <div className={styles.detailHeader}>
-              <FaCalendar className={styles.detailIcon} />
-              <span className={styles.detailLabel}>Due Date</span>
-            </div>
-            {editingField === "dueDate" ? (
-              <input
-                type="date"
-                name="dueDate"
-                value={editData.dueDate}
-                onChange={handleInputChange}
-                onBlur={handleSave}
-                className={styles.editInput}
-                autoFocus
-              />
-            ) : (
-              <div
-                className={styles.viewField}
-                onClick={() => handleFieldPress("dueDate")}
-              >
-                <span
-                  className={
-                    editData.dueDate ? styles.fieldValue : styles.placeholder
-                  }
+          <div className={styles.detailRow}>
+            <div className={styles.detailItem}>
+              <div className={styles.detailHeader}>
+                <FaCalendar className={styles.detailIcon} />
+                <span className={styles.detailLabel}>Due Date</span>
+              </div>
+              {editingField === "dueDate" ? (
+                <input
+                  type="date"
+                  name="dueDate"
+                  value={editData.dueDate}
+                  onChange={handleInputChange}
+                  onBlur={handleSave}
+                  className={styles.editInput}
+                  autoFocus
+                />
+              ) : (
+                <div
+                  className={styles.viewField}
+                  onClick={() => handleFieldPress("dueDate")}
                 >
-                  {editData.dueDate
-                    ? new Date(editData.dueDate).toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                      })
-                    : "Set date"}
-                </span>
-                <FaEdit className={styles.editIcon} size={12} />
-              </div>
-            )}
-          </div>
-
-          <div className={styles.detailItem}>
-            <div className={styles.detailHeader}>
-              <FaClock className={styles.detailIcon} />
-              <span className={styles.detailLabel}>Time</span>
+                  <span
+                    className={
+                      editData.dueDate ? styles.fieldValue : styles.placeholder
+                    }
+                  >
+                    {editData.dueDate
+                      ? new Date(editData.dueDate).toLocaleDateString("en-US", {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : "Set date"}
+                  </span>
+                  <FaEdit className={styles.editIcon} size={12} />
+                </div>
+              )}
             </div>
-            {editingField === "dueTime" ? (
-              <input
-                type="time"
-                name="dueTime"
-                value={editData.dueTime}
-                onChange={handleInputChange}
-                onBlur={handleSave}
-                className={styles.editInput}
-                autoFocus
-              />
-            ) : (
-              <div
-                className={styles.viewField}
-                onClick={() => handleFieldPress("dueTime")}
-              >
-                <span
-                  className={
-                    editData.dueTime ? styles.fieldValue : styles.placeholder
-                  }
+
+            <div className={styles.detailItem}>
+              <div className={styles.detailHeader}>
+                <FaClock className={styles.detailIcon} />
+                <span className={styles.detailLabel}>Time</span>
+              </div>
+              {editingField === "dueTime" ? (
+                <input
+                  type="time"
+                  name="dueTime"
+                  value={editData.dueTime}
+                  onChange={handleInputChange}
+                  onBlur={handleSave}
+                  className={styles.editInput}
+                  autoFocus
+                />
+              ) : (
+                <div
+                  className={styles.viewField}
+                  onClick={() => handleFieldPress("dueTime")}
                 >
-                  {editData.dueTime || "Set time"}
-                </span>
-                <FaEdit className={styles.editIcon} size={12} />
-              </div>
-            )}
+                  <span
+                    className={
+                      editData.dueTime ? styles.fieldValue : styles.placeholder
+                    }
+                  >
+                    {editData.dueTime || "Set time"}
+                  </span>
+                  <FaEdit className={styles.editIcon} size={12} />
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className={styles.detailItem}>
-            <div className={styles.detailHeader}>
-              <FaTag className={styles.detailIcon} />
-              <span className={styles.detailLabel}>Category</span>
-            </div>
-            {editingField === "category" ? (
-              <select
-                name="category"
-                value={editData.category}
-                onChange={handleInputChange}
-                onBlur={handleSave}
-                className={styles.editInput}
-                autoFocus
-              >
-                <option value="General">General</option>
-                <option value="Work">Work</option>
-                <option value="Personal">Personal</option>
-                <option value="Shopping">Shopping</option>
-                <option value="Development">Development</option>
-                <option value="Design">Design</option>
-              </select>
-            ) : (
-              <div
-                className={styles.viewField}
-                onClick={() => handleFieldPress("category")}
-              >
-                <span className={styles.fieldValue}>{editData.category}</span>
-                <FaEdit className={styles.editIcon} size={12} />
+          <div className={styles.detailRow}>
+            <div className={styles.detailItem}>
+              <div className={styles.detailHeader}>
+                <FaTag className={styles.detailIcon} />
+                <span className={styles.detailLabel}>Category</span>
               </div>
-            )}
-          </div>
+              {editingField === "category" ? (
+                <select
+                  name="category"
+                  value={editData.category}
+                  onChange={handleInputChange}
+                  onBlur={handleSave}
+                  className={styles.editInput}
+                  autoFocus
+                >
+                  <option value="General">General</option>
+                  <option value="Work">Work</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Shopping">Shopping</option>
+                  <option value="Development">Development</option>
+                  <option value="Design">Design</option>
+                </select>
+              ) : (
+                <div
+                  className={styles.viewField}
+                  onClick={() => handleFieldPress("category")}
+                >
+                  <span className={styles.fieldValue}>{editData.category}</span>
+                  <FaEdit className={styles.editIcon} size={12} />
+                </div>
+              )}
+            </div>
 
-          <div className={styles.detailItem}>
-            <div className={styles.detailHeader}>
-              <FaTag className={styles.detailIcon} />
-              <span className={styles.detailLabel}>Project</span>
-            </div>
-            {editingField === "projectId" ? (
-              <select
-                name="projectId"
-                value={editData.projectId}
-                onChange={handleInputChange}
-                onBlur={handleSave}
-                className={styles.editInput}
-                autoFocus
-              >
-                <option value="">No Project</option>
-                <option value="project1">Project 1</option>
-                <option value="project2">Project 2</option>
-                <option value="project3">Project 3</option>
-              </select>
-            ) : (
-              <div
-                className={styles.viewField}
-                onClick={() => handleFieldPress("projectId")}
-              >
-                <span className={styles.fieldValue}>
-                  {editData.projectId || "No Project"}
-                </span>
-                <FaEdit className={styles.editIcon} size={12} />
+            <div className={styles.detailItem}>
+              <div className={styles.detailHeader}>
+                <FaTag className={styles.detailIcon} />
+                <span className={styles.detailLabel}>Project</span>
               </div>
-            )}
+              {editingField === "projectId" ? (
+                <select
+                  name="projectId"
+                  value={editData.projectId}
+                  onChange={handleInputChange}
+                  onBlur={handleSave}
+                  className={styles.editInput}
+                  autoFocus
+                >
+                  <option value="">No Project</option>
+                  <option value="project1">Project 1</option>
+                  <option value="project2">Project 2</option>
+                  <option value="project3">Project 3</option>
+                </select>
+              ) : (
+                <div
+                  className={styles.viewField}
+                  onClick={() => handleFieldPress("projectId")}
+                >
+                  <span className={styles.fieldValue}>
+                    {editData.projectId || "No Project"}
+                  </span>
+                  <FaEdit className={styles.editIcon} size={12} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -378,13 +385,17 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
                 <input
                   type="checkbox"
                   checked={subtask.completed}
-                  onChange={(e) => updateSubtask(subtask._id, { completed: e.target.checked })}
+                  onChange={(e) =>
+                    updateSubtask(subtask._id, { completed: e.target.checked })
+                  }
                   className={styles.subtaskCheckbox}
                 />
                 <input
                   type="text"
                   value={subtask.title}
-                  onChange={(e) => updateSubtask(subtask._id, { title: e.target.value })}
+                  onChange={(e) =>
+                    updateSubtask(subtask._id, { title: e.target.value })
+                  }
                   onBlur={handleSave}
                   placeholder="Subtask title"
                   className={styles.subtaskInput}

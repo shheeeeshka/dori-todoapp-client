@@ -40,11 +40,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.1s ease;
-}
-
-.checkbox:active {
-  transform: scale(0.95);
 }
 
 .checkbox.completed {
@@ -95,11 +90,6 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: transform 0.1s ease;
-}
-
-.priorityButton:active {
-  transform: scale(0.98);
 }
 
 .priorityDropdown {
@@ -130,7 +120,6 @@
   color: var(--text-color);
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.1s ease;
 }
 
 .priorityOption:active {
@@ -170,7 +159,6 @@
   color: var(--text-color);
   line-height: 1.4;
   cursor: pointer;
-  transition: all 0.1s ease;
   min-height: 54px;
   display: flex;
   align-items: center;
@@ -179,7 +167,6 @@
 
 .viewField:active {
   background: var(--card-hover);
-  transform: scale(0.99);
 }
 
 .fieldValue {
@@ -219,6 +206,12 @@ select.editInput {
 }
 
 .detailsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
@@ -310,7 +303,6 @@ select.editInput {
   color: var(--text-secondary);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.1s ease;
 }
 
 .addSubtaskButton:active {
@@ -381,12 +373,10 @@ select.editInput {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.1s ease;
 }
 
 .deleteButton:active {
   background: rgba(255, 71, 87, 0.1);
-  transform: scale(0.98);
 }
 
 @media (max-width: 480px) {
@@ -414,7 +404,7 @@ select.editInput {
     border-radius: 14px;
   }
   
-  .detailsGrid {
+  .detailRow {
     grid-template-columns: 1fr;
     gap: 10px;
   }

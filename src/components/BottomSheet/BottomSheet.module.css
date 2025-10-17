@@ -64,13 +64,13 @@
 .dragHandle {
   width: 40px;
   height: 4px;
-  background: var(--border);
+  background: #fff;
   border-radius: 2px;
   opacity: 0.6;
 }
 
 .header {
-  padding: 0 20px 16px;
+  padding: 8px 20px 16px;
   border-bottom: 1px solid var(--border);
 }
 
