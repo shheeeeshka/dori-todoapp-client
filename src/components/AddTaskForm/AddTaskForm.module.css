@@ -28,7 +28,7 @@
 
 .titleInput {
     padding: 16px;
-    border-radius: var(--border-radius-small);
+    border-radius: 20px;
     border: 1px solid var(--border);
     background: var(--secondary-color);
     font-size: 16px;
@@ -43,7 +43,7 @@
 
 .descriptionInput {
     padding: 16px;
-    border-radius: var(--border-radius-small);
+    border-radius: 20px;
     border: 1px solid var(--border);
     background: var(--secondary-color);
     font-size: 14px;
@@ -68,7 +68,7 @@
 .timeInput,
 .selectInput {
     padding: 12px 16px;
-    border-radius: var(--border-radius-small);
+    border-radius: 20px;
     border: 1px solid var(--border);
     background: var(--secondary-color);
     font-size: 14px;
@@ -92,7 +92,7 @@
 
 .priorityButton {
     padding: 12px 8px;
-    border-radius: var(--border-radius-small);
+    border-radius: 20px;
     border: 1px solid var(--border);
     background: var(--card-bg);
     color: var(--text-color);
@@ -112,10 +112,74 @@
     border-color: var(--primary-color);
 }
 
+.subtasksList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subtaskItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--secondary-color);
+    border-radius: 16px;
+}
+
+.subtaskInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 14px;
+    outline: none;
+    padding: 4px;
+}
+
+.deleteSubtaskButton {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.deleteSubtaskButton:active {
+    background: rgba(255, 71, 87, 0.1);
+    color: #ff4757;
+}
+
+.addSubtaskButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: transparent;
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.addSubtaskButton:active {
+    background: var(--secondary-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
 .submitButton {
     margin-top: 8px;
     padding: 16px;
-    border-radius: var(--border-radius-small);
+    border-radius: 20px;
     background: var(--primary-color);
     color: var(--primary-foreground);
     font-size: 16px;
@@ -145,7 +209,7 @@
   padding: 12px 16px;
   background: var(--card-bg);
   border: 2px dashed var(--border);
-  border-radius: var(--border-radius-small);
+  border-radius: 20px;
   color: var(--text-color);
   font-size: 14px;
   font-weight: 500;
@@ -174,7 +238,7 @@
   padding: 12px;
   background: var(--secondary-color);
   border: 1px solid var(--border);
-  border-radius: var(--border-radius-small);
+  border-radius: 16px;
   transition: all 0.1s ease;
 }
 
@@ -218,7 +282,7 @@
   border: none;
   background: transparent;
   color: var(--text-secondary);
-  border-radius: 6px;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.1s ease;
 }
