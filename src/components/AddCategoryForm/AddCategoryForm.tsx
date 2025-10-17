@@ -26,7 +26,6 @@ export const AddCategoryForm = ({ onSubmit }: AddCategoryFormProps) => {
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
           placeholder="Enter category name"
-          //   autoFocus
           className={styles.input}
         />
       </div>
