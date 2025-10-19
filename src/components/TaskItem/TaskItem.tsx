@@ -8,7 +8,7 @@ type Task = ReturnType<typeof useTasks>["tasks"][number];
 type TaskItemProps = {
   task: Task;
   onClick: () => void;
-  onToggleCompletion: () => void;
+  onToggleCompletion?: () => void; // made optional
   highlighted?: boolean;
 };
 
@@ -28,7 +28,7 @@ export const TaskItem = ({
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onToggleCompletion();
+    onToggleCompletion?.(); // guard call
   };
 
   const handleClick = (e: React.MouseEvent) => {

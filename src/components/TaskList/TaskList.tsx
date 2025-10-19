@@ -45,9 +45,7 @@ export const TaskList = ({
           key={task._id}
           task={task}
           onClick={() => onTaskClick(task._id)}
-          onToggleCompletion={
-            onToggleCompletion ? () => onToggleCompletion(task._id) : undefined
-          }
+          onToggleCompletion={() => onToggleCompletion?.(task._id)} // safe wrapper
           highlighted={index === highlightedIndex}
         />
       ))}
