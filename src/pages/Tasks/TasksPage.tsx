@@ -10,10 +10,9 @@ import {
   FaSearch,
   FaCalendarAlt,
   FaClock,
-  FaCheckCircle,
   FaFilter,
+  FaCheck,
 } from "react-icons/fa";
-import { MdTaskAlt } from "react-icons/md";
 import styles from "./TasksPage.module.css";
 
 type TaskTab = "All" | "active" | "completed";
@@ -29,6 +28,7 @@ export const TasksPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>("dueDate");
   const [showFilters, setShowFilters] = useState(false);
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks
@@ -118,6 +118,18 @@ export const TasksPage = () => {
     .sort((a, b) => (a.dueTime || "").localeCompare(b.dueTime || ""))
     .slice(0, 3);
 
+  const handleSortOptionSelect = (option: SortOption) => {
+    setSortOption(option);
+    setShowFilterDropdown(false);
+  };
+
+  const sortOptions = [
+    { value: "dueDate", label: "Due Date" },
+    { value: "priority", label: "Priority" },
+    { value: "createdAt", label: "Recently Added" },
+    { value: "title", label: "Title" },
+  ];
+
   return (
     <div className={styles.container}>
       <div className={styles.heroSection}>
@@ -140,25 +152,6 @@ export const TasksPage = () => {
         <div className={styles.heroGradient}></div>
       </div>
 
-      <div className={styles.searchSection}>
-        <div className={styles.searchContainer}>
-          <FaSearch className={styles.searchIcon} />
-          <input
-            type="text"
-            placeholder="Search tasks..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={styles.searchInput}
-          />
-          <button
-            className={styles.filterButton}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <FaFilter size={14} />
-          </button>
-        </div>
-      </div>
-
       {showFilters && (
         <div className={styles.filtersPanel}>
           <div className={styles.filterGroup}>
@@ -176,41 +169,6 @@ export const TasksPage = () => {
           </div>
         </div>
       )}
-
-      <div className={styles.statsOverview}>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <MdTaskAlt className={styles.statIconSvg} />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>{totalTasks}</span>
-            <span className={styles.statLabel}>Total Tasks</span>
-          </div>
-        </div>
-
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <FaCheckCircle className={styles.statIconSvg} />
-          </div>
-          <div className={styles.statContent}>
-            <span className={styles.statNumber}>{completedTasks}</span>
-            <span className={styles.statLabel}>Completed</span>
-          </div>
-        </div>
-
-        <div className={styles.statCardLarge}>
-          <div className={styles.statContentLarge}>
-            <span className={styles.statNumberLarge}>{completionRate}%</span>
-            <span className={styles.statLabelLarge}>Completion Rate</span>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progressFill}
-                style={{ width: `${completionRate}%` }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div className={styles.timelineSection}>
         <div className={styles.sectionHeader}>
@@ -246,7 +204,35 @@ export const TasksPage = () => {
       </div>
 
       <div className={styles.tabsHeader}>
-        <h3 className={styles.sectionTitle}>My Tasks</h3>
+        <div className={styles.tabsHeaderLeft}>
+          <span className={styles.title}>My Tasks</span>
+          <div className={styles.filterDropdownContainer}>
+            <button
+              className={styles.filterDropdownButton}
+              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+            >
+              <FaFilter size={13} color="var(--text-color)" />
+            </button>
+            {showFilterDropdown && (
+              <div className={styles.filterDropdown}>
+                {sortOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    className={styles.filterDropdownOption}
+                    onClick={() =>
+                      handleSortOptionSelect(option.value as SortOption)
+                    }
+                  >
+                    <span>{option.label}</span>
+                    {sortOption === option.value && (
+                      <FaCheck size={16} color="#fff" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
         <div className={styles.taskStats}>
           <span className={styles.taskCount}>{filteredTasks.length} tasks</span>
           {selectedCategory !== "All" && (

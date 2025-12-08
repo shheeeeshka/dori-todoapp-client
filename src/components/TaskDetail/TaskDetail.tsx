@@ -9,6 +9,7 @@ import {
   FaTrash,
   FaEdit,
   FaPaperclip,
+  FaTrashAlt,
 } from "react-icons/fa";
 import styles from "./TaskDetail.module.css";
 
@@ -370,7 +371,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
                   <span className={styles.fieldValue}>
                     {editData.projectId || "No Project"}
                   </span>
-                  <FaEdit className={styles.editIcon} size={12} />
+                  <FaEdit className={styles.editIcon} size={14} />
                 </div>
               )}
             </div>
@@ -404,7 +405,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
                   onClick={() => deleteSubtask(subtask._id)}
                   className={styles.deleteSubtaskButton}
                 >
-                  <FaTrash size={12} />
+                  <FaTrashAlt size={16} color="red" />
                 </button>
               </div>
             ))}

@@ -55,9 +55,7 @@ export const TaskItem = ({
             }`}
             onClick={handleToggle}
           >
-            {task.completed && (
-              <FaCheck size={18} className={styles.checkIcon} />
-            )}
+            {task.completed && <FaCheck size={20} color="#fff" />}
           </button>
 
           <div className={styles.taskInfo}>

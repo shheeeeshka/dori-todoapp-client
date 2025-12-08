@@ -228,12 +228,13 @@ export const HomePage = () => {
       <div className={styles.todayTasks}>
         <div className={styles.sectionHeader}>
           <h3 className={styles.sectionTitle}>Today's Tasks</h3>
-          <button
+          <Link
+            to="/tasks"
             className={styles.seeMore}
             onClick={() => console.log("See more tasks")}
           >
             See more
-          </button>
+          </Link>
         </div>
         <TaskList
           tasks={filteredTasks}

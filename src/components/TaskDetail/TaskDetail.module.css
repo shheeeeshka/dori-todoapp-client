@@ -1,5 +1,6 @@
 .container {
   padding: 0;
+  padding-bottom: 120px;
   background: var(--card-bg);
   min-height: 60vh;
   display: flex;
