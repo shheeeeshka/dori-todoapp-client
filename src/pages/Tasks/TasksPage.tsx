@@ -25,22 +25,13 @@ export const TasksPage = () => {
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [isTaskSheetOpen, setIsTaskSheetOpen] = useState(false);
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>("dueDate");
-  const [showFilters, setShowFilters] = useState(false);
+  const showFilters = false;
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const tabsRef = useRef<HTMLDivElement>(null);
 
   const filteredTasks = tasks
     .filter((task) => {
-      if (
-        searchQuery &&
-        !task.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !task.description.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        return false;
-      }
-
       if (selectedCategory !== "All" && task.category !== selectedCategory) {
         return false;
       }
@@ -99,10 +90,6 @@ export const TasksPage = () => {
     setIsCategorySheetOpen(false);
   };
 
-  const completedTasks = tasks.filter((task) => task.completed).length;
-  const totalTasks = tasks.length;
-  const completionRate =
-    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
   const overdueTasks = tasks.filter(
     (task) => !task.completed && new Date(task.dueDate) < new Date()
   ).length;
