@@ -60,6 +60,10 @@ export const HomePage = () => {
   };
 
   const completedTasks = tasks.filter((task) => task.completed).length;
+  const totalSubtasks = tasks.reduce(
+    (acc, task) => acc + (task.subtasks?.length || 0),
+    0,
+  );
   const totalTasks = tasks.length;
 
   const highPriorityTasks = tasks.filter(
@@ -210,6 +214,10 @@ export const HomePage = () => {
             <div className={styles.breakdownItem}>
               <span className={styles.breakdownLabel}>Completed</span>
               <span className={styles.breakdownNumber}>{completedTasks}</span>
+            </div>
+            <div className={styles.breakdownItem}>
+              <span className={styles.breakdownLabel}>Subtasks</span>
+              <span className={styles.breakdownNumber}>{totalSubtasks}</span>
             </div>
             <div className={styles.breakdownItem}>
               <span className={styles.breakdownLabel}>Pending</span>
