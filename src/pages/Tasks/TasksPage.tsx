@@ -12,6 +12,7 @@ import {
   FaClock,
   FaFilter,
   FaCheck,
+  FaLock,
 } from "react-icons/fa";
 import styles from "./TasksPage.module.css";
 
@@ -91,13 +92,13 @@ export const TasksPage = () => {
   };
 
   const overdueTasks = tasks.filter(
-    (task) => !task.completed && new Date(task.dueDate) < new Date()
+    (task) => !task.completed && new Date(task.dueDate) < new Date(),
   ).length;
 
   const todayTasks = tasks.filter(
     (task) =>
       !task.completed &&
-      new Date(task.dueDate).toDateString() === new Date().toDateString()
+      new Date(task.dueDate).toDateString() === new Date().toDateString(),
   );
 
   const timelineTasks = tasks
@@ -288,6 +289,10 @@ export const TasksPage = () => {
           />
         </BottomSheet>
       )}
+
+      <div className={styles.overlayLocked}>
+        <FaLock size={64} className={styles.lockIcon} />
+      </div>
     </div>
   );
 };

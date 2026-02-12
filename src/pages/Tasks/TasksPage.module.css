@@ -764,3 +764,33 @@
         padding: 8px 0;
     }
 }
+
+/* temp */
+
+.overlayLocked {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  clip-path: inset(0 0 60px 0);
+}
+
+.lockIcon {
+  color: white;
+  animation: pulse 2s infinite;
+  margin-bottom: 40px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* temp */
