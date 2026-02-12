@@ -7,10 +7,10 @@
     justify-content: space-around;
     background-color: var(--card-bg);
     border-top: 1px solid var(--divider-color);
-    padding: 16px 0;
+    padding: 16px 0 20px;
     z-index: 100;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .navItem {

@@ -8,7 +8,7 @@ type Task = ReturnType<typeof useTasks>["tasks"][number];
 type TaskItemProps = {
   task: Task;
   onClick: () => void;
-  onToggleCompletion?: () => void; // made optional
+  onToggleCompletion?: () => void;
   highlighted?: boolean;
 };
 
@@ -28,7 +28,7 @@ export const TaskItem = ({
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onToggleCompletion?.(); // guard call
+    onToggleCompletion?.();
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -55,7 +55,9 @@ export const TaskItem = ({
             }`}
             onClick={handleToggle}
           >
-            {task.completed && <FaCheck size={20} color="#fff" />}
+            {task.completed && (
+              <FaCheck className={styles.checkIcon} size={20} />
+            )}
           </button>
 
           <div className={styles.taskInfo}>
@@ -85,9 +87,15 @@ export const TaskItem = ({
           </div>
         </div>
 
-        <button className={styles.expandButton} onClick={handleClick}>
-          {isExpanded ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
-        </button>
+        {task && task.description && (
+          <button className={styles.expandButton} onClick={handleClick}>
+            {isExpanded ? (
+              <FaChevronUp size={18} />
+            ) : (
+              <FaChevronDown size={18} />
+            )}
+          </button>
+        )}
       </div>
 
       {isExpanded && task.description && (

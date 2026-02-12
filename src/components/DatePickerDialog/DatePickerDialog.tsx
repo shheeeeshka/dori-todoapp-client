@@ -18,6 +18,7 @@ export const DatePickerDialog = ({
   const handleSelect = (date: Date) => {
     setSelectedDate(date);
     onSelectDate?.(date);
+    onClose();
   };
 
   const today = new Date();
@@ -79,7 +80,6 @@ export const DatePickerDialog = ({
   return (
     <>
       <div className={styles.backdrop} onClick={onClose} />
-
       <div className={styles.dialog}>
         <div className={styles.header}>
           <div className={styles.headerContent}>
@@ -146,15 +146,6 @@ export const DatePickerDialog = ({
               </button>
             ))}
           </div>
-        </div>
-
-        <div className={styles.footer}>
-          <button className={styles.cancelButton} onClick={onClose}>
-            Cancel
-          </button>
-          <button className={styles.confirmButton} onClick={onClose}>
-            Confirm
-          </button>
         </div>
       </div>
     </>

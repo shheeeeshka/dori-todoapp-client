@@ -29,16 +29,10 @@ export const HomePage = () => {
   });
 
   const getTasksForSelectedDate = () => {
-    if (selectedDate) {
-      return tasks.filter(
-        (task) => task.dueDate.split("T")[0] === selectedDate && !task.completed
-      );
-    } else {
-      return tasks.filter(
-        (task) =>
-          task.dueDate.split("T")[0] === todayDateString && !task.completed
-      );
-    }
+    const targetDate = selectedDate || todayDateString;
+    return tasks.filter(
+      (task) => task.dueDate.split("T")[0] === targetDate && !task.completed,
+    );
   };
 
   let filteredTasks = getTasksForSelectedDate();
@@ -47,7 +41,7 @@ export const HomePage = () => {
     filteredTasks = filteredTasks.filter(
       (t) =>
         t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.description.toLowerCase().includes(searchQuery.toLowerCase())
+        t.description.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }
 
@@ -58,15 +52,18 @@ export const HomePage = () => {
 
   const handleDateClick = (date: Date) => {
     const dateString = date.toISOString().split("T")[0];
-    if (selectedDate === dateString) return setSelectedDate(null);
-    return setSelectedDate(dateString);
+    if (selectedDate === dateString) {
+      setSelectedDate(null);
+    } else {
+      setSelectedDate(dateString);
+    }
   };
 
   const completedTasks = tasks.filter((task) => task.completed).length;
   const totalTasks = tasks.length;
 
   const highPriorityTasks = tasks.filter(
-    (task) => task.priority === "high" && !task.completed
+    (task) => task.priority === "high" && !task.completed,
   ).length;
 
   const favoriteWorkspaceTasks = tasks
@@ -74,15 +71,20 @@ export const HomePage = () => {
     .slice(0, 3);
 
   const dailyTasksCompleted = tasks.filter(
-    (task) => task.completed && task.dueDate.split("T")[0] === todayDateString
+    (task) => task.completed && task.dueDate.split("T")[0] === todayDateString,
   ).length;
   const dailyTasksTotal = tasks.filter(
-    (task) => task.dueDate.split("T")[0] === todayDateString
+    (task) => task.dueDate.split("T")[0] === todayDateString,
   ).length;
   const dailyProgress =
     dailyTasksTotal > 0
       ? Math.round((dailyTasksCompleted / dailyTasksTotal) * 100)
       : 0;
+
+  const selectedDateObj = selectedDate ? new Date(selectedDate) : today;
+  const calendarMonth = selectedDateObj.toLocaleDateString("en-US", {
+    month: "long",
+  });
 
   return (
     <div className={styles.container}>
@@ -128,7 +130,7 @@ export const HomePage = () => {
           className={styles.calendarButton}
           onClick={() => setIsCalendarOpen(true)}
         >
-          June <FaCalendarAlt className={styles.calendarIcon} />
+          {calendarMonth} <FaCalendarAlt className={styles.calendarIcon} />
         </button>
       </div>
 
@@ -227,7 +229,15 @@ export const HomePage = () => {
 
       <div className={styles.todayTasks}>
         <div className={styles.sectionHeader}>
-          <h3 className={styles.sectionTitle}>Today's Tasks</h3>
+          <h3 className={styles.sectionTitle}>
+            {selectedDate
+              ? new Date(selectedDate).toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                })
+              : "Today's Tasks"}
+          </h3>
           <Link
             to="/tasks"
             className={styles.seeMore}
@@ -268,6 +278,10 @@ export const HomePage = () => {
       <DatePickerDialog
         isOpen={isCalendarOpen}
         onClose={() => setIsCalendarOpen(false)}
+        onSelectDate={(date) => {
+          const dateString = date.toISOString().split("T")[0];
+          setSelectedDate(dateString);
+        }}
       />
     </div>
   );

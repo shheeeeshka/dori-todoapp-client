@@ -221,7 +221,7 @@ select.editInput {
 .detailItem {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .detailHeader {
@@ -279,8 +279,8 @@ select.editInput {
 }
 
 .deleteSubtaskButton {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 14px;
   background: transparent;
   border: none;

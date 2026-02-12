@@ -73,8 +73,11 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
 
   const handlePrioritySelect = (priority: "low" | "medium" | "high") => {
     setEditData((prev) => ({ ...prev, priority }));
+    updateTask(task._id, {
+      priority,
+      dueDate: editData.dueDate ? `${editData.dueDate}T00:00:00` : "",
+    });
     setShowPrioritySelect(false);
-    handleSave();
   };
 
   const handleFieldPress = (field: string) => {

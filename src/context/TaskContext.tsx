@@ -29,15 +29,25 @@ export type Task = {
   projectId?: string;
   subtasks?: Subtask[];
   attachments?: FileAttachment[];
+  originalDueDate?: string;
+  wasRescheduled?: boolean;
 };
 
 type TaskContextType = {
   tasks: Task[];
   categories: string[];
   addTask: (
-    task: Omit<Task, "_id" | "createdAt" | "updatedAt" | "completed" | "subtasks" | "attachments"> & {
+    task: Omit<
+      Task,
+      | "_id"
+      | "createdAt"
+      | "updatedAt"
+      | "completed"
+      | "subtasks"
+      | "attachments"
+    > & {
       subtasks?: Subtask[];
-    }
+    },
   ) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
@@ -52,6 +62,9 @@ const getInitialDemoTasks = (): Task[] => {
   const now = new Date();
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
 
   const nextWeek = new Date(now);
   nextWeek.setDate(nextWeek.getDate() + 7);
@@ -71,8 +84,8 @@ const getInitialDemoTasks = (): Task[] => {
       projectId: "project1",
       subtasks: [
         { _id: "1-1", title: "Prepare agenda", completed: false },
-        { _id: "1-2", title: "Review documents", completed: true }
-      ]
+        { _id: "1-2", title: "Review documents", completed: true },
+      ],
     },
     {
       _id: "2",
@@ -159,13 +172,61 @@ const getInitialDemoTasks = (): Task[] => {
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     },
+    {
+      _id: "9",
+      title: "Legacy Report (Auto-moved)",
+      description: "This task was automatically moved to today",
+      dueDate: yesterday.toISOString(),
+      dueTime: "09:00",
+      completed: false,
+      category: "Work",
+      priority: "medium",
+      createdAt: yesterday.toISOString(),
+      updatedAt: yesterday.toISOString(),
+      originalDueDate: yesterday.toISOString(),
+      wasRescheduled: true,
+    },
   ];
+};
+
+const rescheduleOverdueTasks = (tasks: Task[]): Task[] => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return tasks.map((task) => {
+    if (task.completed) return task;
+
+    const taskDueDate = new Date(task.dueDate);
+    taskDueDate.setHours(0, 0, 0, 0);
+
+    if (taskDueDate < today) {
+      return {
+        ...task,
+        dueDate: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        originalDueDate: task.originalDueDate || task.dueDate,
+        wasRescheduled: true,
+      };
+    }
+
+    return task;
+  });
 };
 
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>(() => {
     const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : getInitialDemoTasks();
+    let parsedTasks = savedTasks
+      ? JSON.parse(savedTasks)
+      : getInitialDemoTasks();
+
+    const processedTasks = rescheduleOverdueTasks(parsedTasks);
+
+    if (JSON.stringify(parsedTasks) !== JSON.stringify(processedTasks)) {
+      localStorage.setItem("tasks", JSON.stringify(processedTasks));
+    }
+
+    return processedTasks;
   });
 
   const [categories, setCategories] = useState<string[]>(() => {
@@ -183,6 +244,21 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
+    const checkAndRescheduleTasks = () => {
+      setTasks((prevTasks) => {
+        const updatedTasks = rescheduleOverdueTasks(prevTasks);
+        return updatedTasks;
+      });
+    };
+
+    checkAndRescheduleTasks();
+
+    const interval = setInterval(checkAndRescheduleTasks, 3600000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
@@ -191,9 +267,17 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   }, [categories]);
 
   const addTask = (
-    task: Omit<Task, "_id" | "createdAt" | "updatedAt" | "completed" | "subtasks" | "attachments"> & {
+    task: Omit<
+      Task,
+      | "_id"
+      | "createdAt"
+      | "updatedAt"
+      | "completed"
+      | "subtasks"
+      | "attachments"
+    > & {
       subtasks?: Subtask[];
-    }
+    },
   ) => {
     const newTask: Task = {
       ...task,
@@ -212,8 +296,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       tasks.map((task) =>
         task._id === id
           ? { ...task, ...updates, updatedAt: new Date().toISOString() }
-          : task
-      )
+          : task,
+      ),
     );
   };
 
@@ -230,8 +314,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
               completed: !task.completed,
               updatedAt: new Date().toISOString(),
             }
-          : task
-      )
+          : task,
+      ),
     );
   };
 
@@ -244,8 +328,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const deleteCategory = (category: string) => {
     setTasks(
       tasks.map((task) =>
-        task.category === category ? { ...task, category: "General" } : task
-      )
+        task.category === category ? { ...task, category: "General" } : task,
+      ),
     );
     setCategories(categories.filter((c) => c !== category));
   };
