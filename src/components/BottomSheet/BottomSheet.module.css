@@ -58,7 +58,11 @@
 .dragHandleContainer {
   display: flex;
   justify-content: center;
-  padding: 12px 0 8px;
+  padding: 12px 0 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #16161d;
 }
 
 .dragHandle {

@@ -32,8 +32,8 @@
 }
 
 .checkbox {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 22px;
   border: 2px solid var(--primary-color);
   background: transparent;
@@ -395,7 +395,7 @@ select.editInput {
   }
   
   .viewField {
-    padding: 14px;
+    padding: 0 15px;
     min-height: 50px;
     border-radius: 14px;
   }

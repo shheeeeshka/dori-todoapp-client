@@ -1,5 +1,4 @@
 import { useTelegram } from "../../hooks/useTelegram";
-import { useNavigate } from "react-router-dom";
 import { handleShare } from "../../utils/utils";
 import { useTasks } from "../../context/TaskContext";
 import { useEffect, useState } from "react";
@@ -12,11 +11,13 @@ import {
   FaFlag,
 } from "react-icons/fa";
 import styles from "./ProfilePage.module.css";
+import { SlidePanel } from "../../components/SlidePanel/SlidePanel";
+import { SettingsPage } from "../Settings/SettingsPage";
 
 export const ProfilePage = () => {
   const { tgUser } = useTelegram();
-  const navigate = useNavigate();
   const { tasks } = useTasks();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [stats, setStats] = useState({
     total: 0,
     completed: 0,
@@ -32,10 +33,10 @@ export const ProfilePage = () => {
       completed: tasks.filter((task) => task.completed).length,
       active: tasks.filter((task) => !task.completed).length,
       highPriority: tasks.filter(
-        (task) => task.priority === "high" && !task.completed
+        (task) => task.priority === "high" && !task.completed,
       ).length,
       overdue: tasks.filter(
-        (task) => !task.completed && new Date(task.dueDate) < now
+        (task) => !task.completed && new Date(task.dueDate) < now,
       ).length,
     };
 
@@ -80,7 +81,7 @@ export const ProfilePage = () => {
     return tasks
       .sort(
         (a, b) =>
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
       )
       .slice(0, 5);
   };
@@ -154,7 +155,7 @@ export const ProfilePage = () => {
         </button>
         <button
           className={styles.actionButton}
-          onClick={() => navigate("/settings")}
+          onClick={() => setIsSettingsOpen(true)}
         >
           <FaCog size={20} />
         </button>
@@ -289,6 +290,12 @@ export const ProfilePage = () => {
           </div>
         </div>
       </div>
+
+      {isSettingsOpen && (
+        <SlidePanel onClose={() => setIsSettingsOpen(false)} title="Settings">
+          <SettingsPage />
+        </SlidePanel>
+      )}
     </div>
   );
 };

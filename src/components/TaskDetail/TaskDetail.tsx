@@ -51,7 +51,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setEditData((prev) => ({ ...prev, [name]: value }));
@@ -92,10 +92,10 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
 
   const updateSubtask = (
     id: string,
-    updates: Partial<{ title: string; completed: boolean }>
+    updates: Partial<{ title: string; completed: boolean }>,
   ) => {
     setSubtasks(
-      subtasks.map((st) => (st._id === id ? { ...st, ...updates } : st))
+      subtasks.map((st) => (st._id === id ? { ...st, ...updates } : st)),
     );
   };
 
@@ -115,7 +115,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
     field: string,
     value: string,
     placeholder: string,
-    isTextarea = false
+    isTextarea = false,
   ) => {
     if (editingField === field) {
       if (isTextarea) {
@@ -175,8 +175,6 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.dragHandle} />
-
       <div className={styles.header}>
         <div className={styles.statusSection}>
           <button
@@ -234,7 +232,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
             "description",
             editData.description,
             "Add description...",
-            true
+            true,
           )}
         </div>
 

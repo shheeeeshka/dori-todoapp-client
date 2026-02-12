@@ -3,7 +3,6 @@ import { TaskProvider } from "../../context/TaskContext";
 import { HomePage } from "../../pages/Home/HomePage";
 import { TasksPage } from "../../pages/Tasks/TasksPage";
 import { ProfilePage } from "../../pages/Profile/ProfilePage";
-import { SettingsPage } from "../../pages/Settings/SettingsPage";
 import { Layout } from "../Layout/Layout";
 import { SharedTasksPage } from "../../pages/SharedTasksPage/SharedTasksPage";
 
@@ -16,7 +15,6 @@ export const AppRouter = () => {
           <Route path="tasks" element={<TasksPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="/shared" element={<SharedTasksPage />} />
-          <Route path="settings" element={<SettingsPage />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Route>
       </Routes>

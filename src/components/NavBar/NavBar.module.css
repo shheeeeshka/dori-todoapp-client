@@ -9,6 +9,8 @@
     border-top: 1px solid var(--divider-color);
     padding: 16px 0;
     z-index: 100;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 .navItem {

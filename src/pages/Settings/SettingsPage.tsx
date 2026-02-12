@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { ThemeSelector } from "../../components/ThemeSelector/ThemeSelector";
 import styles from "./SettingsPage.module.css";
+import { useState } from "react";
 
 const themes = [
   { id: "light", name: "Light", colors: ["#ff7eb9", "#d4a5ff"] },
@@ -14,11 +14,12 @@ const themes = [
 export const SettingsPage = () => {
   const { theme, switchTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [autoSync, setAutoSync] = useState(false);
+  const [language, setLanguage] = useState("en");
 
   return (
     <div className={styles.container}>
-      <h1>Settings</h1>
-
       <div className={styles.section}>
         <h2>Appearance</h2>
         <ThemeSelector
@@ -41,6 +42,48 @@ export const SettingsPage = () => {
             <span className={styles.slider}></span>
           </label>
         </div>
+        <div className={styles.switchContainer}>
+          <span>Sound</span>
+          <label className={styles.switch}>
+            <input
+              type="checkbox"
+              checked={soundEnabled}
+              onChange={() => setSoundEnabled(!soundEnabled)}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h2>Sync & Backup</h2>
+        <div className={styles.switchContainer}>
+          <span>Auto‑sync</span>
+          <label className={styles.switch}>
+            <input
+              type="checkbox"
+              checked={autoSync}
+              onChange={() => setAutoSync(!autoSync)}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+        <button className={styles.actionButton}>Backup now</button>
+        <button className={styles.actionButton}>Restore from backup</button>
+      </div>
+
+      <div className={styles.section}>
+        <h2>Language</h2>
+        <select
+          className={styles.select}
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+        </select>
       </div>
 
       <div className={styles.section}>
@@ -48,8 +91,8 @@ export const SettingsPage = () => {
         <p className={styles.aboutText}>
           ToDo App for Telegram
           <br />
-          Version 1.0.0
-          <br />© 2025
+          Version 2.1.0
+          <br />© {new Date().getFullYear()}
         </p>
       </div>
     </div>
