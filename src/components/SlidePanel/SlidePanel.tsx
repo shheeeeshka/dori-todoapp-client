@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import styles from "./SlidePanel.module.css";
 
 type SlidePanelProps = {
   children: ReactNode;
   onClose: () => void;
-  title?: string | null;
+  header?: ReactNode;
+  footer?: ReactNode;
+  showCloseButton?: boolean;
 };
 
 export const SlidePanel = ({
   children,
   onClose,
-  title = null,
+  header,
+  footer,
+  showCloseButton = true,
 }: SlidePanelProps) => {
   const [isClosing, setIsClosing] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -50,17 +54,24 @@ export const SlidePanel = ({
         className={`${styles.panel} ${isClosing ? styles.closing : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={styles.header}>
-          {title && <h2 className={styles.title}>{title}</h2>}
-          <button
-            className={styles.closeButton}
-            onClick={handleClose}
-            aria-label="Close"
-          >
-            ✕
-          </button>
-        </div>
+        {header && (
+          <div className={styles.header}>
+            {header}
+            {showCloseButton && (
+              <button
+                className={styles.closeButton}
+                onClick={handleClose}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
+
         <div className={styles.content}>{children}</div>
+
+        {footer && <div className={styles.footer}>{footer}</div>}
       </div>
     </div>
   );

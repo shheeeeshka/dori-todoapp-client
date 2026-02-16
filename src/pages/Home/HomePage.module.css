@@ -482,7 +482,7 @@
 }
 
 .fab {
-    position: fixed;
+    position: sticky;
     bottom: 80px;
     right: 50%;
     transform: translateX(50%);

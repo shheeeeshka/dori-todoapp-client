@@ -3,11 +3,12 @@ import { useTasks } from "../../context/TaskContext";
 import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
 import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
-import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
+import { TaskForm } from "../../components/TaskForm/TaskForm";
 import { DatePickerDialog } from "../../components/DatePickerDialog/DatePickerDialog";
 import { FaSearch, FaBell, FaCalendarAlt } from "react-icons/fa";
 import styles from "./HomePage.module.css";
 import { Link } from "react-router-dom";
+import { SlidePanel } from "../../components/SlidePanel/SlidePanel";
 
 export const HomePage = () => {
   const { tasks, toggleTaskCompletion } = useTasks();
@@ -275,12 +276,12 @@ export const HomePage = () => {
       )}
 
       {isAddTaskOpen && (
-        <BottomSheet
-          onClose={() => setIsAddTaskOpen(false)}
-          title="Add New Task"
-        >
-          <AddTaskForm onSubmit={() => setIsAddTaskOpen(false)} />
-        </BottomSheet>
+        <SlidePanel onClose={() => setIsAddTaskOpen(false)}>
+          <TaskForm
+            onSubmit={() => setIsAddTaskOpen(false)}
+            onClose={() => setIsAddTaskOpen(false)}
+          />
+        </SlidePanel>
       )}
 
       <DatePickerDialog

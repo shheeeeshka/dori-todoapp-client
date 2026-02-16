@@ -4,7 +4,7 @@ import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
 import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
 import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
-import { AddTaskForm } from "../../components/AddTaskForm/AddTaskForm";
+// import { TaskForm } from "../../components/TaskForm/TaskForm";
 import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
 import {
   FaSearch,
@@ -271,12 +271,7 @@ export const TasksPage = () => {
               onClose={() => setIsTaskSheetOpen(false)}
             />
           ) : (
-            <AddTaskForm
-              defaultCategory={
-                selectedCategory !== "All" ? selectedCategory : undefined
-              }
-              onSubmit={() => setIsTaskSheetOpen(false)}
-            />
+            <div>ok</div>
           )}
         </BottomSheet>
       )}
