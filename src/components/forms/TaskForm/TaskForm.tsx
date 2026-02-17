@@ -236,7 +236,7 @@ export const TaskForm = ({
     setShowCategoryDropdown(false);
   };
 
-  const selectWorkspace = (workspaceId: string, workspaceName: string) => {
+  const selectWorkspace = (workspaceId: string) => {
     setFormData((prev) => ({ ...prev, projectId: workspaceId }));
     setShowWorkspaceDropdown(false);
   };
@@ -412,7 +412,7 @@ export const TaskForm = ({
                     key={workspace.id}
                     className={styles.dropdownItem}
                     onClick={() =>
-                      selectWorkspace(workspace.id, workspace.name)
+                      selectWorkspace(workspace.id)
                     }
                   >
                     {workspace.name}
