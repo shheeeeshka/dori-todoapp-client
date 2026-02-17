@@ -3,7 +3,7 @@ import { useTasks } from "../../context/TaskContext";
 import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
 import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
-import { TaskForm } from "../../components/TaskForm/TaskForm";
+import { TaskForm } from "../../components/forms/TaskForm/TaskForm";
 import { DatePickerDialog } from "../../components/DatePickerDialog/DatePickerDialog";
 import { FaSearch, FaBell, FaCalendarAlt } from "react-icons/fa";
 import styles from "./HomePage.module.css";

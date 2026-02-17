@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import styles from "./ProfilePage.module.css";
 import { SlidePanel } from "../../components/SlidePanel/SlidePanel";
-import { SettingsPage } from "../Settings/SettingsPage";
+import { SettingsForm } from "../../components/forms/SettingsForm/SettingsForm";
 
 export const ProfilePage = () => {
   const { tgUser } = useTelegram();
@@ -292,8 +292,8 @@ export const ProfilePage = () => {
       </div>
 
       {isSettingsOpen && (
-        <SlidePanel onClose={() => setIsSettingsOpen(false)} title="Settings">
-          <SettingsPage />
+        <SlidePanel onClose={() => setIsSettingsOpen(false)}>
+          <SettingsForm onClose={() => setIsSettingsOpen(false)} />
         </SlidePanel>
       )}
     </div>
