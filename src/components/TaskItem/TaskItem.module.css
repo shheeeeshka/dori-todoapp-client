@@ -8,6 +8,8 @@
     margin-bottom: 8px;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 .taskCard:active {
@@ -15,9 +17,39 @@
     transform: scale(0.99);
 }
 
+.taskCard.completed {
+    opacity: 0.8;
+}
+
+.completedOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.03) 0%,
+            rgba(0, 0, 0, 0.01) 100%);
+    backdrop-filter: blur(1px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+[data-theme="dark"] .completedOverlay {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0.01) 100%);
+}
+
 .taskCard.highlighted {
     background: linear-gradient(135deg, var(--primary-color), hsl(25 98% 52%));
     border: none;
+}
+
+.taskCard.highlighted .completedOverlay {
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.05) 100%);
 }
 
 .taskHeader {
@@ -26,6 +58,8 @@
     align-items: flex-start;
     gap: 12px;
     width: 100%;
+    position: relative;
+    z-index: 2;
 }
 
 .taskMain {
@@ -49,6 +83,8 @@
     background: var(--card-bg);
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
+    z-index: 3;
 }
 
 .checkbox.completed {
@@ -67,7 +103,7 @@
 }
 
 .checkIcon {
-    color: var(--background-color);
+    color: hsl(0deg 0% 100%);
 }
 
 .taskCard.highlighted .checkIcon {
@@ -89,6 +125,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    position: relative;
+    z-index: 2;
 }
 
 .taskCard.highlighted .taskTitle {
@@ -110,6 +148,8 @@
     gap: 8px;
     flex-wrap: wrap;
     width: 100%;
+    position: relative;
+    z-index: 2;
 }
 
 .taskCategory {
@@ -167,6 +207,8 @@
     flex-shrink: 0;
     transition: all 0.6s ease;
     background: transparent;
+    position: relative;
+    z-index: 3;
 }
 
 .expandButton:active {
@@ -184,6 +226,8 @@
     padding-top: 12px;
     border-top: 1px solid var(--card-border);
     animation: slideDown 0.2s ease;
+    position: relative;
+    z-index: 2;
 }
 
 @keyframes slideDown {

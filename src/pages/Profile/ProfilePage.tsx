@@ -11,13 +11,23 @@ import {
   FaFlag,
 } from "react-icons/fa";
 import styles from "./ProfilePage.module.css";
-import { SlidePanel } from "../../components/SlidePanel/SlidePanel";
+import { useOutletContext } from "react-router-dom";
 import { SettingsForm } from "../../components/forms/SettingsForm/SettingsForm";
+
+type LayoutContext = {
+  openPanel: (content: {
+    component: React.ReactNode;
+    header?: React.ReactNode;
+    footer?: React.ReactNode;
+    showCloseButton?: boolean;
+  }) => void;
+  closePanel: () => void;
+};
 
 export const ProfilePage = () => {
   const { tgUser } = useTelegram();
   const { tasks } = useTasks();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { openPanel, closePanel } = useOutletContext<LayoutContext>();
   const [stats, setStats] = useState({
     total: 0,
     completed: 0,
@@ -147,16 +157,20 @@ export const ProfilePage = () => {
     console.log("View all history");
   };
 
+  const handleOpenSettings = () => {
+    openPanel({
+      component: <SettingsForm onClose={closePanel} />,
+      showCloseButton: false,
+    });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.actions}>
         <button className={styles.actionButton} onClick={handleShare}>
           <FaShare size={20} />
         </button>
-        <button
-          className={styles.actionButton}
-          onClick={() => setIsSettingsOpen(true)}
-        >
+        <button className={styles.actionButton} onClick={handleOpenSettings}>
           <FaCog size={20} />
         </button>
       </div>
@@ -290,12 +304,6 @@ export const ProfilePage = () => {
           </div>
         </div>
       </div>
-
-      {isSettingsOpen && (
-        <SlidePanel onClose={() => setIsSettingsOpen(false)}>
-          <SettingsForm onClose={() => setIsSettingsOpen(false)} />
-        </SlidePanel>
-      )}
     </div>
   );
 };

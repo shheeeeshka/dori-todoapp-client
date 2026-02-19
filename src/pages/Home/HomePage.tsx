@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { useTasks } from "../../context/TaskContext";
-import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
-import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
+import { TaskDetail } from "../../components/forms/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
 import { TaskForm } from "../../components/forms/TaskForm/TaskForm";
 import { DatePickerDialog } from "../../components/DatePickerDialog/DatePickerDialog";
 import { FaSearch, FaBell, FaCalendarAlt } from "react-icons/fa";
 import styles from "./HomePage.module.css";
-import { Link } from "react-router-dom";
-import { SlidePanel } from "../../components/SlidePanel/SlidePanel";
+import { Link, useOutletContext } from "react-router-dom";
+
+type LayoutContext = {
+  openPanel: (content: {
+    component: React.ReactNode;
+    header?: React.ReactNode;
+    footer?: React.ReactNode;
+    showCloseButton?: boolean;
+  }) => void;
+  closePanel: () => void;
+};
 
 export const HomePage = () => {
   const { tasks, toggleTaskCompletion } = useTasks();
-  const [selectedTask, setSelectedTask] = useState<string | null>(null);
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
+  const { openPanel, closePanel } = useOutletContext<LayoutContext>();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,9 +37,7 @@ export const HomePage = () => {
 
   const getTasksForSelectedDate = () => {
     const targetDate = selectedDate || todayDateString;
-    return tasks.filter(
-      (task) => task.dueDate.split("T")[0] === targetDate && !task.completed,
-    );
+    return tasks.filter((task) => task.dueDate.split("T")[0] === targetDate);
   };
 
   let filteredTasks = getTasksForSelectedDate();
@@ -47,8 +51,10 @@ export const HomePage = () => {
   }
 
   const handleTaskClick = (taskId: string) => {
-    setSelectedTask(taskId);
-    setIsBottomSheetOpen(true);
+    openPanel({
+      component: <TaskDetail taskId={taskId} onClose={closePanel} />,
+      showCloseButton: false,
+    });
   };
 
   const handleDateClick = (date: Date) => {
@@ -58,6 +64,13 @@ export const HomePage = () => {
     } else {
       setSelectedDate(dateString);
     }
+  };
+
+  const handleAddTask = () => {
+    openPanel({
+      component: <TaskForm onSubmit={closePanel} onClose={closePanel} />,
+      showCloseButton: false,
+    });
   };
 
   const completedTasks = tasks.filter((task) => task.completed).length;
@@ -262,27 +275,9 @@ export const HomePage = () => {
         />
       </div>
 
-      <button className={styles.fab} onClick={() => setIsAddTaskOpen(true)}>
+      <button className={styles.fab} onClick={handleAddTask}>
         <span>Create New Task</span>
       </button>
-
-      {isBottomSheetOpen && selectedTask && (
-        <BottomSheet onClose={() => setIsBottomSheetOpen(false)}>
-          <TaskDetail
-            taskId={selectedTask}
-            onClose={() => setIsBottomSheetOpen(false)}
-          />
-        </BottomSheet>
-      )}
-
-      {isAddTaskOpen && (
-        <SlidePanel onClose={() => setIsAddTaskOpen(false)}>
-          <TaskForm
-            onSubmit={() => setIsAddTaskOpen(false)}
-            onClose={() => setIsAddTaskOpen(false)}
-          />
-        </SlidePanel>
-      )}
 
       <DatePickerDialog
         isOpen={isCalendarOpen}

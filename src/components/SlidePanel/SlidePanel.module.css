@@ -115,3 +115,9 @@
     bottom: 0;
     z-index: 10;
 }
+
+.placeholder {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}

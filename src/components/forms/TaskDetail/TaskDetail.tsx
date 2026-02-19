@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useTasks } from "../../context/TaskContext";
+import { useTasks } from "../../../context/TaskContext";
 import {
   FaCheck,
   FaFlag,
@@ -10,6 +10,7 @@ import {
   FaEdit,
   FaPaperclip,
   FaTrashAlt,
+  FaArrowLeft,
 } from "react-icons/fa";
 import styles from "./TaskDetail.module.css";
 
@@ -179,6 +180,14 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <button onClick={onClose} className={styles.backButton}>
+          <FaArrowLeft size={20} />
+        </button>
+        <h2 className={styles.title}>Task Details</h2>
+        <div className={styles.placeholder} />
+      </div>
+
+      <div className={styles.statusBar}>
         <div className={styles.statusSection}>
           <button
             className={`${styles.checkbox} ${
@@ -406,7 +415,7 @@ export const TaskDetail = ({ taskId, onClose }: TaskDetailProps) => {
                   onClick={() => deleteSubtask(subtask._id)}
                   className={styles.deleteSubtaskButton}
                 >
-                  <FaTrashAlt size={16} color="red" />
+                  <FaTrashAlt size={16} />
                 </button>
               </div>
             ))}

@@ -44,9 +44,13 @@ export const TaskItem = ({
 
   return (
     <div
-      className={`${styles.taskCard} ${highlighted ? styles.highlighted : ""}`}
+      className={`${styles.taskCard} ${highlighted ? styles.highlighted : ""} ${
+        task.completed ? styles.completed : ""
+      }`}
       onClick={onClick}
     >
+      {task.completed && <div className={styles.completedOverlay} />}
+
       <div className={styles.taskHeader}>
         <div className={styles.taskMain}>
           <button
@@ -56,7 +60,7 @@ export const TaskItem = ({
             onClick={handleToggle}
           >
             {task.completed && (
-              <FaCheck className={styles.checkIcon} size={20} />
+              <FaCheck className={styles.checkIcon} size={16} />
             )}
           </button>
 
@@ -87,7 +91,7 @@ export const TaskItem = ({
           </div>
         </div>
 
-        {task && task.description && (
+        {task.description && (
           <button className={styles.expandButton} onClick={handleClick}>
             {isExpanded ? (
               <FaChevronUp size={18} />

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./SlidePanel.module.css";
 
 type SlidePanelProps = {
@@ -8,6 +8,7 @@ type SlidePanelProps = {
   header?: ReactNode;
   footer?: ReactNode;
   showCloseButton?: boolean;
+  isClosing?: boolean;
 };
 
 export const SlidePanel = ({
@@ -16,16 +17,13 @@ export const SlidePanel = ({
   header,
   footer,
   showCloseButton = true,
+  isClosing = false,
 }: SlidePanelProps) => {
-  const [isClosing, setIsClosing] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-
   useEffect(() => {
-    const currentScrollY = window.scrollY;
-    setScrollY(currentScrollY);
+    const scrollY = window.scrollY;
 
     document.body.style.position = "fixed";
-    document.body.style.top = `-${currentScrollY}px`;
+    document.body.style.top = `-${scrollY}px`;
     document.body.style.width = "100%";
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
@@ -41,33 +39,28 @@ export const SlidePanel = ({
     };
   }, []);
 
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      onClose();
-    }, 300);
-  };
+  const hasCustomHeader = header !== undefined;
 
   return (
-    <div className={styles.overlay} onClick={handleClose}>
+    <div className={styles.overlay} onClick={onClose}>
       <div
         className={`${styles.panel} ${isClosing ? styles.closing : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {header && (
+        {!hasCustomHeader && showCloseButton && (
           <div className={styles.header}>
-            {header}
-            {showCloseButton && (
-              <button
-                className={styles.closeButton}
-                onClick={handleClose}
-                aria-label="Close"
-              >
-                ✕
-              </button>
-            )}
+            <div className={styles.placeholder} />
+            <button
+              className={styles.closeButton}
+              onClick={onClose}
+              aria-label="Close"
+            >
+              ✕
+            </button>
           </div>
         )}
+
+        {hasCustomHeader && <div className={styles.header}>{header}</div>}
 
         <div className={styles.content}>{children}</div>
 

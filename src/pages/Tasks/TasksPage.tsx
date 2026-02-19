@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useTasks } from "../../context/TaskContext";
 import { BottomSheet } from "../../components/BottomSheet/BottomSheet";
-import { TaskDetail } from "../../components/TaskDetail/TaskDetail";
+import { TaskDetail } from "../../components/forms/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
 import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
 // import { TaskForm } from "../../components/TaskForm/TaskForm";

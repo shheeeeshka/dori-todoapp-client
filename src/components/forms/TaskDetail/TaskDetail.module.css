@@ -1,27 +1,62 @@
 .container {
-  padding: 0;
-  padding-bottom: 120px;
-  background: var(--card-bg);
-  min-height: 60vh;
   display: flex;
   flex-direction: column;
-  border-radius: 24px 24px 0 0;
-}
-
-.dragHandle {
-  width: 40px;
-  height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin: 8px auto;
-  opacity: 0.6;
+  height: 100%;
+  background: var(--card-bg);
 }
 
 .header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: 16px 20px 20px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  z-index: 10;
+}
+
+.backButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  background: var(--secondary-color);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.backButton:active {
+  background: var(--card-hover);
+  transform: scale(0.95);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.placeholder {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: none;
   border-bottom: 1px solid var(--border);
 }
 
@@ -41,6 +76,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .checkbox.completed {
@@ -60,7 +96,7 @@
 }
 
 .statusText {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-color);
 }
@@ -70,7 +106,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: 4px;
 }
 
 .priorityLabel {
@@ -83,14 +119,18 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  background: var(--secondary-color);
+  padding: 6px 12px;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 20px;
   color: var(--text-color);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.priorityButton:active {
+  background: var(--card-hover);
 }
 
 .priorityDropdown {
@@ -121,6 +161,8 @@
   color: var(--text-color);
   font-size: 14px;
   cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .priorityOption:active {
@@ -129,11 +171,16 @@
 
 .content {
   flex: 1;
+  overflow-y: auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  overflow-y: auto;
+  gap: 24px;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .field {
@@ -148,26 +195,29 @@
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-left: 4px;
 }
 
 .viewField {
   position: relative;
-  padding: 16px;
+  padding: 14px 16px;
   background: var(--secondary-color);
   border: 1px solid var(--border);
   border-radius: 16px;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-color);
   line-height: 1.4;
   cursor: pointer;
-  min-height: 54px;
+  min-height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: all 0.1s ease;
 }
 
 .viewField:active {
   background: var(--card-hover);
+  border-color: var(--primary-color);
 }
 
 .fieldValue {
@@ -182,34 +232,45 @@
 .editIcon {
   color: var(--text-secondary);
   opacity: 0.5;
+  transition: opacity 0.1s ease;
+}
+
+.viewField:active .editIcon {
+  opacity: 1;
+  color: var(--primary-color);
 }
 
 .editInput {
   width: 100%;
-  padding: 16px;
+  padding: 14px 16px;
   background: var(--secondary-color);
-  border: 1px solid var(--border);
+  border: 2px solid var(--primary-color);
   border-radius: 16px;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-color);
   font-family: inherit;
   outline: none;
 }
 
 textarea.editInput {
-  resize: none;
+  resize: vertical;
   line-height: 1.5;
   min-height: 100px;
 }
 
 select.editInput {
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
 }
 
 .detailsGrid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .detailRow {
@@ -221,23 +282,23 @@ select.editInput {
 .detailItem {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .detailHeader {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  margin-left: 4px;
 }
 
 .detailIcon {
   color: var(--text-secondary);
-  opacity: 0.8;
-  size: 14px;
+  font-size: 14px;
 }
 
 .detailLabel {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -257,6 +318,7 @@ select.editInput {
   padding: 12px;
   background: var(--secondary-color);
   border-radius: 16px;
+  border: 1px solid var(--border);
 }
 
 .subtaskCheckbox {
@@ -266,6 +328,7 @@ select.editInput {
   border: 2px solid var(--border);
   background: transparent;
   cursor: pointer;
+  accent-color: var(--primary-color);
 }
 
 .subtaskInput {
@@ -275,13 +338,17 @@ select.editInput {
   color: var(--text-color);
   font-size: 14px;
   outline: none;
-  padding: 4px;
+  padding: 4px 0;
+}
+
+.subtaskInput:focus {
+  border-bottom: 1px solid var(--primary-color);
 }
 
 .deleteSubtaskButton {
-  width: 30px;
-  height: 30px;
-  border-radius: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   background: transparent;
   border: none;
   color: var(--text-secondary);
@@ -289,6 +356,7 @@ select.editInput {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .deleteSubtaskButton:active {
@@ -303,7 +371,10 @@ select.editInput {
   border-radius: 16px;
   color: var(--text-secondary);
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
 
 .addSubtaskButton:active {
@@ -332,7 +403,7 @@ select.editInput {
 
 .fileImage {
   width: 100%;
-  height: 80px;
+  height: 100px;
   object-fit: cover;
 }
 
@@ -345,6 +416,7 @@ select.editInput {
 
 .fileIcon {
   color: var(--text-secondary);
+  font-size: 16px;
 }
 
 .fileName {
@@ -353,11 +425,15 @@ select.editInput {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex: 1;
 }
 
 .actions {
   padding: 20px;
   border-top: 1px solid var(--border);
+  background: var(--card-bg);
+  position: sticky;
+  bottom: 0;
 }
 
 .deleteButton {
@@ -369,44 +445,50 @@ select.editInput {
   padding: 16px;
   background: transparent;
   border: 1px solid #ff4757;
-  border-radius: 20px;
+  border-radius: 30px;
   color: #ff4757;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.1s ease;
 }
 
 .deleteButton:active {
   background: rgba(255, 71, 87, 0.1);
+  transform: scale(0.98);
 }
 
 @media (max-width: 480px) {
   .header {
-    padding: 12px 16px 16px;
+    padding: 12px 16px;
   }
-  
+
+  .statusBar {
+    padding: 12px 16px;
+  }
+
   .content {
     padding: 16px;
-    gap: 16px;
+    gap: 20px;
   }
-  
+
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .actions {
     padding: 16px;
   }
-  
+
   .viewField {
-    padding: 0 15px;
-    min-height: 50px;
-    border-radius: 14px;
+    padding: 12px 14px;
+    min-height: 48px;
+    font-size: 14px;
   }
-  
+
   .editInput {
-    padding: 14px;
-    border-radius: 14px;
-  }
-  
-  .detailRow {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
   }
 }
