@@ -166,6 +166,7 @@
     transition: var(--transition);
     font-family: inherit;
     width: 100%;
+    min-width: 100%;
 }
 
 .dateInput:focus,
