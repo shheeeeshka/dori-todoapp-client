@@ -5,7 +5,7 @@ import { TaskDetail } from "../../components/forms/TaskDetail/TaskDetail";
 import { TaskList } from "../../components/TaskList/TaskList";
 import { CategoryTabs } from "../../components/CategoryTabs/CategoryTabs";
 // import { TaskForm } from "../../components/TaskForm/TaskForm";
-import { AddCategoryForm } from "../../components/AddCategoryForm/AddCategoryForm";
+import { AddCategoryForm } from "../../components/forms/CategoryForm/AddCategoryForm";
 import {
   FaSearch,
   FaCalendarAlt,

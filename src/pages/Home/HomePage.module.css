@@ -483,11 +483,10 @@
 }
 
 .fab {
-    position: absolute;
-    bottom: 40px;
+    bottom: 80px;
     right: 50%;
-    transform: translateX(50%);
-    width: 90%;
+    /* transform: translateX(50%); */
+    width: 100%;
     height: 56px;
     border-radius: 50px;
     background: var(--primary-color);
