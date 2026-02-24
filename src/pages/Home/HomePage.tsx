@@ -50,6 +50,11 @@ export const HomePage = () => {
     );
   }
 
+  filteredTasks = filteredTasks.sort((a, b) => {
+    const priorityWeight = { high: 3, medium: 2, low: 1 };
+    return priorityWeight[b.priority] - priorityWeight[a.priority];
+  });
+
   const handleTaskClick = (taskId: string) => {
     openPanel({
       component: <TaskDetail taskId={taskId} onClose={closePanel} />,
@@ -86,7 +91,7 @@ export const HomePage = () => {
 
   const favoriteWorkspaceTasks = tasks
     .filter((task) => task.category === "Work" && !task.completed)
-    .slice(0, 3);
+    .slice(0, 5);
 
   const dailyTasksCompleted = tasks.filter(
     (task) => task.completed && task.dueDate.split("T")[0] === todayDateString,

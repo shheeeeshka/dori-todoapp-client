@@ -112,12 +112,44 @@ export const SettingsForm = ({ onClose }: SettingsFormProps) => {
 
           <div className={styles.section}>
             <h3 className={styles.sectionTitle}>About</h3>
-            <p className={styles.aboutText}>
-              ToDo App for Telegram
-              <br />
-              Version 2.1.0
-              <br />© {new Date().getFullYear()}
-            </p>
+
+            <div className={styles.aboutCard}>
+              <div className={styles.aboutHeader}>
+                <div className={styles.appIcon}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                  </svg>
+                </div>
+                <div className={styles.appInfo}>
+                  <span className={styles.appName}>ToDo App</span>
+                  <span className={styles.appVersion}>v2.1.0</span>
+                </div>
+                <span className={styles.badge}>PWA</span>
+              </div>
+
+              <div className={styles.aboutFooter}>
+                <p className={styles.copyright}>
+                  © {new Date().getFullYear()} · Made by{" "}
+                  <span className={styles.heart}>shheeeeshka</span>
+                </p>
+                <div className={styles.links}>
+                  <a href="#" className={styles.link}>
+                    Privacy
+                  </a>
+                  <span className={styles.linkDivider}>·</span>
+                  <a href="#" className={styles.link}>
+                    Terms
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </SlidePanel>
